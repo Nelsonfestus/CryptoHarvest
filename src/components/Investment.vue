@@ -42,7 +42,7 @@
           <!-- price -->
           <div class="price">
             <div class="feature">Affiliate Bonus</div>
-            <div class="feature price-value"><button class="view-all-btn">View All</button></div>
+            <button class="view-all-btn">View All</button>
           </div>
         </ul>
         <button>Learn More</button>
@@ -85,7 +85,7 @@
           <!-- price -->
           <div class="price">
             <div class="feature">Affiliate Bonus</div>
-            <div class="feature price-value"><button class="view-all-btn">View All</button></div>
+            <button class="view-all-btn">View All</button>
           </div>
         </ul>
         <button>Learn More</button>
@@ -128,7 +128,7 @@
           <!-- price -->
           <div class="price">
             <div class="feature">Affiliate Bonus</div>
-            <div class="feature price-value"><button class="view-all-btn">View All</button></div>
+            <button class="view-all-btn">View All</button>
           </div>
         </ul>
         <button>Learn More</button>
@@ -226,6 +226,7 @@ export default {
   width: 100%;
   flex-wrap: nowrap;
 }
+
 .feature,
 .price-value {
   white-space: nowrap;
@@ -314,7 +315,7 @@ export default {
   border: none;
   border-radius: 6px;
   padding: 4px 20px;
-  font-size: 0.95rem;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition:
