@@ -421,6 +421,7 @@ body {
   .navbar {
     flex-direction: column;
     align-items: flex-start;
+    background: transparent;
   }
 
   .navbar-header-row {
@@ -450,6 +451,13 @@ body {
     /* width: 100vw; */
     background: transparent;
     box-shadow: none;
+  }
+
+  .navbar.open {
+    background: #181818 !important;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
+    border-radius: 0 0 18px 18px;
+    transition: background 0.3s;
   }
 
   .navbar.open .navbar-links,

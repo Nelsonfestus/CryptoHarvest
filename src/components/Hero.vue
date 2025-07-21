@@ -22,10 +22,14 @@
       <button class="btn">Know More</button>
     </div>
   </div>
+  <Investment />
 </template>
 
 <script>
-export default {}
+import Investment from './Investment.vue'
+export default {
+  components: { Investment },
+}
 </script>
 
 <style scoped>
@@ -81,6 +85,7 @@ export default {}
   margin-top: 20px;
   display: flex;
   gap: 20px;
+  justify-content: center;
 }
 
 .hero-btn .btn {
@@ -133,6 +138,38 @@ export default {}
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* Responsive styles for max-width 768px */
+@media (max-width: 768px) {
+  .hero-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 40px 10px 20px 10px;
+  }
+  .hero-text {
+    width: 100%;
+    padding: 0 5px;
+  }
+  .hero-text h1 {
+    font-size: 28px;
+    line-height: 1.3;
+  }
+  .hero-text p {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .hero-btn {
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    align-items: center;
+  }
+  .hero-btn .btn {
+    width: 90%;
+    font-size: 16px;
+    padding: 12px 0;
   }
 }
 </style>
