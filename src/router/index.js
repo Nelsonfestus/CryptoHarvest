@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import InvestmentPlansView from '../views/InvestmentPlansView.vue'
 import ContactView from '../views/ContactView.vue'
 import BlogView from '../views/BlogView.vue'
+import Community from '@/components/Community.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,11 @@ const router = createRouter({
       path: '/blog',
       name: 'blog',
       component: BlogView,
+    },
+    {
+      path: '/Community',
+      name: 'Community',
+      component: Community,
     },
   ],
 })
