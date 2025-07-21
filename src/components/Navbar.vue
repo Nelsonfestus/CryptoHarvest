@@ -19,11 +19,11 @@
       </div>
       <!-- navbar-links -->
       <ul class="navbar-links">
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Investment Plans</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">Blog</a></li>
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/investment-plans">Investment Plans</router-link></li>
+        <li><router-link to="/about">About</router-link></li>
+        <li><router-link to="/contact">Contact</router-link></li>
+        <li><router-link to="/blog">Blog</router-link></li>
       </ul>
       <!-- dropdown-menu -->
       <div class="dropdown-menu custom-country-dropdown">
@@ -158,7 +158,12 @@ header {
   gap: 20px;
 }
 
-.navbar-links li a {
+.navbar-links li {
+  list-style-type: none;
+}
+
+.navbar-links li a,
+.navbar-links li .router-link-active {
   text-align: center;
   text-decoration: none;
   color: #e9e9e9;
@@ -170,7 +175,14 @@ header {
   border-radius: 6px;
 }
 
-.navbar-links li a:hover {
+.navbar-links li a:hover,
+.navbar-links li .router-link-active:hover {
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(246, 61, 67, 0.15);
+}
+
+.navbar-links li .router-link-exact-active {
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   color: #fff;
   box-shadow: 0 2px 8px rgba(246, 61, 67, 0.15);
