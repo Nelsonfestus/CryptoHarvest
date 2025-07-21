@@ -1,6 +1,13 @@
 <template>
   <!-- navbar-container -->
-  <header>
+  <header
+    :class="[
+      { 'navbar-hidden': isNavbarHidden },
+      { 'navbar-animate': isNavbarAnimated },
+      { 'navbar-glass': isGlass },
+      { 'navbar-transparent': !isGlass },
+    ]"
+  >
     <!-- overlay for mobile menu -->
     <div v-if="menuOpen && !isDesktop" class="menu-overlay" @click="toggleMenu"></div>
     <!-- navbar -->
@@ -66,6 +73,11 @@ export default {
       countryDropdownOpen: false,
       selectedCountry: '',
       countries: ['USA', 'UK', 'Canada'],
+      isNavbarHidden: false,
+      isNavbarAnimated: false,
+      lastScrollY: 0,
+      scrollTimeout: null,
+      isGlass: false,
     }
   },
   methods: {
@@ -83,20 +95,83 @@ export default {
       this.selectedCountry = country
       this.countryDropdownOpen = false
     },
+    handleScroll() {
+      const currentScrollY = window.scrollY
+      // Glass effect if scrolled more than 10px
+      this.isGlass = currentScrollY > 10
+      if (currentScrollY > this.lastScrollY && currentScrollY > 60) {
+        // Scrolling down
+        this.isNavbarHidden = true
+        this.isNavbarAnimated = false
+      } else {
+        // Scrolling up
+        this.isNavbarHidden = false
+        this.isNavbarAnimated = false
+      }
+      this.lastScrollY = currentScrollY
+      // Animate down when scrolling stops
+      if (this.scrollTimeout) clearTimeout(this.scrollTimeout)
+      this.scrollTimeout = setTimeout(() => {
+        this.isNavbarHidden = false
+        this.isNavbarAnimated = true
+        setTimeout(() => {
+          this.isNavbarAnimated = false
+        }, 400)
+      }, 200)
+    },
   },
   mounted() {
     window.addEventListener('resize', this.handleResize)
+    window.addEventListener('scroll', this.handleScroll)
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('scroll', this.handleScroll)
+    if (this.scrollTimeout) clearTimeout(this.scrollTimeout)
   },
 }
 </script>
 
 <style scoped>
 header {
-  background: #151515;
   padding: 10px 40px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 1000;
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s,
+    background 0.3s,
+    backdrop-filter 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.navbar-transparent {
+  background: rgba(0, 0, 0, 0.2); /* dark overlay, nearly transparent */
+  backdrop-filter: none;
+}
+
+.navbar-glass {
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
+}
+
+.navbar-hidden {
+  transform: translateY(-100%);
+}
+
+.navbar-animate {
+  transform: translateY(0);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+body {
+  padding-top: 80px;
 }
 
 .navbar {
@@ -211,6 +286,44 @@ header {
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   color: #fff;
   box-shadow: 0 2px 8px rgba(246, 61, 67, 0.15);
+}
+
+.btn1 button {
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.btn1 button:hover {
+  background: #222;
+  color: #fff;
+}
+
+.btn2 button {
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.btn2 button:hover {
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+  color: #fff;
 }
 
 .dropdown-menu select {
