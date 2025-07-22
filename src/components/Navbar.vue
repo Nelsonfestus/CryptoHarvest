@@ -8,8 +8,10 @@
       { 'navbar-transparent': !isGlass },
     ]"
   >
+
     <!-- overlay for mobile menu -->
     <div v-if="menuOpen && !isDesktop" class="menu-overlay" @click="toggleMenu"></div>
+    
     <!-- navbar -->
     <nav :class="['navbar', { open: menuOpen && !isDesktop }]">
       <div class="navbar-header-row">
