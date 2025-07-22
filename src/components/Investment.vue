@@ -42,10 +42,10 @@
           <!-- price -->
           <div class="price">
             <div class="feature">Affiliate Bonus</div>
-            <div class="feature price-value"><button class="view-all-btn">View All</button></div>
+            <button class="view-all-btn">View All</button>
           </div>
         </ul>
-        <button>Learn More</button>
+        <button>Invest Now</button>
       </div>
       <!-- silver -->
       <div class="investment-card silver">
@@ -85,10 +85,10 @@
           <!-- price -->
           <div class="price">
             <div class="feature">Affiliate Bonus</div>
-            <div class="feature price-value"><button class="view-all-btn">View All</button></div>
+            <button class="view-all-btn">View All</button>
           </div>
         </ul>
-        <button>Learn More</button>
+        <button>Invest Now</button>
       </div>
       <!-- platinum -->
       <div class="investment-card platinum">
@@ -128,33 +128,39 @@
           <!-- price -->
           <div class="price">
             <div class="feature">Affiliate Bonus</div>
-            <div class="feature price-value"><button class="view-all-btn">View All</button></div>
+            <button class="view-all-btn">View All</button>
           </div>
         </ul>
-        <button>Learn More</button>
+        <button>Invest Now</button>
       </div>
     </div>
   </section>
+  <Calculate />
 </template>
 
 <script>
+import Calculate from './Calculate.vue'
 export default {
   name: 'Investment',
+  components: {
+    Calculate
+  },
 }
 </script>
 
 <style scoped>
 .investment-section {
   width: 100%;
-  margin: 40px auto 0 auto;
   padding: 32px 16px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 18px;
+  background-image: url(../assets/plan\ bg.png);
+  background: #202020;
+  background-repeat: no-repeat;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
   text-align: center;
 }
 
 .investment-section h2 {
+  margin-top: 20px;
   font-size: 2rem;
   margin-bottom: 12px;
   color: #eb6709;
@@ -186,6 +192,10 @@ export default {
   transition:
     transform 0.2s,
     box-shadow 0.2s;
+}
+
+.investment-card button {
+  white-space: nowrap;
 }
 
 .plan-img {
@@ -226,6 +236,7 @@ export default {
   width: 100%;
   flex-wrap: nowrap;
 }
+
 .feature,
 .price-value {
   white-space: nowrap;
@@ -252,7 +263,7 @@ export default {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
-  font-size: 1.1em;
+  font-size: 1.1em; 
   margin-right: 8px;
   vertical-align: middle;
 }
@@ -314,7 +325,7 @@ export default {
   border: none;
   border-radius: 6px;
   padding: 4px 20px;
-  font-size: 0.95rem;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition:
