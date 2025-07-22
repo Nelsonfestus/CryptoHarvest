@@ -151,7 +151,7 @@ export default {
 <style scoped>
 .investment-section {
   width: 100%;
-  padding: 32px 16px;
+  padding: 50px 16px;
   background-image: url(../assets/plan\ bg.png);
   background: #202020;
   background-repeat: no-repeat;
@@ -342,7 +342,7 @@ export default {
   color: #eb6709;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .investment-cards {
     flex-direction: column;
     align-items: center;
@@ -352,6 +352,10 @@ export default {
   .investment-card {
     width: 95%;
     max-width: 350px;
+  }
+
+  .investment-card h3 {
+    font-size: 10px;
   }
 }
 </style>
