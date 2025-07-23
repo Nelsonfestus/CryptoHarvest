@@ -19,6 +19,11 @@ const router = createRouter({
       component: InvestmentPlansView,
     },
     {
+      path: '/plans',
+      name: 'plans',
+      component: InvestmentPlansView,
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -37,8 +42,8 @@ const router = createRouter({
       component: BlogView,
     },
     {
-      path: '/Community',
-      name: 'Community',
+      path: '/community',
+      name: 'community',
       component: Community,
     },
   ],

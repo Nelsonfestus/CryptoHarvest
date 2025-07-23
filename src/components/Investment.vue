@@ -262,7 +262,7 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
+  /* text-fill-color: transparent; */
   font-size: 1.1em; 
   margin-right: 8px;
   vertical-align: middle;
@@ -342,7 +342,7 @@ export default {
   color: #eb6709;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 834px) {
   .investment-cards {
     flex-direction: column;
     align-items: center;
@@ -350,12 +350,7 @@ export default {
   }
 
   .investment-card {
-    width: 95%;
-    max-width: 350px;
-  }
-
-  .investment-card h3 {
-    font-size: 10px;
+    width: 90%;
   }
 }
 </style>

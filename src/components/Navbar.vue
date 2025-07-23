@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       menuOpen: false,
-      isDesktop: window.innerWidth > 768,
+      isDesktop: window.innerWidth > 834, // updated from 768
       countryDropdownOpen: false,
       selectedCountry: '',
       countries: ['USA', 'UK', 'Canada'],
@@ -87,7 +87,7 @@ export default {
       this.menuOpen = !this.menuOpen
     },
     handleResize() {
-      this.isDesktop = window.innerWidth > 768
+      this.isDesktop = window.innerWidth > 884; // updated from 884
       if (this.isDesktop) this.menuOpen = false
     },
     toggleCountryDropdown() {
@@ -415,7 +415,7 @@ body {
   transition: opacity 0.3s;
 }
 
-@media (max-width: 834px) {
+@media (max-width: 884px) {
   header {
     padding: 10px;
   }
