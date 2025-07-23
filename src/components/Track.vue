@@ -20,11 +20,14 @@
             </template>
         </div>
     </section>
+    <Investing />
 </template>
 
 <script>
+import Investing from './Investing.vue'
 export default {
     name: 'Track',
+    components: { Investing },
     data() {
         return {
             cards: [
@@ -174,6 +177,7 @@ export default {
         flex-direction: column;
         align-items: center;
         overflow-x: unset;
+        padding: 20px 30px;
     }
 
     .card-wrapper {
