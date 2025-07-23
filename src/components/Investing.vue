@@ -18,10 +18,36 @@
             </template>
         </div>
     </div>
+  </div>
+  <CustomerSay />
 </template>
 
 <script>
+import CustomerSay from './CustomerSay.vue';
 export default {
+
+    name: 'Investing',
+    components: {
+        CustomerSay
+    },
+  data() {
+    return {
+      cards: [
+        {
+          title: 'Create an account',
+          text: `Get started on your investment journey by signing up for an account in just a few simple steps. Provide your details, verify your identity, and unlock access to a world of investment opportunities. With our secure and user-friendly platform, you're just moments away from growing your wealth with confidence.`,
+        },
+        {
+          title: 'Fund your account',
+          text: `Easily deposit funds using a variety of secure payment methods. Your money is protected with industry-leading security protocols, ensuring a safe and seamless funding experience.`,
+        },
+        {
+          title: 'Start investing',
+          text: `Explore a wide range of investment options tailored to your goals. Track your progress, manage your portfolio, and watch your wealth grow with our intuitive tools and expert support.`,
+        },
+      ],
+    }
+  },
     data() {
         return {
             cards: [
