@@ -66,7 +66,7 @@ export default {
 }
 
 .hero-text {
-  width: 50%;
+  width: 60%;
 }
 
 .hero-text h1 {
@@ -142,7 +142,7 @@ export default {
 }
 
 /* Responsive styles for max-width 768px */
-@media (max-width: 768px) {
+@media (max-width: 700px) {
   .hero-section {
     height: auto;
     min-height: 100vh;
