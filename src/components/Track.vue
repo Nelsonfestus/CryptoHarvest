@@ -64,7 +64,6 @@ export default {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
     text-transform: uppercase;
     font-size: 30px;
     width: 50%;
