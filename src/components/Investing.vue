@@ -18,10 +18,16 @@
       </template>
     </div>
   </div>
+  <CustomerSay />
 </template>
 
 <script>
+import CustomerSay from './CustomerSay.vue';
 export default {
+    name: 'Investing',
+    components: {
+        CustomerSay
+    },
   data() {
     return {
       cards: [
