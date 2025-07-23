@@ -30,7 +30,7 @@
     text-transform: uppercase;
     font-size: 2rem;
     background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 10px;
   }
