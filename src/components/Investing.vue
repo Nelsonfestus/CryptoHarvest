@@ -18,11 +18,17 @@
       </template>
     </div>
   </div>
+  <Customer />
 </template>
 
 <script>
+import Customer from './Customer.vue'
+
 export default {
   name: 'Investing',
+  components: {
+    Customer,
+  },
   data() {
     return {
       cards: [
@@ -65,6 +71,8 @@ export default {
 
 .investing-cards {
   display: flex;
+  gap: 24px;
+  justify-content: center;
   justify-content: center;
   gap: 24px;
   padding: 20px 60px;
@@ -80,6 +88,14 @@ export default {
     0 4px 24px rgba(0, 0, 0, 0.12),
     0 1.5px 6px rgba(235, 103, 9, 0.08);
   padding: 36px 28px 32px 28px;
+  min-width: 280px;
+  max-width: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -136,6 +152,7 @@ export default {
 @media (max-width: 900px) {
   .investing-cards {
     flex-direction: column;
+    align-items: center;
     gap: 18px;
     width: 100%;
     padding: 20px 30px;
@@ -151,6 +168,7 @@ export default {
 
 @media (max-width: 600px) {
   .investing-section {
+    padding: 24px 0 36px 0;
     padding: 24px 12px 36px 12px;
   }
 
@@ -161,6 +179,7 @@ export default {
 
   .investing-card {
     padding: 18px 8px 16px 8px;
+    min-width: 0;
     max-width: 100%;
   }
 
