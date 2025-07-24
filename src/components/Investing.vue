@@ -18,16 +18,11 @@
             </template>
         </div>
     </div>
-    <CustomerSay />
 </template>
 
 <script>
-import CustomerSay from './CustomerSay.vue';
 export default {
     name: 'Investing',
-    components: {
-        CustomerSay
-    },
     data() {
         return {
             cards: [
@@ -44,9 +39,9 @@ export default {
                     text: `Explore a wide range of investment options tailored to your goals. Track your progress, manage your portfolio, and watch your wealth grow with our intuitive tools and expert support.`,
                 },
             ],
-        }
+        };
     },
-}
+};
 </script>
 
 <style scoped>
