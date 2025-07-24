@@ -6,3 +6,19 @@
     /* overflow-x: hidden; */
     font-family: "Inter", sans-serif;
  }
+
+ html, body, #app {
+   height: 100%;
+   min-height: 100vh;
+   background: #202020 !important;
+}
+
+#app {
+   display: flex;
+   flex-direction: column;
+   min-height: 100vh;
+}
+
+.router-view {
+   flex: 1;
+}
