@@ -44,6 +44,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 40px 60px;
 }
 
 .hero-bg-video {
@@ -146,7 +147,7 @@ export default {
   .hero-section {
     height: auto;
     min-height: 100vh;
-    padding: 40px 10px 20px 10px;
+    padding: 20px 16px;
   }
   .hero-text {
     width: 100%;

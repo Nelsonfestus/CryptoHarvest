@@ -1,178 +1,190 @@
 <template>
-    <div class="accordion">
-        <div class="accordion-item">
-            <input type="radio" id="section1" name="accordion" />
-            <label for="section1" class="accordion-header">
-                <span class="accordion-title">Does this software generate online money</span>
-                <div class="accordion-icon">
-                    <i class="bi bi-plus plus-icon"></i>
-                    <i class="bi bi-dash minus-icon"></i>
-                </div>
-            </label>
-            <div class="content">
-                <p>Our platform is not a money-generating tool but a secure investment platform designed to help you grow your wealth through strategic financial plans. By choosing a plan and investing, you can earn profits based on your chosen strategy and the performance of your investments. Success depends on smart decisions and the opportunities we provide for your financial growth</p>
-            </div>
+  <div class="accordion" role="tablist">
+    <div class="accordion-item" v-for="(item, idx) in items" :key="idx">
+      <input
+        type="radio"
+        :id="`section${idx}`"
+        name="accordion"
+        :checked="activeIndex === idx"
+        @change="toggleAccordion(idx)"
+        :aria-expanded="activeIndex === idx ? 'true' : 'false'"
+        :aria-controls="`content${idx}`"
+        tabindex="0"
+      />
+      <label
+        :for="`section${idx}`"
+        class="accordion-header"
+        :tabindex="0"
+        @click.prevent="toggleAccordion(idx)"
+        @keydown.enter.prevent="toggleAccordion(idx)"
+        @keydown.space.prevent="toggleAccordion(idx)"
+      >
+        <span class="accordion-title">{{ item.title }}</span>
+        <div class="accordion-icon">
+          <i class="bi bi-plus plus-icon"></i>
+          <i class="bi bi-dash minus-icon"></i>
         </div>
-
-        <div class="accordion-item">
-            <input type="radio" id="section2" name="accordion" />
-            <label for="section2" class="accordion-header">
-                <span class="accordion-title">Is there any signup Bonus system?</span>
-                <div class="accordion-icon">
-                    <i class="bi bi-plus plus-icon"></i>
-                    <i class="bi bi-dash minus-icon"></i>
-                </div>
-            </label>
-            <div class="content">
-                <p>Yes, we offer a signup bonus as a warm welcome to our new users! Once you create an account and meet the eligibility criteria, the bonus will be credited to your account. It's our way of helping you kickstart your investment journey with extra value. Terms and conditions apply—check out our promotions page for more details.</p>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <input type="radio" id="section3" name="accordion" />
-            <label for="section3" class="accordion-header">
-                <span class="accordion-title">How Do I Check My Account Balance?</span>
-                <div class="accordion-icon">
-                    <i class="bi bi-plus plus-icon"></i>
-                    <i class="bi bi-dash minus-icon"></i>
-                </div>
-            </label>
-            <div class="content">
-                <p>Log in to Your Account: Use your registered email and password to access your dashboard. Go to the Balance Section: Navigate to the "Account Balance" or "Dashboard" section. View Real-Time Updates: Your current balance, transaction history, and earnings are displayed in real time for your convenience.</p>
-            </div>
-        </div>
-
-        <div class="accordion-item">
-            <input type="radio" id="section4" name="accordion" />
-            <label for="section4" class="accordion-header">
-                <span class="accordion-title">How Many Payment Gateways Are Used in this site</span>
-                <div class="accordion-icon">
-                    <i class="bi bi-plus plus-icon"></i>
-                    <i class="bi bi-dash minus-icon"></i>
-                </div>
-            </label>
-            <div class="content">
-                <p>We offer multiple secure</p>
-            </div>
-        </div>
+      </label>
+      <div class="content" :id="`content${idx}`" :aria-hidden="activeIndex !== idx">
+        <p>{{ item.content }}</p>
+      </div>
     </div>
+  </div>
 </template>
 
-<style scoped>
-* {
-    margin: 0;
-    padding: 0;
+<script>
+export default {
+  name: 'Accordion',
+  data() {
+    return {
+      activeIndex: 0,
+      items: [
+        {
+          title: 'Does this software generate online money?',
+          content:
+            'Our platform is not a money-generating tool but a secure investment platform designed to help you grow your wealth through strategic financial plans. By choosing a plan and investing, you can earn profits based on your chosen strategy and the performance of your investments. Success depends on smart decisions and the opportunities we provide for your financial growth.',
+        },
+        {
+          title: 'Is there any signup Bonus system?',
+          content:
+            "Yes, we offer a signup bonus as a warm welcome to our new users! Once you create an account and meet the eligibility criteria, the bonus will be credited to your account. It's our way of helping you kickstart your investment journey with extra value. Terms and conditions apply—check out our promotions page for more details.",
+        },
+        {
+          title: 'How Do I Check My Account Balance?',
+          content:
+            'Log in to Your Account: Use your registered email and password to access your dashboard. Go to the Balance Section: Navigate to the "Account Balance" or "Dashboard" section. View Real-Time Updates: Your current balance, transaction history, and earnings are displayed in real time for your convenience.',
+        },
+        {
+          title: 'How Many Payment Gateways Are Used in this site?',
+          content: 'We offer multiple secure payment gateways for your convenience and security.',
+        },
+      ],
+    }
+  },
+  methods: {
+    toggleAccordion(idx) {
+      this.activeIndex = this.activeIndex === idx ? null : idx
+    },
+  },
 }
+</script>
 
+<style scoped>
 .accordion {
-    width: 30cm;
-    margin: 0 auto;
+  max-width: 700px;
+  width: 100%;
+  margin: 0 auto;
+  background: #202020;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  padding: 40px 60px;
 }
 
 .accordion-item {
-    margin-bottom: 5px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #232323;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
 }
 
-.accordion-item .content {
-    font-size: 12px;
-}
-
-.accordion input[type="radio"] {
-    display: none;
-}
-
-.accordion .content {
-    height: 0px;
-    padding: 0px;
-    background-color: inherit;
-    border-top: 2px solid #cccccc0e;
-    overflow: hidden;
-    transition: all 0.9s ease;
-    color: white;
-}
-
-.accordion .content p {
-    width: 100%;
-    font-size: 150%;
-    margin: 0;
-    line-height: 1.5;
-}
-
-.accordion-icon i {
-    font-size: 150%;
-    font-weight: 800;
-}
-
-.accordion input[type="radio"]:checked + .accordion-header + .content {
-    height: auto;
-    padding: 15px;
-}
-
-.accordion-icon {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-/* Default state: show plus, hide minus */
-.plus-icon {
-    display: block;
-}
-
-.minus-icon {
-    display: none;
-}
-
-/* When checked: hide plus, show minus */
-.accordion input[type="radio"]:checked + .accordion-header .plus-icon {
-    display: none;
-}
-
-.accordion input[type="radio"]:checked + .accordion-header .minus-icon {
-    display: block;
-   
+.accordion-item:last-child {
+  margin-bottom: 0;
 }
 
 .accordion-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px;
-    background-color: inherit;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  background: none;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  outline: none;
+  border: none;
+  transition: background 0.2s;
 }
 
-.accordion-header .accordion-title {
-    font-size: 24px;
-    line-height: 31.2px;
-    font-weight: 600;
-}
-@media screen and (max-width: 1200px){
-    *{
-        padding: 0;
-        margin: 0;
-    }
-
-    .accordion {
-    width: fit-content;
-    margin: 0 auto;
-    margin: 0px 13px;
+.accordion-header:focus {
+  background: #181818;
 }
 
-.accordion-header .accordion-title{
-    font-size: clamp(10px, 2vh, 15px);
-    line-height: 31.2px;
-    font-weight: 600;
+.accordion-title {
+  font-size: 1.1rem;
+  line-height: 1.4;
+  font-weight: 600;
 }
 
-.accordion .content p {
-    width: 100%;
-    font-size: clamp(10px, 2vh, 14px);
-    margin: 0;
-    line-height: 1.5;
+.accordion-icon {
+  display: flex;
+  align-items: center;
+  position: relative;
+  font-size: 1.3rem;
 }
+
+.plus-icon {
+  display: block;
+}
+
+.minus-icon {
+  display: none;
+}
+
+input[type='radio']:checked + .accordion-header .plus-icon {
+  display: none;
+}
+
+input[type='radio']:checked + .accordion-header .minus-icon {
+  display: block;
+}
+
+input[type='radio'] {
+  display: none;
+}
+
+.content {
+  height: 0;
+  padding: 0 1.2rem;
+  background: #232323;
+  color: #e9e9e9;
+  overflow: hidden;
+  transition:
+    height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    padding 0.4s;
+  font-size: 1rem;
+}
+
+input[type='radio']:checked + .accordion-header + .content {
+  height: auto;
+  padding: 1rem 1.2rem 1.2rem 1.2rem;
+}
+
+.content p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .accordion {
+    padding: 20px 16px;
+  }
+
+  .accordion-header {
+    font-size: 1rem;
+    padding: 0.8rem 0.7rem;
+  }
+
+  .content {
+    font-size: 0.95rem;
+    padding: 0 0.7rem;
+  }
+
+  input[type='radio']:checked + .accordion-header + .content {
+    padding: 0.7rem 0.7rem 1rem 0.7rem;
+  }
 }
 </style>
