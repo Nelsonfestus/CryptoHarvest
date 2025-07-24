@@ -1,5 +1,5 @@
 <template>
-  <div class="accordion" role="tablist">
+  <div class="accordion animate-fade-slide" role="tablist">
     <div class="accordion-item" v-for="(item, idx) in items" :key="idx">
       <input
         type="radio"
@@ -37,8 +37,28 @@ export default {
   name: 'Accordion',
   data() {
     return {
-      activeIndex: 0,
+      activeIndex: null,
       items: [
+        {
+          title: 'How secure is my investment?',
+          content:
+            'Our platform employs advanced security protocols, ensuring your investment is protected at all times. We prioritize the safety and privacy of your funds and personal information.',
+        },
+        {
+          title: 'How does the guaranteed profit work?',
+          content:
+            'With every rise in Bitcoin’s value, you’ll earn a consistent profit, starting at $5 per increase. Our system is designed to provide you with reliable returns as the market moves.',
+        },
+        {
+          title: 'Can I really multiply my investment up to 4 times?',
+          content:
+            'Yes! Our unique program allows you to multiply your initial investment up to 4 times through our proven investment strategy. Join us and take advantage of high-return opportunities.',
+        },
+        {
+          title: 'Is it easy to get started?',
+          content:
+            'Absolutely. Simply join our platform, make your investment, and watch your profits grow—all with minimal effort. Our user-friendly interface makes investing simple and accessible.',
+        },
         {
           title: 'Does this software generate online money?',
           content:
@@ -166,6 +186,18 @@ input[type='radio']:checked + .accordion-header + .content {
   margin: 0;
   font-size: 1rem;
   line-height: 1.6;
+}
+
+.animate-fade-slide {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 600px) {

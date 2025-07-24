@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <h1>Investment Plans</h1>
-  </div>
+  <Plans />
 </template>
 
 <script>
+import Plans from '../components/Plans.vue'
 export default {
   name: 'InvestmentPlansView',
+  components: { Plans },
 }
 </script>
 

@@ -1,7 +1,10 @@
 <template>
-  <section class="news-section">
-    <h1>Our Newsletter</h1>
-    <p>Sign up with your email to receive our newsletter. Thank you!</p>
+  <section class="news-section animate-fade-slide">
+    <h1>Don’t miss out on the chance to maximize your returns and secure your financial future.</h1>
+    <p>
+      Sign up for our newsletter to receive exclusive updates and investment tips from CryptoHarvest
+      Investment Trading.
+    </p>
     <form class="email-input-wrapper" @submit.prevent="handleSubscribe">
       <input
         type="email"
@@ -116,7 +119,9 @@ export default {
   animation: spin 1s linear infinite;
 }
 @keyframes spin {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .newsletter-success {
   color: #4caf50;
@@ -128,4 +133,15 @@ export default {
   font-weight: 600;
   margin-top: 8px;
 }
-</style> 
+.animate-fade-slide {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>

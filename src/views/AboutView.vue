@@ -1,25 +1,22 @@
 <template>
   <div>
-    <Community/>
+    <Community />
   </div>
   <div>
-    <Questions/>
+    <Questions />
   </div>
-  
 </template>
 
 <script>
-import Community from '@/components/Community.vue';
-import Questions from '@/components/Questions.vue';
+import Community from '@/components/Community.vue'
+import Questions from '@/components/Questions.vue'
 export default {
-  name:'about',
+  name: 'about',
   components: {
     Community,
     Questions,
-  }
+  },
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
