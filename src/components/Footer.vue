@@ -74,10 +74,9 @@ export default {
 
 <style scoped>
 .footer {
-    background-color: #202020;
+    background: inherit;
     color: #fff;
     padding: 60px 20px 30px;
-    font-family: 'Segoe UI', sans-serif;
     position: relative;
 }
 
