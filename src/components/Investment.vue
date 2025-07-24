@@ -152,7 +152,6 @@ export default {
 .investment-section {
   width: 100%;
   padding: 50px 16px;
-  background-image: url(../assets/plan\ bg.png);
   background: #202020;
   background-repeat: no-repeat;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
@@ -188,7 +187,6 @@ export default {
   color: #fff;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   transition:
     transform 0.2s,
     box-shadow 0.2s;
@@ -262,7 +260,6 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* text-fill-color: transparent; */
   font-size: 1.1em; 
   margin-right: 8px;
   vertical-align: middle;

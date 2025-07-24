@@ -27,6 +27,7 @@
             </template>
         </div>
     </section>
+    <!-- Temporarily commented out to isolate the build error -->
     <NewsLetter />
 </template>
 
@@ -44,7 +45,7 @@ export default {
                 review: 'Investor & Entrepreneur',
                 image: 'https://randomuser.me/api/portraits/women/44.jpg',
                 text:
-                    'Get started on your investment journey by signing up for an account in just a few simple steps. With our secure and user-friendly platform, you’re just moments away from growing your wealth with confidence.',
+                    'Explore a wide range of investment options tailored to your goals. Track your progress and watch your wealth grow with our intuitive tools.',
             },
             {
                 name: 'David Kim',
