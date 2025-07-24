@@ -52,14 +52,14 @@
       </div>
       <!-- button section -->
       <div class="btn">
-        <!-- sign up -->
-        <a href="#" class="btn1">
-          <button>Login</button>
-        </a>
         <!-- login -->
-        <a href="#" class="btn2">
+        <router-link to="/login" class="btn1">
+          <button>Login</button>
+        </router-link>
+        <!-- sign up -->
+        <router-link to="/signup" class="btn2">
           <button>Sign Up</button>
-        </a>
+        </router-link>
       </div>
     </nav>
   </header>

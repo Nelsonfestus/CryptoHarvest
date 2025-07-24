@@ -36,6 +36,10 @@
       </div>
       <div class="footer-bottom">
         <hr />
+        <p class="footer-tagline">
+            CryptoHarvest Investment Trading — Experience the power of smart, safe, and profitable
+            trading.
+        </p>
         <p>&copy; {{ new Date().getFullYear() }} EWProgram. All rights reserved.</p>
       </div>
       <button
@@ -218,6 +222,14 @@ export default {
 
 .scroll-top:hover {
   transform: scale(1.1);
+}
+
+.footer-tagline {
+  margin-top: 8px;
+  color: #ffa600;
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-align: center;
 }
 
 @media (max-width: 900px) {

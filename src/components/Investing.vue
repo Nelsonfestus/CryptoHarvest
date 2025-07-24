@@ -1,12 +1,12 @@
 <template>
   <!-- investing-section -->
-  <div class="investing-section">
+  <div class="investing-section animate-fade-slide">
     <h1>Start investing with ewprogram investment</h1>
 
     <!-- investing-cards-->
     <div class="investing-cards">
       <template v-for="(card, idx) in cards" :key="idx">
-        <div class="investing-card">
+        <div class="investing-card animate-fade-slide">
           <h2>{{ idx + 1 }}</h2>
           <!-- card-text -->
           <div class="card-text">
@@ -145,6 +145,18 @@ export default {
   box-shadow:
     0 8px 32px rgba(235, 103, 9, 0.12),
     0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.animate-fade-slide {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 900px) {

@@ -1,6 +1,6 @@
 <template>
   <!-- hero-section -->
-  <div class="hero-section">
+  <div class="hero-section animate-fade-slide">
     <!-- background video -->
     <video class="hero-bg-video" autoplay loop muted playsinline>
       <source src="@/assets/bg1.mp4" type="video/mp4" />

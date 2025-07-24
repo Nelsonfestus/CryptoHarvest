@@ -1,11 +1,11 @@
 <template>
   <!-- Customer Section -->
-  <section class="customer-section">
+  <section class="customer-section animate-fade-slide">
     <h1>What Our Customers Say</h1>
 
     <div class="customer-cards">
       <template v-for="(card, idx) in cards" :key="idx">
-        <div class="customer-card">
+        <div class="customer-card animate-fade-slide">
           <i class="fa-solid fa-quote-left quote-icon left"></i>
 
           <div class="card-text">
@@ -51,6 +51,12 @@ export default {
         review: 'Digital Nomad',
         image: 'https://randomuser.me/api/portraits/women/12.jpg',
         text: 'Explore a wide range of investment options tailored to your goals. Track your progress and watch your wealth grow with our intuitive tools.',
+      },
+      {
+        name: 'Real Customer',
+        review: 'CryptoHarvest Investor',
+        image: 'https://randomuser.me/api/portraits/men/45.jpg',
+        text: 'I was amazed at how easy it was to start investing. The platform is secure, and I saw my investment multiply just as promised. Highly recommended for anyone looking to grow their wealth in crypto!',
       },
     ]
 
@@ -180,6 +186,18 @@ export default {
 
   .customer-cards {
     gap: 20px;
+  }
+}
+
+.animate-fade-slide {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

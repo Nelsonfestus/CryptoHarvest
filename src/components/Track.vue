@@ -1,12 +1,12 @@
 <template>
   <!-- track-section -->
-  <section class="track-section">
+  <section class="track-section animate-fade-slide">
     <h1>Everything you need to fast track your investment</h1>
 
     <!-- track-cards -->
     <div class="track-cards">
       <template v-for="(card, idx) in cards" :key="idx">
-        <div class="card-wrapper">
+        <div class="card-wrapper animate-fade-slide">
           <div class="card">
             <router-link :to="card.link" class="card-link">
               <div class="card-text">
@@ -144,6 +144,18 @@ export default {
   box-shadow:
     0 8px 32px rgba(235, 103, 9, 0.12),
     0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.animate-fade-slide {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (max-width: 834px) {

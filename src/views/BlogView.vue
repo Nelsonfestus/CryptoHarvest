@@ -1,12 +1,12 @@
 <template>
-  <div>
-    <h1>Blog</h1>
-  </div>
+  <BlogList />
 </template>
 
 <script>
+import BlogList from '../components/BlogList.vue'
 export default {
   name: 'BlogView',
+  components: { BlogList },
 }
 </script>
 
