@@ -73,7 +73,7 @@ export default {
 <style scoped>
 .calculate-section {
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-  padding: 40px 40px 120px;
+  padding: 40px 60px 120px;
   display: flex;
   justify-content: space-between;
 }
@@ -122,8 +122,8 @@ input {
 } */
 
 /* Style dropdown options with hover effect using ::v-deep for Vue scoped CSS */
-::v-deep .dropdown-menu select option:hover,
-::v-deep .dropdown-menu select option:focus {
+:deep(.dropdown-menu select option:hover),
+:deep(.dropdown-menu select option:focus) {
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   color: #fff;
 }
@@ -187,7 +187,7 @@ input {
 /* Media Responsiveness */
 @media (max-width: 768px) {
   .calculate-section {
-    padding: 30px 15px;
+    padding: 20px 16px;
     flex-direction: column;
     gap: 20px;
   }

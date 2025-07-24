@@ -8,10 +8,9 @@
       { 'navbar-transparent': !isGlass },
     ]"
   >
-
     <!-- overlay for mobile menu -->
     <div v-if="menuOpen && !isDesktop" class="menu-overlay" @click="toggleMenu"></div>
-    
+
     <!-- navbar -->
     <nav :class="['navbar', { open: menuOpen && !isDesktop }]">
       <div class="navbar-header-row">
@@ -87,7 +86,7 @@ export default {
       this.menuOpen = !this.menuOpen
     },
     handleResize() {
-      this.isDesktop = window.innerWidth > 884; // updated from 884
+      this.isDesktop = window.innerWidth > 884 // updated from 884
       if (this.isDesktop) this.menuOpen = false
     },
     toggleCountryDropdown() {
@@ -136,7 +135,7 @@ export default {
 
 <style scoped>
 header {
-  padding: 10px 40px;
+  padding: 20px 60px;
   position: fixed;
   top: 0;
   left: 0;
@@ -417,7 +416,7 @@ body {
 
 @media (max-width: 884px) {
   header {
-    padding: 10px;
+    padding: 10px 16px;
   }
 
   .navbar {

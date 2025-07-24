@@ -143,7 +143,7 @@ import Calculate from './Calculate.vue'
 export default {
   name: 'Investment',
   components: {
-    Calculate
+    Calculate,
   },
 }
 </script>
@@ -151,7 +151,7 @@ export default {
 <style scoped>
 .investment-section {
   width: 100%;
-  padding: 50px 16px;
+  padding: 40px 60px;
   background: #202020;
   background-repeat: no-repeat;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
@@ -260,7 +260,7 @@ export default {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-size: 1.1em; 
+  font-size: 1.1em;
   margin-right: 8px;
   vertical-align: middle;
 }
@@ -340,6 +340,9 @@ export default {
 }
 
 @media (max-width: 834px) {
+  .investment-section {
+    padding: 20px 16px;
+  }
   .investment-cards {
     flex-direction: column;
     align-items: center;

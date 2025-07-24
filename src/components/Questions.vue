@@ -30,7 +30,7 @@ export default {
 
 .container {
     background-color: #151515;
-    height: 80vh;
+    padding: 40px 60px;
 }
 
 .Questions_header_section {
@@ -55,6 +55,10 @@ export default {
     * {
         padding: 0;
         margin: 0;
+    }
+
+    .container {
+        padding: 20px 16px;
     }
 
     .Question_title h1 {

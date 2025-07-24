@@ -1,7 +1,7 @@
 <template>
   <!-- investing-section -->
   <div class="investing-section">
-    <h1>Started investing with ewprogram investment</h1>
+    <h1>Start investing with ewprogram investment</h1>
 
     <!-- investing-cards-->
     <div class="investing-cards">
@@ -18,16 +18,19 @@
       </template>
     </div>
   </div>
+  <Questions />
   <Customer />
 </template>
 
 <script>
 import Customer from './Customer.vue'
+import Questions from './Questions.vue'
 
 export default {
   name: 'Investing',
   components: {
     Customer,
+    Questions,
   },
   data() {
     return {
@@ -45,15 +48,15 @@ export default {
           text: `Explore a wide range of investment options tailored to your goals. Track your progress, manage your portfolio, and watch your wealth grow with our intuitive tools and expert support.`,
         },
       ],
-    };
+    }
   },
-};
+}
 </script>
 
 <style scoped>
 .investing-section {
   background: #202020;
-  padding: 100px 0 60px 0;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,10 +74,9 @@ export default {
 
 .investing-cards {
   display: flex;
+  flex-direction: row;
   gap: 24px;
   justify-content: center;
-  justify-content: center;
-  gap: 24px;
   padding: 20px 60px;
   align-items: stretch;
   flex-wrap: wrap;
@@ -83,23 +85,19 @@ export default {
 .investing-card {
   background: #181818;
   border-radius: 18px;
-  width: 100%;
   box-shadow:
     0 4px 24px rgba(0, 0, 0, 0.12),
     0 1.5px 6px rgba(235, 103, 9, 0.08);
   padding: 36px 28px 32px 28px;
   min-width: 280px;
   max-width: 340px;
+  flex: 1 1 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
   transition:
     transform 0.2s,
     box-shadow 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
 }
 
@@ -156,7 +154,6 @@ export default {
     gap: 18px;
     width: 100%;
     padding: 20px 30px;
-    align-items: center;
   }
 
   .card-divider {
@@ -168,8 +165,7 @@ export default {
 
 @media (max-width: 600px) {
   .investing-section {
-    padding: 24px 0 36px 0;
-    padding: 24px 12px 36px 12px;
+    padding: 20px 16px;
   }
 
   .investing-section h1 {
