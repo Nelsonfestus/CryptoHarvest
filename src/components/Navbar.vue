@@ -343,11 +343,11 @@ body {
 }
 
 /* Style dropdown options with hover effect using ::v-deep for Vue scoped CSS */
-::v-deep .dropdown-menu select option:hover,
-::v-deep .dropdown-menu select option:focus {
+/* :deep (.dropdown-menu) select option:hover,
+:deep (.dropdown-menu) select option:focus {
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   color: #fff;
-}
+} */
 
 .custom-country-dropdown {
   position: relative;
