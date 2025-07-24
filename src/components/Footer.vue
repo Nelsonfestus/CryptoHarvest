@@ -74,7 +74,7 @@ export default {
 
 <style scoped>
 .footer {
-    background: inherit;
+    background: inherit !important;
     color: #fff;
     padding: 60px 20px 30px;
     position: relative;
