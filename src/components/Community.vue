@@ -122,10 +122,10 @@ export default {
   }
 
   .container{
-    padding-top: 90px;
+    padding-top: 6.5cm;
     flex-direction: column;
     /* background-size: contain; */
-    height: 140vh;
+    height: 190vh;
   background-size: cover;
   background-position: center;
   }
@@ -139,6 +139,22 @@ export default {
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+}
+
+@media screen and (max-width: 320px){
+  *{
+    padding: 0;
+    margin: 0;
+  } 
+
+  .container{
+    padding-top: 6.5cm;
+    flex-direction: column;
+    /* background-size: contain; */
+    height: 240vh;
+  background-size: cover;
+  background-position: center;
+  }
 }
 }
 </style>
