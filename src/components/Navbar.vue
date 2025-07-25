@@ -16,7 +16,7 @@
       <div class="navbar-header-row">
         <!-- logo -->
         <div class="logo">
-          <img src="../assets/logo-1.png" alt="" />
+          <span class="brand-name">CryptoHarvest</span>
         </div>
         <!-- menu toggle button -->
         <button class="menu-toggle" :class="{ toggled: menuOpen }" @click="toggleMenu">
@@ -191,9 +191,17 @@ body {
   justify-content: flex-start;
 }
 
-.logo img {
-  width: 70px;
-  height: 70px;
+.brand-name {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: capitalize;
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  display: inline-block;
 }
 
 .menu-toggle {

@@ -1,7 +1,7 @@
 <template>
   <!-- investing-section -->
   <div class="investing-section animate-fade-slide">
-    <h1>Start investing with ewprogram investment</h1>
+    <h1>Start investing with CryptoHarvest investment</h1>
 
     <!-- investing-cards-->
     <div class="investing-cards">

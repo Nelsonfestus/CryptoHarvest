@@ -94,6 +94,7 @@ export default {
 }
 .plans-title {
   font-size: 2.2rem;
+  text-transform: uppercase;
   margin-bottom: 10px;
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   background-clip: text;
