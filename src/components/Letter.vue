@@ -65,7 +65,7 @@ export default {
 }
 .news-section h1 {
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 20px;
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;

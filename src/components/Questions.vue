@@ -34,14 +34,14 @@ export default {
 .Questions_header_section {
   display: flex;
   justify-content: center;
-  padding-top: 2.3cm;
-  padding-bottom: 2.3cm;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 
 .Question_title h1 {
   width: 99%;
   font-weight: 800;
-  font-size: 420%;
+  font-size: 50px;
   background: linear-gradient(45deg, #f83201, #ffa600);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

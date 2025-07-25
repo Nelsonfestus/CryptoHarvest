@@ -71,6 +71,10 @@ export default {
 }
 
 .hero-text h1 {
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-transform: uppercase;
   line-height: 1.6;
   font-size: 50px;
@@ -78,6 +82,7 @@ export default {
 }
 
 .hero-text p {
+  color: #ffa600;
   line-height: 1.4;
   font-size: 18px;
 }
