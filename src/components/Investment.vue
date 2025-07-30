@@ -46,7 +46,7 @@
               <button class="view-all-btn">View All</button>
             </div>
           </ul>
-          <button>Invest Now</button>
+          <button @click="goToSignup">Invest Now</button>
         </div>
         <!-- silver -->
         <div class="investment-card silver">
@@ -89,7 +89,7 @@
               <button class="view-all-btn">View All</button>
             </div>
           </ul>
-          <button>Invest Now</button>
+          <button @click="goToSignup">Invest Now</button>
         </div>
         <!-- platinum -->
         <div class="investment-card platinum">
@@ -132,7 +132,7 @@
               <button class="view-all-btn">View All</button>
             </div>
           </ul>
-          <button>Invest Now</button>
+          <button @click="goToSignup">Invest Now</button>
         </div>
       </div>
     </section>
@@ -147,6 +147,11 @@ export default {
   components: {
     Calculate,
   },
+  methods: {
+    goToSignup() {
+      this.$router.push('/signup')
+    }
+  }
 }
 </script>
 

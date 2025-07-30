@@ -53,7 +53,7 @@ export default {
           title: 'How to Start Investing in 2024',
           summary: 'A beginner-friendly guide to getting started with investing, including tips, strategies, and common mistakes to avoid.',
           author: 'Sarah Johnson',
-          date: 'June 1, 2024',
+          date: 'December 15, 2024',
           tags: ['Investing', 'Beginners', '2024'],
           content: [
             'Investing can seem overwhelming for beginners, but with the right approach, anyone can start building wealth. The key is to start early and stay consistent with your investment strategy.',
@@ -68,7 +68,7 @@ export default {
           title: 'Top 5 Investment Strategies for Long-Term Growth',
           summary: 'Explore the best strategies for building wealth over time, from index funds to real estate and more.',
           author: 'Michael Chen',
-          date: 'May 20, 2024',
+          date: 'December 10, 2024',
           tags: ['Strategy', 'Long-term', 'Growth'],
           content: [
             'Building long-term wealth requires a strategic approach that balances risk and reward. Here are five proven strategies that have helped investors achieve significant returns over time.',
@@ -84,7 +84,7 @@ export default {
           title: 'Understanding Risk and Reward in the Stock Market',
           summary: 'Learn how to balance risk and reward, diversify your portfolio, and make informed investment decisions.',
           author: 'Emma Wilson',
-          date: 'May 10, 2024',
+          date: 'December 5, 2024',
           tags: ['Risk Management', 'Stock Market', 'Education'],
           content: [
             'Understanding the relationship between risk and reward is fundamental to successful investing. Higher potential returns typically come with higher risk, but smart investors know how to manage this trade-off.',
@@ -100,7 +100,7 @@ export default {
           title: 'Cryptocurrency Investment: Opportunities and Risks',
           summary: 'Navigate the volatile world of cryptocurrency investing with expert insights and risk management strategies.',
           author: 'David Kim',
-          date: 'May 5, 2024',
+          date: 'November 28, 2024',
           tags: ['Cryptocurrency', 'Digital Assets', 'Risk'],
           content: [
             'Cryptocurrency has emerged as a new asset class that offers both significant opportunities and substantial risks. Understanding both sides is crucial for any investor considering digital assets.',
@@ -116,7 +116,7 @@ export default {
           title: 'Building a Retirement Portfolio That Lasts',
           summary: 'Create a retirement strategy that provides income security and growth potential throughout your golden years.',
           author: 'Lisa Thompson',
-          date: 'April 28, 2024',
+          date: 'November 20, 2024',
           tags: ['Retirement', 'Portfolio', 'Planning'],
           content: [
             'Building a retirement portfolio requires careful planning and consideration of multiple factors, including your retirement age, expected lifespan, and desired lifestyle.',
@@ -132,7 +132,7 @@ export default {
           title: 'The Psychology of Successful Investing',
           summary: 'Master the mental aspects of investing to avoid common psychological traps and make better financial decisions.',
           author: 'Robert Anderson',
-          date: 'April 15, 2024',
+          date: 'November 15, 2024',
           tags: ['Psychology', 'Behavioral Finance', 'Mindset'],
           content: [
             'Successful investing is as much about psychology as it is about numbers. Understanding your own biases and emotional triggers can help you make better investment decisions.',
@@ -148,7 +148,7 @@ export default {
           title: 'Sustainable and ESG Investing: The Future of Finance',
           summary: 'Discover how environmental, social, and governance factors are reshaping investment strategies and creating new opportunities.',
           author: 'Maria Garcia',
-          date: 'April 8, 2024',
+          date: 'November 10, 2024',
           tags: ['ESG', 'Sustainable', 'Impact Investing'],
           content: [
             'ESG investing considers environmental, social, and governance factors alongside traditional financial metrics. This approach is gaining popularity as investors seek to align their values with their investment choices.',
@@ -164,7 +164,7 @@ export default {
           title: 'Tax-Efficient Investing Strategies',
           summary: 'Maximize your after-tax returns with smart tax planning and investment strategies that minimize your tax burden.',
           author: 'James Wilson',
-          date: 'March 30, 2024',
+          date: 'November 5, 2024',
           tags: ['Tax Planning', 'Efficiency', 'Strategy'],
           content: [
             'Tax efficiency can significantly impact your investment returns over time. Understanding how different investments are taxed can help you make better decisions.',

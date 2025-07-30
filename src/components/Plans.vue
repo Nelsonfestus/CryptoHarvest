@@ -15,7 +15,7 @@
             <i class="fas fa-check-circle"></i> {{ feature.label }}: <span>{{ feature.value }}</span>
           </li>
         </ul>
-        <button class="plan-btn">Invest Now</button>
+        <button class="plan-btn" @click="goToSignup">Invest Now</button>
       </div>
     </div>
   </section>
@@ -63,6 +63,11 @@ export default {
       ],
     }
   },
+  methods: {
+    goToSignup() {
+      this.$router.push('/signup')
+    }
+  }
 }
 </script>
 

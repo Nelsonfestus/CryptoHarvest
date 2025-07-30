@@ -27,11 +27,11 @@
       </div>
       <!-- navbar-links -->
       <ul class="navbar-links">
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/investment-plans">Investment Plans</router-link></li>
-        <li><router-link to="/about">About</router-link></li>
-        <li><router-link to="/contact">Contact</router-link></li>
-        <li><router-link to="/blog">Blog</router-link></li>
+        <li><router-link to="/" @click="closeMenu">Home</router-link></li>
+        <li><router-link to="/investment-plans" @click="closeMenu">Investment Plans</router-link></li>
+        <li><router-link to="/about" @click="closeMenu">About</router-link></li>
+        <li><router-link to="/contact" @click="closeMenu">Contact</router-link></li>
+        <li><router-link to="/blog" @click="closeMenu">Blog</router-link></li>
       </ul>
       <!-- dropdown-menu -->
       <div class="dropdown-menu custom-country-dropdown">
@@ -52,14 +52,24 @@
       </div>
       <!-- button section -->
       <div class="btn">
-        <!-- login -->
-        <router-link to="/login" class="btn1">
-          <button>Login</button>
-        </router-link>
-        <!-- sign up -->
-        <router-link to="/signup" class="btn2">
-          <button>Sign Up</button>
-        </router-link>
+        <!-- Show login/signup for non-authenticated users and not on dashboard -->
+        <template v-if="!isAuthenticated && !isOnDashboard">
+          <router-link to="/login" class="btn1">
+            <button>Login</button>
+          </router-link>
+          <router-link to="/signup" class="btn2">
+            <button>Sign Up</button>
+          </router-link>
+        </template>
+        <!-- Show dashboard/logout for authenticated users -->
+        <template v-else-if="isAuthenticated">
+          <router-link to="/dashboard" class="btn1">
+            <button>Dashboard</button>
+          </router-link>
+          <button @click="logout" class="btn2">
+            <button>Logout</button>
+          </button>
+        </template>
       </div>
     </nav>
   </header>
@@ -79,12 +89,37 @@ export default {
       lastScrollY: 0,
       scrollTimeout: null,
       isGlass: false,
+      isAuthenticated: false,
     }
   },
-  methods: {
-    toggleMenu() {
-      this.menuOpen = !this.menuOpen
-    },
+  computed: {
+    isOnDashboard() {
+      return this.$route.path === '/dashboard'
+    }
+  },
+  mounted() {
+    this.checkAuthStatus()
+    window.addEventListener('storage', this.checkAuthStatus)
+  },
+  unmounted() {
+    window.removeEventListener('storage', this.checkAuthStatus)
+  },
+      methods: {
+      checkAuthStatus() {
+        this.isAuthenticated = localStorage.getItem('cryptoharvest_isAuthenticated') === 'true'
+      },
+      logout() {
+        localStorage.removeItem('cryptoharvest_isAuthenticated')
+        localStorage.removeItem('cryptoharvest_user')
+        this.isAuthenticated = false
+        this.$router.push('/login')
+      },
+      toggleMenu() {
+        this.menuOpen = !this.menuOpen
+      },
+      closeMenu() {
+        this.menuOpen = false
+      },
     handleResize() {
       this.isDesktop = window.innerWidth > 884 // updated from 884
       if (this.isDesktop) this.menuOpen = false
