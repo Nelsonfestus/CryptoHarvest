@@ -78,11 +78,26 @@ export default {
         return
       }
       this.loading = true
+      
+      // Simulate signup process
       setTimeout(() => {
         this.loading = false
-        // Simulate signup success
-        // this.$router.push('/login')
-        this.error = 'Signup is currently disabled.'
+        
+        // Create user object
+        const user = {
+          id: Date.now(),
+          name: this.name,
+          email: this.email,
+          password: this.password, // In real app, this would be hashed
+          createdAt: new Date().toISOString()
+        }
+        
+        // Store user data in localStorage (simulating backend)
+        localStorage.setItem('cryptoharvest_user', JSON.stringify(user))
+        localStorage.setItem('cryptoharvest_isAuthenticated', 'true')
+        
+        // Redirect to dashboard
+        this.$router.push('/dashboard')
       }, 1200)
     },
     // Validate email format

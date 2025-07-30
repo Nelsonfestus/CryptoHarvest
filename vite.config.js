@@ -18,6 +18,14 @@ export default defineConfig({
   server: {
     hmr: {
       overlay: false
+    },
+    historyApiFallback: true
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
     }
   }
 })
