@@ -9,22 +9,22 @@
         :key="idx"
         class="customer-card animate-fade-slide"
       >
-        <i class="fa-solid fa-quote-left quote-icon left"></i>
+          <i class="fa-solid fa-quote-left quote-icon left"></i>
 
-        <div class="card-text">
-          <p>{{ card.text }}</p>
-        </div>
-
-        <div class="card-profile">
-          <img :src="card.image" alt="customer photo" />
-          <div class="card-details">
-            <h3>{{ card.name }}</h3>
-            <p class="review">{{ card.review }}</p>
+          <div class="card-text">
+            <p>{{ card.text }}</p>
           </div>
-        </div>
 
-        <i class="fa-solid fa-quote-right quote-icon right"></i>
-      </div>
+          <div class="card-profile">
+            <img :src="card.image" alt="customer photo" />
+            <div class="card-details">
+              <h3>{{ card.name }}</h3>
+              <p class="review">{{ card.review }}</p>
+            </div>
+          </div>
+
+          <i class="fa-solid fa-quote-right quote-icon right"></i>
+        </div>
     </div>
   </section>
 </template>

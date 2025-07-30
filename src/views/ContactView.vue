@@ -157,9 +157,9 @@
             <div class="faq-answer" :class="{ 'open': faq.open }">
               <p>{{ faq.answer }}</p>
             </div>
-          </div>
-        </div>
-      </div>
+    </div>
+  </div>
+  </div>
 
       <!-- Support Section -->
       <div class="support-section animated-fade-slide" style="animation-delay: 0.6s">
