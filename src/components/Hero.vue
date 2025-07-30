@@ -1,28 +1,33 @@
 <template>
-  <!-- hero-section -->
-  <div class="hero-section animate-fade-slide">
-    <!-- background video -->
-    <video class="hero-bg-video" autoplay loop muted playsinline>
-      <source src="@/assets/bg1.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+  <div>
+    <!-- hero-section -->
+    <div class="hero-section animate-fade-slide">
+      <!-- background video -->
+      <video class="hero-bg-video" autoplay loop muted playsinline>
+        <source src="@/assets/bg1.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      
+      <!-- black overlay -->
+      <div class="hero-overlay"></div>
 
-    <!-- hero-text -->
-    <div class="hero-text animated-fade-slide">
-      <h1>Go to the next level investing</h1>
-      <p>
-        We are dedicated to providing investment management and strategic wealth planning that is
-        right for you. simply put, we strive to be our client's trusted advisor.
-      </p>
-    </div>
+      <!-- hero-text -->
+      <div class="hero-text animated-fade-slide">
+        <h1>Go to the next level investing</h1>
+        <p>
+          We are dedicated to providing investment management and strategic wealth planning that is
+          right for you. simply put, we strive to be our client's trusted advisor.
+        </p>
+      </div>
 
-    <!-- hero-btn -->
-    <div class="hero-btn animated-fade-slide" style="animation-delay: 0.3s">
-      <button class="btn">Get Started</button>
-      <button class="btn">Know More</button>
+      <!-- hero-btn -->
+      <div class="hero-btn animated-fade-slide" style="animation-delay: 0.3s">
+        <button class="btn">Get Started</button>
+        <button class="btn">Know More</button>
+      </div>
     </div>
+    <Investment />
   </div>
-  <Investment />
 </template>
 
 <script>
@@ -58,10 +63,21 @@ export default {
   pointer-events: none;
 }
 
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .hero-text,
 .hero-btn {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   color: #fff;
   text-align: center;
 }

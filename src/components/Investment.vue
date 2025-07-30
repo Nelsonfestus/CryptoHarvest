@@ -1,141 +1,143 @@
 <template>
-  <section class="investment-section">
-    <h2>Our Investment Plans</h2>
-    <p>Choose from a variety of plans tailored to your needs and goals.</p>
-    <div class="investment-cards">
-      <!-- gold -->
-      <div class="investment-card gold">
-        <div class="plan-img"><img src="../assets/star.png" alt="Gold" /></div>
-        <h3>Gold Plan</h3>
-        <!-- plan-features -->
-        <ul class="plan-features">
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
-            <div class="feature price-value">1,500.00 USD</div>
-          </div>
+  <div>
+    <section class="investment-section">
+      <h2>Our Investment Plans</h2>
+      <p>Choose from a variety of plans tailored to your needs and goals.</p>
+      <div class="investment-cards">
+        <!-- gold -->
+        <div class="investment-card gold">
+          <div class="plan-img"><img src="../assets/star.png" alt="Gold" /></div>
+          <h3>Gold Plan</h3>
+          <!-- plan-features -->
+          <ul class="plan-features">
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
+              <div class="feature price-value">1,500.00 USD</div>
+            </div>
 
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
-            <div class="feature price-value">5,000.00 USD</div>
-          </div>
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
+              <div class="feature price-value">5,000.00 USD</div>
+            </div>
 
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-            <div class="feature price-value">30 Days</div>
-          </div>
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
+              <div class="feature price-value">30 Days</div>
+            </div>
 
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-            <div class="feature price-value">5%</div>
-          </div>
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
+              <div class="feature price-value">5%</div>
+            </div>
 
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
-            <div class="feature price-value">Yes</div>
-          </div>
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
+              <div class="feature price-value">Yes</div>
+            </div>
 
-          <!-- price -->
-          <div class="price">
-            <div class="feature">Affiliate Bonus</div>
-            <button class="view-all-btn">View All</button>
-          </div>
-        </ul>
-        <button>Invest Now</button>
+            <!-- price -->
+            <div class="price">
+              <div class="feature">Affiliate Bonus</div>
+              <button class="view-all-btn">View All</button>
+            </div>
+          </ul>
+          <button>Invest Now</button>
+        </div>
+        <!-- silver -->
+        <div class="investment-card silver">
+          <div class="plan-img"><img src="../assets/silver.png" alt="Silver" /></div>
+          <h3>Silver Plan</h3>
+          <ul class="plan-features">
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
+              <div class="feature price-value">5,000.00 USD</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
+              <div class="feature price-value">20,000.00 USD</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
+              <div class="feature price-value">60 Days</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
+              <div class="feature price-value">10%</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
+              <div class="feature price-value">Yes</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature">Affiliate Bonus</div>
+              <button class="view-all-btn">View All</button>
+            </div>
+          </ul>
+          <button>Invest Now</button>
+        </div>
+        <!-- platinum -->
+        <div class="investment-card platinum">
+          <div class="plan-img"><img src="../assets/platinum.png" alt="Platinum" /></div>
+          <h3>Platinum Plan</h3>
+          <ul class="plan-features">
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
+              <div class="feature price-value">20,000.00 USD</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
+              <div class="feature price-value">Unlimited</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
+              <div class="feature price-value">90 Days</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
+              <div class="feature price-value">20%</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
+              <div class="feature price-value">Yes</div>
+            </div>
+
+            <!-- price -->
+            <div class="price">
+              <div class="feature">Affiliate Bonus</div>
+              <button class="view-all-btn">View All</button>
+            </div>
+          </ul>
+          <button>Invest Now</button>
+        </div>
       </div>
-      <!-- silver -->
-      <div class="investment-card silver">
-        <div class="plan-img"><img src="../assets/silver.png" alt="Silver" /></div>
-        <h3>Silver Plan</h3>
-        <ul class="plan-features">
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
-            <div class="feature price-value">5,000.00 USD</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
-            <div class="feature price-value">20,000.00 USD</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-            <div class="feature price-value">60 Days</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-            <div class="feature price-value">10%</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
-            <div class="feature price-value">Yes</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature">Affiliate Bonus</div>
-            <button class="view-all-btn">View All</button>
-          </div>
-        </ul>
-        <button>Invest Now</button>
-      </div>
-      <!-- platinum -->
-      <div class="investment-card platinum">
-        <div class="plan-img"><img src="../assets/platinum.png" alt="Platinum" /></div>
-        <h3>Platinum Plan</h3>
-        <ul class="plan-features">
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
-            <div class="feature price-value">20,000.00 USD</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
-            <div class="feature price-value">Unlimited</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-            <div class="feature price-value">90 Days</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-            <div class="feature price-value">20%</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
-            <div class="feature price-value">Yes</div>
-          </div>
-
-          <!-- price -->
-          <div class="price">
-            <div class="feature">Affiliate Bonus</div>
-            <button class="view-all-btn">View All</button>
-          </div>
-        </ul>
-        <button>Invest Now</button>
-      </div>
-    </div>
-  </section>
-  <Calculate />
+    </section>
+    <Calculate />
+  </div>
 </template>
 
 <script>
