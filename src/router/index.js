@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import InvestmentPlansView from '../views/InvestmentPlansView.vue'
 import ContactView from '../views/ContactView.vue'
 import BlogView from '../views/BlogView.vue'
+import AllInvestorsView from '../views/AllInvestorsView.vue'
 import Community from '@/components/Community.vue'
 import Questions from '@/components/Questions.vue'
 import Accordion from '@/components/Accordion.vue'
@@ -62,6 +63,11 @@ const router = createRouter({
     },
     { path: '/login', name: 'Login', component: Login },
     { path: '/signup', name: 'Signup', component: Signup },
+    {
+      path: '/all-investors',
+      name: 'all-investors',
+      component: AllInvestorsView,
+    },
   ],
 })
 

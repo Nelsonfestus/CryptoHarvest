@@ -4,27 +4,27 @@
     <h1>What Our Customers Say</h1>
 
     <div class="customer-cards">
-      <template v-for="(card, idx) in cards" :key="idx">
-        <div class="customer-card animate-fade-slide">
-          <i class="fa-solid fa-quote-left quote-icon left"></i>
+      <div 
+        v-for="(card, idx) in cards" 
+        :key="idx"
+        class="customer-card animate-fade-slide"
+      >
+        <i class="fa-solid fa-quote-left quote-icon left"></i>
 
-          <div class="card-text">
-            <p>{{ card.text }}</p>
-          </div>
-
-          <div class="card-profile">
-            <img :src="card.image" alt="customer photo" />
-            <div class="card-details">
-              <h3>{{ card.name }}</h3>
-              <p class="review">{{ card.review }}</p>
-            </div>
-          </div>
-
-          <i class="fa-solid fa-quote-right quote-icon right"></i>
+        <div class="card-text">
+          <p>{{ card.text }}</p>
         </div>
 
-        <div v-if="idx < cards.length - 1" class="card-divider"></div>
-      </template>
+        <div class="card-profile">
+          <img :src="card.image" alt="customer photo" />
+          <div class="card-details">
+            <h3>{{ card.name }}</h3>
+            <p class="review">{{ card.review }}</p>
+          </div>
+        </div>
+
+        <i class="fa-solid fa-quote-right quote-icon right"></i>
+      </div>
     </div>
   </section>
 </template>
@@ -38,33 +38,78 @@ export default {
         name: 'Sarah Johnson',
         review: 'Investor & Entrepreneur',
         image: 'https://randomuser.me/api/portraits/women/44.jpg',
-        text: 'Explore a wide range of investment options tailored to your goals. Track your progress and watch your wealth grow with our intuitive tools.',
+        text: 'CryptoHarvest transformed my investment journey! The platform is incredibly user-friendly, and I\'ve seen consistent returns on my investments. The customer support team is always helpful and responsive.',
       },
       {
         name: 'David Kim',
         review: 'Finance Analyst',
         image: 'https://randomuser.me/api/portraits/men/32.jpg',
-        text: 'Easily deposit funds using a variety of secure payment methods. Your money is protected with industry-leading security protocols.',
+        text: 'As a finance professional, I\'m impressed by the transparency and security measures. The investment plans are well-structured, and the ROI tracking is excellent. This is exactly what I was looking for.',
       },
       {
         name: 'Emily Rodriguez',
         review: 'Digital Nomad',
         image: 'https://randomuser.me/api/portraits/women/12.jpg',
-        text: 'Explore a wide range of investment options tailored to your goals. Track your progress and watch your wealth grow with our intuitive tools.',
+        text: 'Being a digital nomad, I needed a platform I could trust from anywhere in the world. CryptoHarvest delivers exactly that - secure, reliable, and profitable investments that work globally.',
       },
       {
-        name: 'Real Customer',
-        review: 'CryptoHarvest Investor',
+        name: 'Michael Chen',
+        review: 'Tech Startup Founder',
         image: 'https://randomuser.me/api/portraits/men/45.jpg',
-        text: 'I was amazed at how easy it was to start investing. The platform is secure, and I saw my investment multiply just as promised. Highly recommended for anyone looking to grow their wealth in crypto!',
+        text: 'I was skeptical about crypto investments initially, but CryptoHarvest proved me wrong. The platform is professional, the returns are real, and the community is supportive. Highly recommended!',
       },
+      {
+        name: 'Lisa Thompson',
+        review: 'Retirement Planner',
+        image: 'https://randomuser.me/api/portraits/women/28.jpg',
+        text: 'I\'ve been using CryptoHarvest for my retirement planning and the results are outstanding. The diversified investment options and consistent returns give me confidence in my financial future.',
+      },
+      {
+        name: 'Robert Anderson',
+        review: 'Real Estate Investor',
+        image: 'https://randomuser.me/api/portraits/men/67.jpg',
+        text: 'CryptoHarvest complements my real estate portfolio perfectly. The crypto investments provide excellent diversification and the returns have exceeded my expectations. Great platform!',
+      },
+      {
+        name: 'Maria Garcia',
+        review: 'Small Business Owner',
+        image: 'https://randomuser.me/api/portraits/women/33.jpg',
+        text: 'Running a small business, I needed a reliable way to grow my savings. CryptoHarvest offers exactly what I need - secure investments with great returns and minimal time commitment.',
+      },
+      {
+        name: 'James Wilson',
+        review: 'Freelance Consultant',
+        image: 'https://randomuser.me/api/portraits/men/89.jpg',
+        text: 'The flexibility of CryptoHarvest is perfect for my freelance lifestyle. I can invest what I can afford, track my progress easily, and the returns help supplement my income beautifully.',
+      },
+      {
+        name: 'Jennifer Lee',
+        review: 'Marketing Executive',
+        image: 'https://randomuser.me/api/portraits/women/56.jpg',
+        text: 'I love how CryptoHarvest makes investing accessible to everyone. The educational resources are excellent, and the platform is so intuitive. My investment portfolio has grown significantly!',
+      },
+      {
+        name: 'Thomas Brown',
+        review: 'Healthcare Professional',
+        image: 'https://randomuser.me/api/portraits/men/23.jpg',
+        text: 'As a healthcare worker with irregular hours, I needed a passive investment solution. CryptoHarvest delivers exactly that - I can invest and forget, knowing my money is working for me.',
+      },
+      {
+        name: 'Amanda Davis',
+        review: 'Teacher',
+        image: 'https://randomuser.me/api/portraits/women/78.jpg',
+        text: 'CryptoHarvest has been a game-changer for my financial planning. The low minimum investment allowed me to start small, and the consistent returns have helped me build a solid nest egg.',
+      },
+      {
+        name: 'Christopher Martinez',
+        review: 'Software Engineer',
+        image: 'https://randomuser.me/api/portraits/men/91.jpg',
+        text: 'The technical security and transparency of CryptoHarvest impressed me from day one. The platform is robust, the returns are transparent, and the user experience is excellent.',
+      }
     ]
 
-    // Loop 3x by repeating data
-    const repeated = [...sampleData, ...sampleData, ...sampleData]
-
     return {
-      cards: repeated,
+      cards: sampleData,
     }
   },
 }
