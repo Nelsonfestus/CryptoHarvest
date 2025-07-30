@@ -20,11 +20,11 @@
         </p>
       </div>
 
-      <!-- hero-btn -->
-      <div class="hero-btn animated-fade-slide" style="animation-delay: 0.3s">
-        <button class="btn">Get Started</button>
-        <button class="btn">Know More</button>
-      </div>
+          <!-- hero-btn -->
+    <div class="hero-btn animated-fade-slide" style="animation-delay: 0.3s">
+      <button class="btn" @click="goToInvestmentPlans">Get Started</button>
+      <button class="btn" @click="goToAbout">Learn More</button>
+    </div>
     </div>
     <Investment />
   </div>
@@ -34,6 +34,14 @@
 import Investment from './Investment.vue'
 export default {
   components: { Investment },
+  methods: {
+    goToInvestmentPlans() {
+      this.$router.push('/investment-plans')
+    },
+    goToAbout() {
+      this.$router.push('/about')
+    }
+  }
 }
 </script>
 

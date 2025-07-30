@@ -166,7 +166,7 @@
       </div>
 
       <div class="view-all-container">
-        <button class="view-all-btn">View All Investors</button>
+        <button class="view-all-btn" @click="goToAllInvestors">View All Investors</button>
       </div>
     </div>
   </section>
@@ -174,7 +174,12 @@
 
 <script>
 export default {
-  name: 'TopInvestor'
+  name: 'TopInvestor',
+  methods: {
+    goToAllInvestors() {
+      this.$router.push('/all-investors')
+    }
+  }
 }
 </script>
 
