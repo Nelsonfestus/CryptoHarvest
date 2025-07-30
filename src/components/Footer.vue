@@ -19,19 +19,10 @@
         <div class="footer-contact">
           <h4>Contact Us</h4>
           <ul>
-            <li><i class="fas fa-envelope"></i> info@cryptoharvest.com</li>
-            <li><i class="fas fa-phone"></i> +1 234 567 890</li>
-            <li><i class="fas fa-map-marker-alt"></i> 123 Main St, City, Country</li>
+            <li><i class="fas fa-envelope"></i> Info.CryptoHarvest@yahoo.com</li>
+            <li><i class="fas fa-phone"></i> +1 369 218 0966</li>
+            <li><i class="fas fa-map-marker-alt"></i> 85 Madison Avenue, A, Chula Vista, CA 91910</li>
           </ul>
-        </div>
-        <div class="footer-social">
-          <h4>Follow Us</h4>
-          <div class="social-icons">
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          </div>
         </div>
       </div>
       <div class="footer-bottom">
@@ -114,8 +105,7 @@ export default {
 }
 
 .footer-links h4,
-.footer-contact h4,
-.footer-social h4 {
+.footer-contact h4 {
   margin-bottom: 15px;
   color: #ff6600;
   font-size: 1.1rem;
@@ -165,21 +155,6 @@ export default {
 
 .footer-links a:hover {
   color: #fff;
-}
-
-.footer-social .social-icons {
-  display: flex;
-  gap: 16px;
-}
-
-.footer-social i {
-  color: #ccc;
-  font-size: 1.3rem;
-  transition: color 0.3s;
-}
-
-.footer-social a:hover i {
-  color: #ff6600;
 }
 
 .footer-contact i {
@@ -259,8 +234,7 @@ export default {
   }
 
   .footer-links h4,
-  .footer-contact h4,
-  .footer-social h4 {
+  .footer-contact h4 {
     font-size: 1rem;
   }
 
