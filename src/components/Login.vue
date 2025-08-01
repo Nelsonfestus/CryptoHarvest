@@ -43,6 +43,8 @@ export default {
   },
   methods: {
     async handleLoginSubmit(formData) {
+      console.log('Login attempt with:', { email: formData.email })
+      
       // Validate email
       if (!this.validateEmail(formData.email)) {
         throw new Error('Please enter a valid email address.')
@@ -58,11 +60,14 @@ export default {
 
       // Attempt login using mixin method
       const result = await this.handleLogin(formData.email, formData.password)
+      console.log('Login result:', result)
 
       if (result.success) {
+        console.log('Login successful, redirecting to dashboard...')
         // Redirect to dashboard
         this.$router.push('/dashboard')
       } else {
+        console.log('Login failed:', result.message)
         throw new Error(result.message)
       }
     },

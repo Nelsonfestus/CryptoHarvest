@@ -1,12 +1,14 @@
 <template>
   <section class="top-investor-section">
     <div class="container">
-      <h2>Top Investors</h2>
-      <p>Meet our most successful investors and learn from their strategies</p>
+      <div class="section-header animate-text-stagger">
+        <h2 class="animate-text-slide">Top Investors</h2>
+        <p class="animate-text-slide">Meet our most successful investors and learn from their strategies</p>
+      </div>
 
       <div class="investors-grid">
         <!-- Top Investor 1 -->
-        <div class="investor-card top-1">
+        <div class="investor-card top-1 animate-text-fade">
           <div class="rank-badge">#1</div>
           <div class="investor-avatar">
             <img
@@ -36,7 +38,7 @@
         </div>
 
         <!-- Top Investor 2 -->
-        <div class="investor-card top-2">
+        <div class="investor-card top-2 animate-text-fade">
           <div class="rank-badge">#2</div>
           <div class="investor-avatar">
             <img src="../assets/kimberly.jpg" alt="Kimberly Leathers" />
@@ -63,7 +65,7 @@
         </div>
 
         <!-- Top Investor 3 -->
-        <div class="investor-card top-3">
+        <div class="investor-card top-3 animate-text-fade">
           <div class="rank-badge">#3</div>
           <div class="investor-avatar">
             <img
@@ -200,9 +202,10 @@ export default {
 
 <style scoped>
 .top-investor-section {
-  background: #151515;
-  padding: 80px 0;
-  color: #fff;
+  background: #202020;
+  color: white;
+  padding: 80px 60px;
+  padding-top: calc(80px + 80px); /* Add navbar padding */
 }
 
 .container {
@@ -211,22 +214,24 @@ export default {
   padding: 0 20px;
 }
 
-.top-investor-section h2 {
+.section-header {
   text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-header h2 {
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-size: 2.5rem;
-  margin-bottom: 10px;
   text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
-.top-investor-section p {
-  text-align: center;
+.section-header p {
   color: #ffa600;
   font-size: 1.1rem;
-  margin-bottom: 50px;
   line-height: 1.6;
 }
 
@@ -405,7 +410,7 @@ export default {
     padding: 60px 0;
   }
 
-  .top-investor-section h2 {
+  .section-header h2 {
     font-size: 2rem;
   }
 

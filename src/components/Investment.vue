@@ -1,141 +1,134 @@
 <template>
   <div>
     <section class="investment-section">
-      <h2>Our Investment Plans</h2>
-      <p>Choose from a variety of plans tailored to your needs and goals.</p>
+      <div class="investment-header">
+        <h2>Our Investment Plans</h2>
+        <p>Choose from a variety of plans tailored to your needs and goals.</p>
+      </div>
+      
       <div class="investment-cards">
-        <!-- gold -->
-        <div class="investment-card gold">
-          <div class="plan-img"><img src="../assets/star.png" alt="Gold" /></div>
-          <h3>Gold Plan</h3>
-          <!-- plan-features -->
-          <ul class="plan-features">
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
-              <div class="feature price-value">1,500.00 USD</div>
-            </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
-              <div class="feature price-value">5,000.00 USD</div>
-            </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-              <div class="feature price-value">30 Days</div>
-            </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-              <div class="feature price-value">5%</div>
-            </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
-              <div class="feature price-value">Yes</div>
-            </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature">Affiliate Bonus</div>
-              <button class="view-all-btn">View All</button>
-            </div>
-          </ul>
-          <button @click="goToSignup">Invest Now</button>
-          <button @click="goToCryptoWallet" class="crypto-btn">Crypto Wallet</button>
-        </div>
-        <!-- silver -->
+        <!-- Silver Plan -->
         <div class="investment-card silver">
-          <div class="plan-img"><img src="../assets/silver.png" alt="Silver" /></div>
-          <h3>Silver Plan</h3>
-          <ul class="plan-features">
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
-              <div class="feature price-value">5,000.00 USD</div>
+          <div class="plan-header">
+            <div class="plan-icon">🥈</div>
+            <h3>Silver Plan</h3>
+            <div class="plan-price">
+              <span class="currency">$</span>
+              <span class="amount">199</span>
+              <span class="period">/month</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
-              <div class="feature price-value">20,000.00 USD</div>
+          </div>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Minimum Investment: $5,000</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-              <div class="feature price-value">60 Days</div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Maximum Investment: $20,000</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-              <div class="feature price-value">10%</div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Duration: 60 Days</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
-              <div class="feature price-value">Yes</div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">ROI: 10%</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature">Affiliate Bonus</div>
-              <button class="view-all-btn">View All</button>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Capital Back: Yes</span>
             </div>
-          </ul>
-          <button @click="goToSignup">Invest Now</button>
-          <button @click="goToCryptoWallet" class="crypto-btn">Crypto Wallet</button>
+          </div>
+          
+          <div class="plan-actions">
+            <button @click="goToSignup" class="btn-primary">Invest Now</button>
+            <button @click="goToCryptoWallet" class="btn-secondary">Crypto Wallet</button>
+          </div>
         </div>
-        <!-- platinum -->
+
+        <!-- Gold Plan -->
+        <div class="investment-card gold">
+          <div class="popular-badge">★ Most Popular</div>
+          <div class="plan-header">
+            <div class="plan-icon">🥇</div>
+            <h3>Gold Plan</h3>
+            <div class="plan-price">
+              <span class="currency">$</span>
+              <span class="amount">299</span>
+              <span class="period">/month</span>
+            </div>
+          </div>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Minimum Investment: $10,000</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Maximum Investment: $50,000</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Duration: 75 Days</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">ROI: 15%</span>
+            </div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Capital Back: Yes</span>
+            </div>
+          </div>
+          
+          <div class="plan-actions">
+            <button @click="goToSignup" class="btn-primary">Invest Now</button>
+            <button @click="goToCryptoWallet" class="btn-secondary">Crypto Wallet</button>
+          </div>
+        </div>
+
+        <!-- Platinum Plan -->
         <div class="investment-card platinum">
-          <div class="plan-img"><img src="../assets/platinum.png" alt="Platinum" /></div>
-          <h3>Platinum Plan</h3>
-          <ul class="plan-features">
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
-              <div class="feature price-value">20,000.00 USD</div>
+          <div class="plan-header">
+            <div class="plan-icon">💎</div>
+            <h3>Platinum Plan</h3>
+            <div class="plan-price">
+              <span class="currency">$</span>
+              <span class="amount">399</span>
+              <span class="period">/month</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
-              <div class="feature price-value">Unlimited</div>
+          </div>
+          
+          <div class="plan-features">
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Minimum Investment: $20,000</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-              <div class="feature price-value">90 Days</div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Maximum Investment: Unlimited</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-              <div class="feature price-value">20%</div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Duration: 90 Days</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature"><i class="fas fa-check-circle check-icon"></i>Capital Back</div>
-              <div class="feature price-value">Yes</div>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">ROI: 20%</span>
             </div>
-
-            <!-- price -->
-            <div class="price">
-              <div class="feature">Affiliate Bonus</div>
-              <button class="view-all-btn">View All</button>
+            <div class="feature">
+              <span class="feature-icon">✓</span>
+              <span class="feature-text">Capital Back: Yes</span>
             </div>
-          </ul>
-          <button @click="goToSignup">Invest Now</button>
-          <button @click="goToCryptoWallet" class="crypto-btn">Crypto Wallet</button>
+          </div>
+          
+          <div class="plan-actions">
+            <button @click="goToSignup" class="btn-primary">Invest Now</button>
+            <button @click="goToCryptoWallet" class="btn-secondary">Crypto Wallet</button>
+          </div>
         </div>
       </div>
     </section>
@@ -164,229 +157,312 @@ export default {
 <style scoped>
 .investment-section {
   width: 100%;
-  padding: 40px 60px;
-  background: #202020;
-  background-repeat: no-repeat;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+  padding: 60px 40px;
+  background: var(--bg-dark);
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.investment-section h2 {
-  margin-top: 20px;
-  font-size: 2rem;
-  margin-bottom: 12px;
-  color: #eb6709;
+.investment-header {
+  margin-bottom: 50px;
 }
 
-.investment-section p {
-  color: #fff;
-  font-size: 1.1rem;
+.investment-header h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
+  letter-spacing: -1px;
+}
+
+.investment-header p {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
 .investment-cards {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  margin-top: 32px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  align-items: stretch;
 }
 
 .investment-card {
-  background: #181818;
-  border-radius: 14px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-  padding: 50px 10px;
-  width: 30%;
-  color: #fff;
+  background: var(--bg-darker);
+  border-radius: 20px;
+  padding: 40px 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  color: var(--text-white);
   display: flex;
   flex-direction: column;
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  min-height: 500px;
+  overflow: hidden;
 }
 
-.investment-card button {
-  white-space: nowrap;
+.investment-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-gradient);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
-.plan-img {
-  width: 100%;
-  margin-bottom: 12px;
+.investment-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary-orange);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.investment-card:hover::before {
+  transform: scaleX(1);
+}
+
+.investment-card.gold {
+  border-color: #ffd700;
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2);
+  background: linear-gradient(135deg, var(--bg-darker) 0%, rgba(255, 215, 0, 0.05) 100%);
+}
+
+.investment-card.gold:hover {
+  transform: scale(1.05) translateY(-10px);
+  box-shadow: 0 25px 50px rgba(255, 215, 0, 0.3);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary-gradient);
+  color: var(--text-white);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  box-shadow: 0 5px 15px rgba(235, 103, 9, 0.3);
+  z-index: 10;
+}
+
+.plan-header {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.plan-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  display: block;
+}
+
+.plan-header h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-gold);
+  margin-bottom: 15px;
+  letter-spacing: 0.5px;
+}
+
+.plan-price {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: center;
+  gap: 5px;
 }
 
-.plan-img img {
-  width: 25%;
-  object-fit: contain;
+.currency {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-white);
+  line-height: 1;
+}
+
+.period {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 500;
 }
 
 .plan-features {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 18px 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 30px;
 }
 
 .feature {
   display: flex;
   align-items: center;
-  margin-bottom: 6px;
-  font-size: 1rem;
-  color: #fff;
-  text-align: left;
-}
-
-.price {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
   gap: 12px;
-  margin-bottom: 8px;
-  width: 100%;
-  flex-wrap: nowrap;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
 }
 
-.feature,
-.price-value {
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
+.feature:hover {
+  background: rgba(235, 103, 9, 0.1);
+  border-color: rgba(235, 103, 9, 0.2);
+  transform: translateX(5px);
 }
 
-.price-value {
-  font-weight: 700;
-  color: #eb6709;
-  justify-content: flex-end;
-}
-
-.tick-icon {
-  width: 18px;
-  height: 18px;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-.check-icon {
-  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 1.1em;
-  margin-right: 8px;
-  vertical-align: middle;
-}
-
-.investment-card.gold h3 {
-  color: #ffd700;
-}
-
-.investment-card.silver h3 {
-  color: #c0c0c0;
-}
-
-.investment-card.platinum h3 {
-  color: #e5e4e2;
-}
-
-.investment-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow:
-    0 8px 32px rgba(235, 103, 9, 0.12),
-    0 2px 12px rgba(0, 0, 0, 0.1);
-}
-
-.investment-card h3 {
-  margin-bottom: 10px;
-  font-size: 1.3rem;
-}
-
-.investment-card p {
-  font-size: 1rem;
-  margin-bottom: 18px;
-}
-
-.investment-card button {
-  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-  color: #fff;
-  border: none;
-  width: 50%;
-  margin: auto;
-  border-radius: 8px;
-  padding: 10px 22px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background 0.3s,
-    box-shadow 0.3s;
-}
-
-.investment-card button:hover {
-  background: #fff;
-  color: #eb6709;
-  box-shadow: 0 2px 12px rgba(235, 103, 9, 0.15);
-}
-
-.view-all-btn {
-  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 4px 20px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background 0.3s,
-    color 0.3s;
-  white-space: nowrap;
+.feature-icon {
+  color: var(--primary-orange);
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: rgba(235, 103, 9, 0.1);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.view-all-btn:hover {
-  background: #fff;
-  color: #eb6709;
+.feature-text {
+  color: var(--text-white);
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.4;
+  flex: 1;
 }
 
-.crypto-btn {
-  background: linear-gradient(90deg, #1f2937 0%, #374151 100%);
-  color: #fff;
-  border: 1px solid #4b5563;
-  width: 50%;
-  margin: 10px auto 0 auto;
-  border-radius: 8px;
-  padding: 10px 22px;
+.plan-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: var(--primary-gradient);
+  color: var(--text-white);
+  border: none;
+  border-radius: 12px;
+  padding: 15px 25px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition:
-    background 0.3s,
-    box-shadow 0.3s,
-    border-color 0.3s;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
 }
 
-.crypto-btn:hover {
-  background: linear-gradient(90deg, #374151 0%, #4b5563 100%);
-  border-color: #eb6709;
-  box-shadow: 0 2px 12px rgba(235, 103, 9, 0.15);
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(235, 103, 9, 0.3);
 }
 
-@media (max-width: 834px) {
-  .investment-section {
-    padding: 20px 16px;
-  }
+.btn-secondary {
+  background: transparent;
+  color: var(--text-white);
+  border: 2px solid var(--primary-orange);
+  border-radius: 12px;
+  padding: 13px 25px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-secondary:hover {
+  background: var(--primary-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(235, 103, 9, 0.3);
+}
+
+@media (max-width: 1200px) {
   .investment-cards {
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+  }
+  
+  .investment-card.gold {
+    transform: scale(1.02);
+  }
+  
+  .investment-card.gold:hover {
+    transform: scale(1.02) translateY(-10px);
+  }
+}
+
+@media (max-width: 900px) {
+  .investment-cards {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .investment-section {
+    padding: 40px 20px;
+  }
+
+  .investment-header h2 {
+    font-size: 2.5rem;
+  }
+  
+  .investment-header p {
+    font-size: 1.1rem;
+  }
+
+  .investment-cards {
+    grid-template-columns: 1fr;
+    max-width: 400px;
   }
 
   .investment-card {
-    width: 90%;
+    padding: 30px 25px;
+    min-height: 450px;
+  }
+  
+  .investment-card.gold {
+    transform: none;
+  }
+  
+  .investment-card.gold:hover {
+    transform: translateY(-10px);
+  }
+  
+  .amount {
+    font-size: 2rem;
+  }
+  
+  .plan-icon {
+    font-size: 2.5rem;
   }
 }
 </style>
