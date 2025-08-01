@@ -4,27 +4,23 @@
     <h1>What Our Customers Say</h1>
 
     <div class="customer-cards">
-      <div 
-        v-for="(card, idx) in cards" 
-        :key="idx"
-        class="customer-card animate-fade-slide"
-      >
-          <i class="fa-solid fa-quote-left quote-icon left"></i>
+      <div v-for="(card, idx) in cards" :key="idx" class="customer-card animate-fade-slide">
+        <i class="fa-solid fa-quote-left quote-icon left"></i>
 
-          <div class="card-text">
-            <p>{{ card.text }}</p>
-          </div>
-
-          <div class="card-profile">
-            <img :src="card.image" alt="customer photo" />
-            <div class="card-details">
-              <h3>{{ card.name }}</h3>
-              <p class="review">{{ card.review }}</p>
-            </div>
-          </div>
-
-          <i class="fa-solid fa-quote-right quote-icon right"></i>
+        <div class="card-text">
+          <p>{{ card.text }}</p>
         </div>
+
+        <div class="card-profile">
+          <img :src="card.image" alt="customer photo" />
+          <div class="card-details">
+            <h3>{{ card.name }}</h3>
+            <p class="review">{{ card.review }}</p>
+          </div>
+        </div>
+
+        <i class="fa-solid fa-quote-right quote-icon right"></i>
+      </div>
     </div>
   </section>
 </template>
@@ -38,13 +34,13 @@ export default {
         name: 'Sarah Johnson',
         review: 'Investor & Entrepreneur',
         image: 'https://randomuser.me/api/portraits/women/44.jpg',
-        text: 'CryptoHarvest transformed my investment journey! The platform is incredibly user-friendly, and I\'ve seen consistent returns on my investments. The customer support team is always helpful and responsive.',
+        text: "CryptoHarvest transformed my investment journey! The platform is incredibly user-friendly, and I've seen consistent returns on my investments. The customer support team is always helpful and responsive.",
       },
       {
         name: 'David Kim',
         review: 'Finance Analyst',
         image: 'https://randomuser.me/api/portraits/men/32.jpg',
-        text: 'As a finance professional, I\'m impressed by the transparency and security measures. The investment plans are well-structured, and the ROI tracking is excellent. This is exactly what I was looking for.',
+        text: "As a finance professional, I'm impressed by the transparency and security measures. The investment plans are well-structured, and the ROI tracking is excellent. This is exactly what I was looking for.",
       },
       {
         name: 'Emily Rodriguez',
@@ -62,7 +58,7 @@ export default {
         name: 'Lisa Thompson',
         review: 'Retirement Planner',
         image: 'https://randomuser.me/api/portraits/women/28.jpg',
-        text: 'I\'ve been using CryptoHarvest for my retirement planning and the results are outstanding. The diversified investment options and consistent returns give me confidence in my financial future.',
+        text: "I've been using CryptoHarvest for my retirement planning and the results are outstanding. The diversified investment options and consistent returns give me confidence in my financial future.",
       },
       {
         name: 'Robert Anderson',
@@ -105,7 +101,7 @@ export default {
         review: 'Software Engineer',
         image: 'https://randomuser.me/api/portraits/men/91.jpg',
         text: 'The technical security and transparency of CryptoHarvest impressed me from day one. The platform is robust, the returns are transparent, and the user experience is excellent.',
-      }
+      },
     ]
 
     return {

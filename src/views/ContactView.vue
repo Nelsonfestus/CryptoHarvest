@@ -5,7 +5,8 @@
       <div class="hero-content">
         <h1 class="hero-title animated-fade-slide">Get In Touch</h1>
         <p class="hero-subtitle animated-fade-slide" style="animation-delay: 0.2s">
-          We're here to help and answer any questions you might have. We look forward to hearing from you.
+          We're here to help and answer any questions you might have. We look forward to hearing
+          from you.
         </p>
       </div>
     </div>
@@ -22,21 +23,21 @@
             <p>Info.CryptoHarvest@yahoo.com</p>
             <a href="mailto:Info.CryptoHarvest@yahoo.com" class="contact-link">Send Email</a>
           </div>
-          
+
           <div class="contact-card">
             <div class="card-icon">📞</div>
             <h3>Phone</h3>
             <p>+1 369 218 0966</p>
             <a href="tel:+13692180966" class="contact-link">Call Now</a>
           </div>
-          
+
           <div class="contact-card">
             <div class="card-icon">📍</div>
             <h3>Address</h3>
             <p>85 Madison Avenue, A, Chula Vista, CA 91910</p>
             <a href="https://maps.google.com" target="_blank" class="contact-link">View on Map</a>
           </div>
-          
+
           <div class="contact-card">
             <div class="card-icon">⏰</div>
             <h3>Business Hours</h3>
@@ -51,54 +52,56 @@
       <div class="contact-form-section animated-fade-slide" style="animation-delay: 0.4s">
         <div class="form-container">
           <h2>Send us a Message</h2>
-          <p class="form-subtitle">Fill out the form below and we'll get back to you as soon as possible.</p>
-          
+          <p class="form-subtitle">
+            Fill out the form below and we'll get back to you as soon as possible.
+          </p>
+
           <form @submit.prevent="handleSubmit" class="contact-form">
             <div class="form-row">
               <div class="form-group">
                 <label for="firstName">First Name *</label>
-                <input 
-                  type="text" 
-                  id="firstName" 
-                  v-model="formData.firstName" 
-                  required 
+                <input
+                  type="text"
+                  id="firstName"
+                  v-model="formData.firstName"
+                  required
                   placeholder="Enter your first name"
                 />
               </div>
               <div class="form-group">
                 <label for="lastName">Last Name *</label>
-                <input 
-                  type="text" 
-                  id="lastName" 
-                  v-model="formData.lastName" 
-                  required 
+                <input
+                  type="text"
+                  id="lastName"
+                  v-model="formData.lastName"
+                  required
                   placeholder="Enter your last name"
                 />
               </div>
             </div>
-            
+
             <div class="form-row">
               <div class="form-group">
                 <label for="email">Email Address *</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  v-model="formData.email" 
-                  required 
+                <input
+                  type="email"
+                  id="email"
+                  v-model="formData.email"
+                  required
                   placeholder="Enter your email address"
                 />
               </div>
               <div class="form-group">
                 <label for="phone">Phone Number</label>
-                <input 
-                  type="tel" 
-                  id="phone" 
-                  v-model="formData.phone" 
+                <input
+                  type="tel"
+                  id="phone"
+                  v-model="formData.phone"
                   placeholder="Enter your phone number"
                 />
               </div>
             </div>
-            
+
             <div class="form-group">
               <label for="subject">Subject *</label>
               <select id="subject" v-model="formData.subject" required>
@@ -110,30 +113,26 @@
                 <option value="other">Other</option>
               </select>
             </div>
-            
+
             <div class="form-group">
               <label for="message">Message *</label>
-              <textarea 
-                id="message" 
-                v-model="formData.message" 
-                required 
+              <textarea
+                id="message"
+                v-model="formData.message"
+                required
                 rows="6"
                 placeholder="Tell us how we can help you..."
               ></textarea>
             </div>
-            
+
             <div class="form-group checkbox-group">
               <label class="checkbox-label">
-                <input 
-                  type="checkbox" 
-                  v-model="formData.newsletter" 
-                  class="checkbox-input"
-                />
+                <input type="checkbox" v-model="formData.newsletter" class="checkbox-input" />
                 <span class="checkmark"></span>
                 Subscribe to our newsletter for updates and investment opportunities
               </label>
             </div>
-            
+
             <button type="submit" class="submit-btn" :disabled="loading">
               <span v-if="!loading">Send Message</span>
               <span v-else class="loading-text">
@@ -152,14 +151,14 @@
           <div class="faq-item" v-for="(faq, index) in faqs" :key="index">
             <div class="faq-question" @click="toggleFaq(index)">
               <h3>{{ faq.question }}</h3>
-              <span class="faq-icon" :class="{ 'rotated': faq.open }">+</span>
+              <span class="faq-icon" :class="{ rotated: faq.open }">+</span>
             </div>
-            <div class="faq-answer" :class="{ 'open': faq.open }">
+            <div class="faq-answer" :class="{ open: faq.open }">
               <p>{{ faq.answer }}</p>
             </div>
-    </div>
-  </div>
-  </div>
+          </div>
+        </div>
+      </div>
 
       <!-- Support Section -->
       <div class="support-section animated-fade-slide" style="animation-delay: 0.6s">
@@ -172,21 +171,21 @@
             <p>Get instant help from our expert support team available 24/7</p>
             <button class="support-btn" @click="openLiveChat">Start Chat</button>
           </div>
-          
+
           <div class="support-card">
             <div class="support-icon">📚</div>
             <h3>Investment Guide</h3>
             <p>Learn about crypto investments, strategies, and best practices</p>
             <button class="support-btn" @click="openInvestmentGuide">Read Guide</button>
           </div>
-          
+
           <div class="support-card">
             <div class="support-icon">🔒</div>
             <h3>Security Center</h3>
             <p>Learn about our security measures and how to protect your account</p>
             <button class="support-btn" @click="openSecurityCenter">Learn More</button>
           </div>
-          
+
           <div class="support-card">
             <div class="support-icon">📞</div>
             <h3>Priority Support</h3>
@@ -212,49 +211,55 @@ export default {
         phone: '',
         subject: '',
         message: '',
-        newsletter: false
+        newsletter: false,
       },
       faqs: [
         {
           question: 'How do I start investing with CryptoHarvest?',
-          answer: 'To start investing, simply create an account, complete the verification process, and choose from our investment plans. You can start with as little as $1,500.',
-          open: false
+          answer:
+            'To start investing, simply create an account, complete the verification process, and choose from our investment plans. You can start with as little as $1,500.',
+          open: false,
         },
         {
           question: 'What are the minimum investment amounts?',
-          answer: 'Our Gold Plan starts at $1,500, Silver Plan at $5,000, and Platinum Plan at $20,000. Each plan offers different ROI rates and durations.',
-          open: false
+          answer:
+            'Our Gold Plan starts at $1,500, Silver Plan at $5,000, and Platinum Plan at $20,000. Each plan offers different ROI rates and durations.',
+          open: false,
         },
         {
           question: 'How secure is my investment?',
-          answer: 'We implement bank-level security measures, including SSL encryption, two-factor authentication, and secure wallet integration to protect your investments.',
-          open: false
+          answer:
+            'We implement bank-level security measures, including SSL encryption, two-factor authentication, and secure wallet integration to protect your investments.',
+          open: false,
         },
         {
           question: 'What is the withdrawal process?',
-          answer: 'Withdrawals can be processed through bank transfer or crypto wallet. Processing times are typically 24-48 hours for bank transfers and 1-2 hours for crypto.',
-          open: false
+          answer:
+            'Withdrawals can be processed through bank transfer or crypto wallet. Processing times are typically 24-48 hours for bank transfers and 1-2 hours for crypto.',
+          open: false,
         },
         {
           question: 'Do you offer customer support?',
-          answer: 'Yes, we provide 24/7 customer support through live chat, email, and phone. Our support team is always ready to help with any questions or concerns.',
-          open: false
+          answer:
+            'Yes, we provide 24/7 customer support through live chat, email, and phone. Our support team is always ready to help with any questions or concerns.',
+          open: false,
         },
         {
           question: 'Are there any hidden fees?',
-          answer: 'No hidden fees. All fees are clearly disclosed upfront. We only charge a small percentage on successful investments, with no fees for deposits or withdrawals.',
-          open: false
-        }
-      ]
+          answer:
+            'No hidden fees. All fees are clearly disclosed upfront. We only charge a small percentage on successful investments, with no fees for deposits or withdrawals.',
+          open: false,
+        },
+      ],
     }
   },
   methods: {
     async handleSubmit() {
       this.loading = true
-      
+
       // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
       // Reset form
       this.formData = {
         firstName: '',
@@ -263,9 +268,9 @@ export default {
         phone: '',
         subject: '',
         message: '',
-        newsletter: false
+        newsletter: false,
       }
-      
+
       this.loading = false
       alert('Thank you for your message! We will get back to you within 24 hours.')
     },
@@ -287,8 +292,8 @@ export default {
     upgradeToPremium() {
       alert('Redirecting to premium upgrade...')
       // In a real app, this would navigate to the upgrade page
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -591,8 +596,12 @@ export default {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* FAQ Section */
@@ -785,31 +794,31 @@ export default {
   .hero-title {
     font-size: 2.5rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1rem;
   }
-  
+
   .contact-content {
     padding: 40px 15px;
   }
-  
+
   .form-container {
     padding: 30px 20px;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
-  
+
   .contact-cards {
     grid-template-columns: 1fr;
   }
-  
+
   .social-links {
     gap: 20px;
   }
-  
+
   .social-link {
     min-width: 100px;
     padding: 15px;
@@ -820,23 +829,23 @@ export default {
   .contact-hero {
     padding: 100px 15px 60px;
   }
-  
+
   .hero-title {
     font-size: 2rem;
   }
-  
+
   .form-container {
     padding: 20px 15px;
   }
-  
+
   .contact-card {
     padding: 20px;
   }
-  
+
   .faq-question {
     padding: 20px;
   }
-  
+
   .faq-answer p {
     padding: 0 20px 20px;
   }

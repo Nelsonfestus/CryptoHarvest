@@ -2,7 +2,10 @@
   <div class="admin-dashboard">
     <div class="admin-header">
       <h1>Admin Dashboard</h1>
-      <button @click="logout" class="logout-btn">Logout</button>
+      <div class="admin-actions">
+        <button @click="refreshData" class="refresh-btn">🔄 Refresh</button>
+        <button @click="logout" class="logout-btn">Logout</button>
+      </div>
     </div>
 
     <div class="stats-grid">
@@ -22,9 +25,15 @@
 
     <div class="admin-content">
       <div class="tab-nav">
-        <button @click="activeTab = 'users'" :class="{ active: activeTab === 'users' }">Users</button>
-        <button @click="activeTab = 'investments'" :class="{ active: activeTab === 'investments' }">Investments</button>
-        <button @click="activeTab = 'settings'" :class="{ active: activeTab === 'settings' }">Settings</button>
+        <button @click="activeTab = 'users'" :class="{ active: activeTab === 'users' }">
+          Users
+        </button>
+        <button @click="activeTab = 'investments'" :class="{ active: activeTab === 'investments' }">
+          Investments
+        </button>
+        <button @click="activeTab = 'settings'" :class="{ active: activeTab === 'settings' }">
+          Settings
+        </button>
       </div>
 
       <div v-if="activeTab === 'users'" class="tab-content">
@@ -49,7 +58,9 @@
               <td>{{ user.email }}</td>
               <td>{{ user.status }}</td>
               <td>
-                <button @click="toggleUserStatus(user)">{{ user.status === 'active' ? 'Suspend' : 'Activate' }}</button>
+                <button @click="toggleUserStatus(user)">
+                  {{ user.status === 'active' ? 'Suspend' : 'Activate' }}
+                </button>
               </td>
             </tr>
           </tbody>
@@ -95,19 +106,22 @@ export default {
       stats: {
         totalUsers: 0,
         totalInvestments: 0,
-        totalRevenue: 0
+        totalRevenue: 0,
       },
       users: [],
       investments: [
         { id: 1, name: 'Gold Plan', roi: 5, duration: 30 },
         { id: 2, name: 'Silver Plan', roi: 10, duration: 60 },
-        { id: 3, name: 'Platinum Plan', roi: 20, duration: 90 }
+        { id: 3, name: 'Platinum Plan', roi: 20, duration: 90 },
       ],
       settings: {
         maintenanceMode: false,
-        registrationEnabled: true
-      }
+        registrationEnabled: true,
+      },
     }
+  },
+  mounted() {
+    this.loadUsersFromStorage()
   },
   methods: {
     formatNumber(num) {
@@ -117,16 +131,44 @@ export default {
       localStorage.removeItem('cryptoharvest_admin')
       this.$router.push('/admin-login')
     },
+    loadUsersFromStorage() {
+      const storedUsers = JSON.parse(localStorage.getItem('cryptoharvest_users') || '[]')
+      this.users = storedUsers
+      this.stats.totalUsers = storedUsers.length
+
+      // Calculate total investments and revenue
+      let totalInvested = 0
+      let totalRevenue = 0
+
+      storedUsers.forEach((user) => {
+        totalInvested += user.totalInvested || 0
+        totalRevenue += (user.currentValue || 0) - (user.totalInvested || 0)
+      })
+
+      this.stats.totalInvestments = totalInvested
+      this.stats.totalRevenue = totalRevenue
+    },
     toggleUserStatus(user) {
       user.status = user.status === 'active' ? 'suspended' : 'active'
+
+      // Update localStorage
+      const storedUsers = JSON.parse(localStorage.getItem('cryptoharvest_users') || '[]')
+      const userIndex = storedUsers.findIndex((u) => u.id === user.id)
+      if (userIndex !== -1) {
+        storedUsers[userIndex] = user
+        localStorage.setItem('cryptoharvest_users', JSON.stringify(storedUsers))
+      }
     },
     editPlan(plan) {
       console.log('Editing plan:', plan)
     },
     saveSettings() {
       console.log('Saving settings:', this.settings)
-    }
-  }
+    },
+    refreshData() {
+      this.loadUsersFromStorage()
+    },
+  },
 }
 </script>
 
@@ -144,6 +186,26 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.refresh-btn {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.refresh-btn:hover {
+  background: #eb6709;
 }
 
 .admin-header h1 {
@@ -311,17 +373,17 @@ button {
     flex-direction: column;
     gap: 15px;
   }
-  
+
   .stats-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .tab-nav {
     flex-direction: column;
   }
-  
+
   .investment-cards {
     grid-template-columns: 1fr;
   }
 }
-</style> 
+</style>
