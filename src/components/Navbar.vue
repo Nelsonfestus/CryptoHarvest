@@ -28,7 +28,9 @@
       <!-- navbar-links -->
       <ul class="navbar-links">
         <li><router-link to="/" @click="closeMenu">Home</router-link></li>
-        <li><router-link to="/investment-plans" @click="closeMenu">Investment Plans</router-link></li>
+        <li>
+          <router-link to="/investment-plans" @click="closeMenu">Investment Plans</router-link>
+        </li>
         <li><router-link to="/about" @click="closeMenu">About</router-link></li>
         <li><router-link to="/contact" @click="closeMenu">Contact</router-link></li>
         <li><router-link to="/blog" @click="closeMenu">Blog</router-link></li>
@@ -95,31 +97,32 @@ export default {
   computed: {
     isOnDashboard() {
       return this.$route.path === '/dashboard'
-    }
+    },
   },
   mounted() {
     this.checkAuthStatus()
-    window.addEventListener('storage', this.checkAuthStatus)
+    window.addEventListener('resize', this.handleResize)
+    window.addEventListener('scroll', this.handleScroll)
   },
   unmounted() {
     window.removeEventListener('storage', this.checkAuthStatus)
   },
-      methods: {
-      checkAuthStatus() {
-        this.isAuthenticated = localStorage.getItem('cryptoharvest_isAuthenticated') === 'true'
-      },
-      logout() {
-        localStorage.removeItem('cryptoharvest_isAuthenticated')
-        localStorage.removeItem('cryptoharvest_user')
-        this.isAuthenticated = false
-        this.$router.push('/login')
-      },
-      toggleMenu() {
-        this.menuOpen = !this.menuOpen
-      },
-      closeMenu() {
-        this.menuOpen = false
-      },
+  methods: {
+    checkAuthStatus() {
+      this.isAuthenticated = localStorage.getItem('cryptoharvest_isAuthenticated') === 'true'
+    },
+    logout() {
+      localStorage.removeItem('cryptoharvest_isAuthenticated')
+      localStorage.removeItem('cryptoharvest_user')
+      this.isAuthenticated = false
+      this.$router.push('/')
+    },
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen
+    },
+    closeMenu() {
+      this.menuOpen = false
+    },
     handleResize() {
       this.isDesktop = window.innerWidth > 884 // updated from 884
       if (this.isDesktop) this.menuOpen = false

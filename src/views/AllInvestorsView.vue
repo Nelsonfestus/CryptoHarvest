@@ -12,15 +12,15 @@
     <div class="filters-section">
       <div class="container">
         <div class="search-bar">
-          <input 
-            v-model="searchQuery" 
-            type="text" 
+          <input
+            v-model="searchQuery"
+            type="text"
             placeholder="Search investors by name..."
             class="search-input"
           />
           <button class="search-btn">🔍</button>
         </div>
-        
+
         <div class="filter-options">
           <select v-model="selectedPortfolio" class="filter-select">
             <option value="">All Portfolios</option>
@@ -28,7 +28,7 @@
             <option value="Gold">Gold</option>
             <option value="Silver">Silver</option>
           </select>
-          
+
           <select v-model="sortBy" class="filter-select">
             <option value="rank">Sort by Rank</option>
             <option value="roi">Sort by ROI</option>
@@ -58,25 +58,25 @@
         </div>
 
         <div class="investors-grid">
-          <div 
-            v-for="investor in paginatedInvestors" 
-            :key="investor.id" 
+          <div
+            v-for="investor in paginatedInvestors"
+            :key="investor.id"
             class="investor-card"
             :class="investor.rank <= 3 ? `top-${investor.rank}` : ''"
           >
             <div class="rank-badge">#{{ investor.rank }}</div>
-            
+
             <div class="investor-avatar">
               <img :src="investor.avatar" :alt="investor.name" />
               <div v-if="investor.rank === 1" class="crown-icon">👑</div>
               <div v-else-if="investor.rank === 2" class="medal-icon">🥈</div>
               <div v-else-if="investor.rank === 3" class="medal-icon">🥉</div>
             </div>
-            
+
             <div class="investor-info">
               <h3>{{ investor.name }}</h3>
               <p class="investor-title">{{ investor.title }}</p>
-              
+
               <div class="investment-stats">
                 <div class="stat">
                   <span class="stat-label">Total Invested</span>
@@ -101,17 +101,13 @@
 
         <!-- Pagination -->
         <div class="pagination">
-          <button 
-            @click="previousPage" 
-            :disabled="currentPage === 1"
-            class="pagination-btn"
-          >
+          <button @click="previousPage" :disabled="currentPage === 1" class="pagination-btn">
             ← Previous
           </button>
-          
+
           <div class="page-numbers">
-            <button 
-              v-for="page in visiblePages" 
+            <button
+              v-for="page in visiblePages"
               :key="page"
               @click="goToPage(page)"
               :class="['page-btn', { active: page === currentPage }]"
@@ -119,12 +115,8 @@
               {{ page }}
             </button>
           </div>
-          
-          <button 
-            @click="nextPage" 
-            :disabled="currentPage === totalPages"
-            class="pagination-btn"
-          >
+
+          <button @click="nextPage" :disabled="currentPage === totalPages" class="pagination-btn">
             Next →
           </button>
         </div>
@@ -146,54 +138,123 @@ export default {
       investors: [
         // Top 10 investors with detailed info
         {
-          id: 1, rank: 1, name: 'Alexander Chen', title: 'Crypto Pioneer', 
-          totalInvested: 125000, roi: 45.2, portfolio: 'Platinum', 
-          joinDate: '2023-01-15', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
+          id: 1,
+          rank: 1,
+          name: 'Alexander Chen',
+          title: 'Crypto Pioneer',
+          totalInvested: 125000,
+          roi: 45.2,
+          portfolio: 'Platinum',
+          joinDate: '2023-01-15',
+          avatar:
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
         },
         {
-          id: 2, rank: 2, name: 'Kimberly Leathers', title: 'Tech Investor', 
-          totalInvested: 98500, roi: 38.7, portfolio: 'Gold', 
-          joinDate: '2023-02-20', avatar: '../assets/kimberly.jpg'
+          id: 2,
+          rank: 2,
+          name: 'Kimberly Leathers',
+          title: 'Tech Investor',
+          totalInvested: 98500,
+          roi: 38.7,
+          portfolio: 'Gold',
+          joinDate: '2023-02-20',
+          avatar: '../assets/kimberly.jpg',
         },
         {
-          id: 3, rank: 3, name: 'Michael Rodriguez', title: 'Finance Expert', 
-          totalInvested: 87200, roi: 32.1, portfolio: 'Silver', 
-          joinDate: '2023-01-30', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
+          id: 3,
+          rank: 3,
+          name: 'Michael Rodriguez',
+          title: 'Finance Expert',
+          totalInvested: 87200,
+          roi: 32.1,
+          portfolio: 'Silver',
+          joinDate: '2023-01-30',
+          avatar:
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
         },
         {
-          id: 4, rank: 4, name: 'Emma Wilson', title: 'Startup Founder', 
-          totalInvested: 76800, roi: 28.9, portfolio: 'Gold', 
-          joinDate: '2023-03-10', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
+          id: 4,
+          rank: 4,
+          name: 'Emma Wilson',
+          title: 'Startup Founder',
+          totalInvested: 76800,
+          roi: 28.9,
+          portfolio: 'Gold',
+          joinDate: '2023-03-10',
+          avatar:
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
         },
         {
-          id: 5, rank: 5, name: 'David Kim', title: 'Blockchain Developer', 
-          totalInvested: 65400, roi: 25.6, portfolio: 'Silver', 
-          joinDate: '2023-02-15', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face'
+          id: 5,
+          rank: 5,
+          name: 'David Kim',
+          title: 'Blockchain Developer',
+          totalInvested: 65400,
+          roi: 25.6,
+          portfolio: 'Silver',
+          joinDate: '2023-02-15',
+          avatar:
+            'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
         },
         {
-          id: 6, rank: 6, name: 'Lisa Thompson', title: 'Real Estate Investor', 
-          totalInvested: 58900, roi: 22.3, portfolio: 'Gold', 
-          joinDate: '2023-03-05', avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face'
+          id: 6,
+          rank: 6,
+          name: 'Lisa Thompson',
+          title: 'Real Estate Investor',
+          totalInvested: 58900,
+          roi: 22.3,
+          portfolio: 'Gold',
+          joinDate: '2023-03-05',
+          avatar:
+            'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
         },
         {
-          id: 7, rank: 7, name: 'James Anderson', title: 'Venture Capitalist', 
-          totalInvested: 54200, roi: 19.8, portfolio: 'Platinum', 
-          joinDate: '2023-01-25', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face'
+          id: 7,
+          rank: 7,
+          name: 'James Anderson',
+          title: 'Venture Capitalist',
+          totalInvested: 54200,
+          roi: 19.8,
+          portfolio: 'Platinum',
+          joinDate: '2023-01-25',
+          avatar:
+            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
         },
         {
-          id: 8, rank: 8, name: 'Sarah Johnson', title: 'Tech Entrepreneur', 
-          totalInvested: 49800, roi: 18.5, portfolio: 'Gold', 
-          joinDate: '2023-02-28', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face'
+          id: 8,
+          rank: 8,
+          name: 'Sarah Johnson',
+          title: 'Tech Entrepreneur',
+          totalInvested: 49800,
+          roi: 18.5,
+          portfolio: 'Gold',
+          joinDate: '2023-02-28',
+          avatar:
+            'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
         },
         {
-          id: 9, rank: 9, name: 'Robert Chen', title: 'Investment Analyst', 
-          totalInvested: 45600, roi: 17.2, portfolio: 'Silver', 
-          joinDate: '2023-03-15', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face'
+          id: 9,
+          rank: 9,
+          name: 'Robert Chen',
+          title: 'Investment Analyst',
+          totalInvested: 45600,
+          roi: 17.2,
+          portfolio: 'Silver',
+          joinDate: '2023-03-15',
+          avatar:
+            'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
         },
         {
-          id: 10, rank: 10, name: 'Maria Garcia', title: 'Financial Advisor', 
-          totalInvested: 42300, roi: 16.8, portfolio: 'Gold', 
-          joinDate: '2023-02-10', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face'
+          id: 10,
+          rank: 10,
+          name: 'Maria Garcia',
+          title: 'Financial Advisor',
+          totalInvested: 42300,
+          roi: 16.8,
+          portfolio: 'Gold',
+          joinDate: '2023-02-10',
+          avatar:
+            'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
         },
         // Additional 40 investors with generated data
         ...Array.from({ length: 40 }, (_, i) => ({
@@ -205,9 +266,9 @@ export default {
           roi: (Math.random() * 20 + 5).toFixed(1),
           portfolio: ['Platinum', 'Gold', 'Silver'][Math.floor(Math.random() * 3)],
           joinDate: this.generateDate(),
-          avatar: this.generateAvatar()
-        }))
-      ]
+          avatar: this.generateAvatar(),
+        })),
+      ],
     }
   },
   computed: {
@@ -216,15 +277,16 @@ export default {
 
       // Search filter
       if (this.searchQuery) {
-        filtered = filtered.filter(investor => 
-          investor.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-          investor.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+        filtered = filtered.filter(
+          (investor) =>
+            investor.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+            investor.title.toLowerCase().includes(this.searchQuery.toLowerCase()),
         )
       }
 
       // Portfolio filter
       if (this.selectedPortfolio) {
-        filtered = filtered.filter(investor => investor.portfolio === this.selectedPortfolio)
+        filtered = filtered.filter((investor) => investor.portfolio === this.selectedPortfolio)
       }
 
       // Sort
@@ -256,24 +318,27 @@ export default {
       const maxVisible = 5
       let start = Math.max(1, this.currentPage - Math.floor(maxVisible / 2))
       let end = Math.min(this.totalPages, start + maxVisible - 1)
-      
+
       if (end - start + 1 < maxVisible) {
         start = Math.max(1, end - maxVisible + 1)
       }
-      
+
       for (let i = start; i <= end; i++) {
         pages.push(i)
       }
-      
+
       return pages
     },
     totalInvested() {
       return this.filteredInvestors.reduce((sum, investor) => sum + investor.totalInvested, 0)
     },
     averageROI() {
-      const totalROI = this.filteredInvestors.reduce((sum, investor) => sum + parseFloat(investor.roi), 0)
+      const totalROI = this.filteredInvestors.reduce(
+        (sum, investor) => sum + parseFloat(investor.roi),
+        0,
+      )
       return (totalROI / this.filteredInvestors.length).toFixed(1)
-    }
+    },
   },
   methods: {
     formatNumber(num) {
@@ -296,19 +361,74 @@ export default {
       this.currentPage = page
     },
     generateName() {
-      const firstNames = ['John', 'Jane', 'Mike', 'Sarah', 'Alex', 'Emma', 'David', 'Lisa', 'Chris', 'Anna', 'Tom', 'Rachel', 'Mark', 'Jessica', 'Paul', 'Amanda', 'Steve', 'Nicole', 'Kevin', 'Michelle']
-      const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin']
-      
+      const firstNames = [
+        'John',
+        'Jane',
+        'Mike',
+        'Sarah',
+        'Alex',
+        'Emma',
+        'David',
+        'Lisa',
+        'Chris',
+        'Anna',
+        'Tom',
+        'Rachel',
+        'Mark',
+        'Jessica',
+        'Paul',
+        'Amanda',
+        'Steve',
+        'Nicole',
+        'Kevin',
+        'Michelle',
+      ]
+      const lastNames = [
+        'Smith',
+        'Johnson',
+        'Williams',
+        'Brown',
+        'Jones',
+        'Garcia',
+        'Miller',
+        'Davis',
+        'Rodriguez',
+        'Martinez',
+        'Hernandez',
+        'Lopez',
+        'Gonzalez',
+        'Wilson',
+        'Anderson',
+        'Thomas',
+        'Taylor',
+        'Moore',
+        'Jackson',
+        'Martin',
+      ]
+
       return `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`
     },
     generateTitle() {
-      const titles = ['Crypto Trader', 'Investment Manager', 'Financial Analyst', 'Tech Investor', 'Portfolio Manager', 'Wealth Advisor', 'Trading Specialist', 'Market Analyst', 'Investment Strategist', 'Financial Consultant']
+      const titles = [
+        'Crypto Trader',
+        'Investment Manager',
+        'Financial Analyst',
+        'Tech Investor',
+        'Portfolio Manager',
+        'Wealth Advisor',
+        'Trading Specialist',
+        'Market Analyst',
+        'Investment Strategist',
+        'Financial Consultant',
+      ]
       return titles[Math.floor(Math.random() * titles.length)]
     },
     generateDate() {
       const start = new Date('2023-01-01')
       const end = new Date('2024-01-01')
-      const randomDate = new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()))
+      const randomDate = new Date(
+        start.getTime() + Math.random() * (end.getTime() - start.getTime()),
+      )
       return randomDate.toISOString().split('T')[0]
     },
     generateAvatar() {
@@ -318,10 +438,10 @@ export default {
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
         'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
         'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face',
-        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face'
+        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face',
       ]
       return avatars[Math.floor(Math.random() * avatars.length)]
-    }
+    },
   },
   watch: {
     searchQuery() {
@@ -329,8 +449,8 @@ export default {
     },
     selectedPortfolio() {
       this.currentPage = 1
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -670,29 +790,29 @@ export default {
   .page-header h1 {
     font-size: 2rem;
   }
-  
+
   .stats-bar {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .investors-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   .filter-options {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .pagination {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .page-numbers {
     order: -1;
   }
 }
-</style> 
+</style>
