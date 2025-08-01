@@ -88,7 +88,7 @@
         <div class="team-grid">
           <div class="team-member animate-text-fade">
             <div class="member-image">
-              <img src="@/assets/kimberly.jpg" alt="CEO" />
+              <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face" alt="CEO" />
             </div>
             <div class="member-info">
               <h3>Sarah Johnson</h3>
@@ -101,7 +101,7 @@
           </div>
           <div class="team-member animate-text-fade">
             <div class="member-image">
-              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" alt="CTO" />
+              <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face" alt="CTO" />
             </div>
             <div class="member-info">
               <h3>Michael Chen</h3>
@@ -113,7 +113,7 @@
           </div>
           <div class="team-member animate-text-fade">
             <div class="member-image">
-              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="CFO" />
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face" alt="CFO" />
             </div>
             <div class="member-info">
               <h3>Emma Wilson</h3>
