@@ -68,23 +68,23 @@ const router = createRouter({
     { path: '/login', name: 'Login', component: Login },
     { path: '/signup', name: 'Signup', component: Signup },
     { path: '/admin-login', name: 'AdminLogin', component: AdminLogin },
-    {
-      path: '/dashboard',
-      name: 'Dashboard',
+    { 
+      path: '/dashboard', 
+      name: 'Dashboard', 
       component: UserDashboard,
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true }
     },
-    {
-      path: '/crypto-wallet',
-      name: 'CryptoWallet',
+    { 
+      path: '/crypto-wallet', 
+      name: 'CryptoWallet', 
       component: CryptoWallet,
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true }
     },
-    {
-      path: '/admin',
-      name: 'AdminDashboard',
+    { 
+      path: '/admin', 
+      name: 'AdminDashboard', 
       component: AdminDashboard,
-      meta: { requiresAdmin: true },
+      meta: { requiresAdmin: true }
     },
     {
       path: '/all-investors',
@@ -98,7 +98,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.getItem('cryptoharvest_isAuthenticated') === 'true'
   const isAdmin = localStorage.getItem('cryptoharvest_admin') === 'true'
-
+  
   // If route requires authentication and user is not authenticated
   if (to.meta.requiresAuth && !isAuthenticated) {
     next('/login')
@@ -114,7 +114,8 @@ router.beforeEach((to, from, next) => {
   // If admin is authenticated and trying to access admin login, redirect to admin dashboard
   else if (isAdmin && to.name === 'AdminLogin') {
     next('/admin')
-  } else {
+  }
+  else {
     next()
   }
 })

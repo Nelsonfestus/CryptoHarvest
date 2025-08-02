@@ -20,10 +20,15 @@
     <div v-if="!isMinimized" class="chat-body">
       <!-- Messages Area -->
       <div class="messages-container" ref="messagesContainer">
-        <div v-for="message in messages" :key="message.id" class="message" :class="message.sender">
+        <div 
+          v-for="message in messages" 
+          :key="message.id" 
+          class="message"
+          :class="message.sender"
+        >
           <div class="message-avatar">
-            <img
-              :src="message.sender === 'user' ? userAvatar : supportAvatar"
+            <img 
+              :src="message.sender === 'user' ? userAvatar : supportAvatar" 
               :alt="message.sender === 'user' ? 'You' : 'Support'"
             />
           </div>
@@ -36,8 +41,8 @@
             </div>
             <div class="message-text" v-html="formatMessage(message.text)"></div>
             <div v-if="message.attachments && message.attachments.length" class="attachments">
-              <div
-                v-for="attachment in message.attachments"
+              <div 
+                v-for="attachment in message.attachments" 
                 :key="attachment.id"
                 class="attachment"
               >
@@ -68,8 +73,8 @@
 
       <!-- Quick Actions -->
       <div class="quick-actions">
-        <button
-          v-for="action in quickActions"
+        <button 
+          v-for="action in quickActions" 
           :key="action.id"
           class="quick-action-btn"
           @click="sendQuickMessage(action.message)"
@@ -81,10 +86,14 @@
       <!-- Message Input -->
       <div class="message-input-container">
         <div class="input-actions">
-          <button class="action-btn" @click="toggleFileUpload">📎</button>
-          <button class="action-btn" @click="toggleEmojiPicker">😊</button>
+          <button class="action-btn" @click="toggleFileUpload">
+            📎
+          </button>
+          <button class="action-btn" @click="toggleEmojiPicker">
+            😊
+          </button>
         </div>
-
+        
         <div class="input-wrapper">
           <textarea
             v-model="newMessage"
@@ -94,8 +103,14 @@
             rows="1"
             ref="messageInput"
           ></textarea>
-
-          <button class="send-btn" @click="sendMessage" :disabled="!newMessage.trim()">➤</button>
+          
+          <button 
+            class="send-btn" 
+            @click="sendMessage"
+            :disabled="!newMessage.trim()"
+          >
+            ➤
+          </button>
         </div>
 
         <!-- File Upload -->
@@ -111,7 +126,12 @@
         <!-- Emoji Picker -->
         <div v-if="showEmojiPicker" class="emoji-picker">
           <div class="emoji-grid">
-            <button v-for="emoji in emojis" :key="emoji" class="emoji-btn" @click="addEmoji(emoji)">
+            <button 
+              v-for="emoji in emojis" 
+              :key="emoji"
+              class="emoji-btn"
+              @click="addEmoji(emoji)"
+            >
               {{ emoji }}
             </button>
           </div>
@@ -126,9 +146,9 @@
         <div class="ticket-form">
           <div class="form-group">
             <label>Subject:</label>
-            <input
-              v-model="ticketSubject"
-              type="text"
+            <input 
+              v-model="ticketSubject" 
+              type="text" 
               placeholder="Brief description of your issue"
             />
           </div>
@@ -154,8 +174,8 @@
           </div>
           <div class="form-group">
             <label>Description:</label>
-            <textarea
-              v-model="ticketDescription"
+            <textarea 
+              v-model="ticketDescription" 
               placeholder="Please provide detailed information about your issue..."
               rows="4"
             ></textarea>
@@ -187,63 +207,40 @@ export default {
       ticketCategory: '',
       ticketPriority: 'medium',
       ticketDescription: '',
-      userAvatar:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face',
-      supportAvatar:
-        'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face',
+      userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face',
+      supportAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face',
       messages: [
         {
           id: 1,
           sender: 'support',
           text: 'Hello! Welcome to CryptoHarvest support. How can I help you today?',
           timestamp: new Date(Date.now() - 60000),
-          attachments: [],
-        },
+          attachments: []
+        }
       ],
       quickActions: [
         {
           id: 1,
           text: 'Investment Help',
-          message: 'I need help with my investment',
+          message: 'I need help with my investment'
         },
         {
           id: 2,
           text: 'Payment Issue',
-          message: 'I have a payment problem',
+          message: 'I have a payment problem'
         },
         {
           id: 3,
           text: 'Account Access',
-          message: "I can't access my account",
+          message: 'I can\'t access my account'
         },
         {
           id: 4,
           text: 'Create Ticket',
-          message: 'I want to create a support ticket',
-        },
+          message: 'I want to create a support ticket'
+        }
       ],
-      emojis: [
-        '😊',
-        '👍',
-        '👎',
-        '❤️',
-        '🔥',
-        '💯',
-        '🎉',
-        '😎',
-        '🤔',
-        '😢',
-        '😡',
-        '🤝',
-        '💪',
-        '🚀',
-        '💰',
-        '📈',
-        '🎯',
-        '✅',
-        '❌',
-        '⚠️',
-      ],
+      emojis: ['😊', '👍', '👎', '❤️', '🔥', '💯', '🎉', '😎', '🤔', '😢', '😡', '🤝', '💪', '🚀', '💰', '📈', '🎯', '✅', '❌', '⚠️']
     }
   },
   methods: {
@@ -254,16 +251,16 @@ export default {
       this.$emit('close-chat')
     },
     formatTime(timestamp) {
-      return new Date(timestamp).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit',
+      return new Date(timestamp).toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit' 
       })
     },
     formatMessage(text) {
       // Convert URLs to clickable links
       return text.replace(
-        /(https?:\/\/[^\s]+)/g,
-        '<a href="$1" target="_blank" style="color: #eb6709;">$1</a>',
+        /(https?:\/\/[^\s]+)/g, 
+        '<a href="$1" target="_blank" style="color: #eb6709;">$1</a>'
       )
     },
     sendMessage() {
@@ -274,7 +271,7 @@ export default {
         sender: 'user',
         text: this.newMessage,
         timestamp: new Date(),
-        attachments: [],
+        attachments: []
       }
 
       this.messages.push(message)
@@ -295,28 +292,28 @@ export default {
     },
     simulateTyping() {
       this.isTyping = true
-
+      
       setTimeout(() => {
         this.isTyping = false
-
+        
         const responses = [
           'I understand your concern. Let me help you with that.',
-          "Thank you for reaching out. I'll look into this for you.",
+          'Thank you for reaching out. I\'ll look into this for you.',
           'I can see the issue. Let me provide you with a solution.',
-          "This is a common question. Here's what you need to know...",
-          "I'll escalate this to our technical team for further assistance.",
+          'This is a common question. Here\'s what you need to know...',
+          'I\'ll escalate this to our technical team for further assistance.'
         ]
-
+        
         const randomResponse = responses[Math.floor(Math.random() * responses.length)]
-
+        
         const supportMessage = {
           id: Date.now() + 1,
           sender: 'support',
           text: randomResponse,
           timestamp: new Date(),
-          attachments: [],
+          attachments: []
         }
-
+        
         this.messages.push(supportMessage)
         this.scrollToBottom()
       }, 2000)
@@ -340,20 +337,20 @@ export default {
           name: file.name,
           size: file.size,
           type: file.type,
-          file: file,
+          file: file
         }
-
+        
         const message = {
           id: Date.now(),
           sender: 'user',
           text: `Sent file: ${file.name}`,
           timestamp: new Date(),
-          attachments: [attachment],
+          attachments: [attachment]
         }
-
+        
         this.messages.push(message)
       }
-
+      
       this.scrollToBottom()
       event.target.value = ''
     },
@@ -375,20 +372,20 @@ export default {
         category: this.ticketCategory,
         priority: this.ticketPriority,
         description: this.ticketDescription,
-        timestamp: new Date(),
+        timestamp: new Date()
       }
-
+      
       console.log('Creating ticket:', ticket)
-
+      
       // Add ticket message to chat
       const message = {
         id: Date.now(),
         sender: 'support',
         text: `Support ticket created successfully! Ticket ID: #${Math.floor(Math.random() * 10000)}. We'll get back to you within 24 hours.`,
         timestamp: new Date(),
-        attachments: [],
+        attachments: []
       }
-
+      
       this.messages.push(message)
       this.showTicketModal = false
       this.ticketSubject = ''
@@ -396,11 +393,11 @@ export default {
       this.ticketPriority = 'medium'
       this.ticketDescription = ''
       this.scrollToBottom()
-    },
+    }
   },
   mounted() {
     this.scrollToBottom()
-  },
+  }
 }
 </script>
 
@@ -620,24 +617,12 @@ export default {
   animation: typing 1.4s infinite ease-in-out;
 }
 
-.typing-indicator span:nth-child(1) {
-  animation-delay: -0.32s;
-}
-.typing-indicator span:nth-child(2) {
-  animation-delay: -0.16s;
-}
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
 
 @keyframes typing {
-  0%,
-  80%,
-  100% {
-    transform: scale(0.8);
-    opacity: 0.5;
-  }
-  40% {
-    transform: scale(1);
-    opacity: 1;
-  }
+  0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+  40% { transform: scale(1); opacity: 1; }
 }
 
 .quick-actions {
@@ -867,17 +852,17 @@ export default {
     right: 20px;
     left: 20px;
   }
-
+  
   .message {
     max-width: 90%;
   }
-
+  
   .quick-actions {
     flex-direction: column;
   }
-
+  
   .quick-action-btn {
     text-align: center;
   }
 }
-</style>
+</style> 

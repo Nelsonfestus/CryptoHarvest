@@ -13,12 +13,10 @@ export default {
 </script>
 
 <template>
-  <div id="app">
-    <Navbar />
-    <router-view></router-view>
-    <Footer />
-    <ChatBox />
-  </div>
+  <Navbar />
+  <router-view></router-view>
+  <Footer />
+  <ChatBox />
 </template>
 
 <style src="./assets/main.css"></style>

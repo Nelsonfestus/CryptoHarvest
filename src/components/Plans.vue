@@ -1,31 +1,21 @@
 <template>
-  <section class="plans-section">
-    <div class="plans-header animate-text-stagger">
-      <h1 class="animate-text-slide">Investment Plans</h1>
-      <p class="animate-text-slide">Choose the perfect plan to grow your wealth</p>
-    </div>
-
-    <div class="plans-grid">
-      <div class="plan-card gold animate-text-fade" v-for="plan in plans" :key="plan.title">
-        <div class="plan-header">
-          <h3 class="plan-title">{{ plan.title }}</h3>
-          <div class="plan-price">
-            <span class="currency">$</span>
-            <span class="amount">{{ plan.price }}</span>
-            <span class="period">/month</span>
-          </div>
-        </div>
-
-        <div class="plan-features">
-          <div class="feature" v-for="feature in plan.features" :key="feature">
-            <span class="feature-icon">✓</span>
-            <span class="feature-text">{{ feature }}</span>
-          </div>
-        </div>
-
-        <div class="plan-cta">
-          <router-link :to="plan.link" class="btn-primary">Get Started</router-link>
-        </div>
+  <section class="plans-section animate-fade-slide">
+    <video class="plans-bg-video" autoplay loop muted playsinline>
+      <source src="@/assets/bg1.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <h2 class="plans-title">Our Investment Plans</h2>
+    <p class="plans-desc">Choose from a variety of plans tailored to your needs and goals.</p>
+    <div class="plans-cards">
+      <div class="plan-card gold animate-fade-slide" v-for="plan in plans" :key="plan.title">
+        <div class="plan-icon"><i :class="plan.icon"></i></div>
+        <h3>{{ plan.title }}</h3>
+        <ul class="plan-features">
+          <li v-for="feature in plan.features" :key="feature.label">
+            <i class="fas fa-check-circle"></i> {{ feature.label }}: <span>{{ feature.value }}</span>
+          </li>
+        </ul>
+        <button class="plan-btn" @click="goToSignup">Invest Now</button>
       </div>
     </div>
   </section>
@@ -38,196 +28,204 @@ export default {
     return {
       plans: [
         {
-          title: 'Starter Plan',
-          price: '99',
+          title: 'Gold Plan',
+          icon: 'fas fa-crown',
           features: [
-            'Minimum Investment: $1,000',
-            'Maximum Investment: $5,000',
-            'Duration: 30 Days',
-            'ROI: 5%',
-            'Capital Back: Yes',
+            { label: 'Minimum', value: '$1,500' },
+            { label: 'Maximum', value: '$5,000' },
+            { label: 'Duration', value: '30 Days' },
+            { label: 'ROI', value: '5%' },
+            { label: 'Capital Back', value: 'Yes' },
           ],
-          link: '/signup',
         },
         {
           title: 'Silver Plan',
-          price: '199',
+          icon: 'fas fa-medal',
           features: [
-            'Minimum Investment: $5,000',
-            'Maximum Investment: $20,000',
-            'Duration: 60 Days',
-            'ROI: 10%',
-            'Capital Back: Yes',
+            { label: 'Minimum', value: '$5,000' },
+            { label: 'Maximum', value: '$20,000' },
+            { label: 'Duration', value: '60 Days' },
+            { label: 'ROI', value: '10%' },
+            { label: 'Capital Back', value: 'Yes' },
           ],
-          link: '/signup',
         },
         {
           title: 'Platinum Plan',
-          price: '399',
+          icon: 'fas fa-gem',
           features: [
-            'Minimum Investment: $20,000',
-            'Maximum Investment: Unlimited',
-            'Duration: 90 Days',
-            'ROI: 20%',
-            'Capital Back: Yes',
+            { label: 'Minimum', value: '$20,000' },
+            { label: 'Maximum', value: 'Unlimited' },
+            { label: 'Duration', value: '90 Days' },
+            { label: 'ROI', value: '20%' },
+            { label: 'Capital Back', value: 'Yes' },
           ],
-          link: '/signup',
         },
       ],
     }
   },
+  methods: {
+    goToSignup() {
+      this.$router.push('/signup')
+    }
+  }
 }
 </script>
 
 <style scoped>
 .plans-section {
-  background: var(--bg-dark);
-  color: var(--text-white);
-  padding: var(--spacing-xxl) var(--spacing-xl);
-  padding-top: calc(var(--spacing-xxl) + 80px); /* Add extra top padding for fixed navbar */
+  background: #202020;
+  color: #fff;
+  padding: 80px 60px;
   text-align: center;
-}
-
-.plans-header {
-  margin-bottom: var(--spacing-xxl);
-}
-
-.plans-header h1 {
-  font-size: var(--font-size-3xl);
-  font-weight: 800;
-  background: var(--primary-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: var(--spacing-md);
-}
-
-.plans-header p {
-  font-size: var(--font-size-lg);
-  color: var(--text-muted);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.plans-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: var(--spacing-xl);
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.plan-card {
-  background: var(--bg-darker);
-  border-radius: var(--radius-xl);
-  padding: var(--spacing-xxl);
-  box-shadow: var(--shadow-lg);
-  transition: all var(--transition-normal);
-  border: 2px solid transparent;
-}
-
-.plan-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--primary-orange);
-  box-shadow: var(--shadow-xl);
-}
-
-.plan-card.gold {
-  border-color: #ffd700;
   position: relative;
+  overflow: hidden;
 }
-
-.plan-card.gold::before {
-  content: '★ Most Popular';
+.plans-bg-video {
   position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--primary-gradient);
-  color: var(--text-white);
-  padding: var(--spacing-xs) var(--spacing-lg);
-  border-radius: var(--radius-lg);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
 }
-
-.plan-header {
-  margin-bottom: var(--spacing-xl);
+.plans-title,
+.plans-desc,
+.plans-cards {
+  margin-top: 40px;
+  position: relative;
+  z-index: 1;
 }
-
-.plan-title {
-  font-size: var(--font-size-xl);
-  font-weight: 700;
-  color: var(--text-gold);
-  margin-bottom: var(--spacing-lg);
+.plans-title {
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-
-.plan-price {
-  display: flex;
-  align-items: baseline;
+.plans-desc {
+  color: #ccc;
+  margin-bottom: 32px;
+  font-size: 1.1rem;
+}
+.plans-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
   justify-content: center;
-  gap: var(--spacing-xs);
+  align-items: stretch;
+  max-width: 1100px;
+  margin: 0 auto;
 }
-
-.currency {
-  font-size: var(--font-size-lg);
-  color: var(--text-muted);
-}
-
-.amount {
-  font-size: var(--font-size-3xl);
-  font-weight: 800;
-  color: var(--text-white);
-}
-
-.period {
-  font-size: var(--font-size-base);
-  color: var(--text-muted);
-}
-
-.plan-features {
-  margin-bottom: var(--spacing-xl);
-}
-
-.feature {
+.plan-card {
+  background: #181818;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  padding: 32px 24px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-md);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.plan-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow:
+    0 8px 32px rgba(235, 103, 9, 0.12),
+    0 2px 12px rgba(0, 0, 0, 0.1);
+}
+.plan-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+.plan-card.gold .plan-icon {
+  color: #ffd700;
+}
+.plan-card.silver .plan-icon {
+  color: #c0c0c0;
+}
+.plan-card.platinum .plan-icon {
+  color: #e5e4e2;
+}
+.plan-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+  color: #eb6709;
+}
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 18px 0;
   text-align: left;
 }
-
-.feature-icon {
-  color: var(--primary-orange);
-  font-weight: bold;
-  font-size: var(--font-size-lg);
+.plan-features li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  color: #e9e9e9;
 }
-
-.feature-text {
-  color: var(--text-white);
-  font-size: var(--font-size-base);
+.plan-features i {
+  color: #eb6709;
+  margin-right: 8px;
 }
-
-.plan-cta {
-  margin-top: auto;
+.plan-features span {
+  color: #ffd700;
+  font-weight: 600;
+  margin-left: 4px;
 }
-
-@media (max-width: 768px) {
-  .plans-section {
-    padding: var(--spacing-xl) var(--spacing-lg);
-  }
-
-  .plans-header h1 {
-    font-size: var(--font-size-2xl);
-  }
-
-  .plans-grid {
+.plan-card.silver .plan-features span {
+  color: #c0c0c0;
+}
+.plan-card.platinum .plan-features span {
+  color: #e5e4e2;
+}
+.plan-btn {
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    color 0.3s;
+}
+.plan-btn:hover {
+  background: #fff;
+  color: #eb6709;
+}
+@media (max-width: 1000px) {
+  .plans-cards {
     grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
+    gap: 24px;
   }
-
+}
+@media (max-width: 600px) {
+  .plans-section {
+    padding: 20px 8px;
+  }
+  .plans-title {
+    font-size: 1.3rem;
+  }
   .plan-card {
-    padding: var(--spacing-xl);
+    padding: 18px 8px;
+  }
+}
+.animate-fade-slide {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

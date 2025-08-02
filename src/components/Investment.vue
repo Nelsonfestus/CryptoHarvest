@@ -47,7 +47,6 @@
             </div>
           </ul>
           <button @click="goToSignup">Invest Now</button>
-          <button @click="goToCryptoWallet" class="crypto-btn">Crypto Wallet</button>
         </div>
         <!-- silver -->
         <div class="investment-card silver">
@@ -91,7 +90,6 @@
             </div>
           </ul>
           <button @click="goToSignup">Invest Now</button>
-          <button @click="goToCryptoWallet" class="crypto-btn">Crypto Wallet</button>
         </div>
         <!-- platinum -->
         <div class="investment-card platinum">
@@ -135,7 +133,6 @@
             </div>
           </ul>
           <button @click="goToSignup">Invest Now</button>
-          <button @click="goToCryptoWallet" class="crypto-btn">Crypto Wallet</button>
         </div>
       </div>
     </section>
@@ -153,11 +150,8 @@ export default {
   methods: {
     goToSignup() {
       this.$router.push('/signup')
-    },
-    goToCryptoWallet() {
-      this.$router.push('/crypto-wallet')
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -350,29 +344,6 @@ export default {
 .view-all-btn:hover {
   background: #fff;
   color: #eb6709;
-}
-
-.crypto-btn {
-  background: linear-gradient(90deg, #1f2937 0%, #374151 100%);
-  color: #fff;
-  border: 1px solid #4b5563;
-  width: 50%;
-  margin: 10px auto 0 auto;
-  border-radius: 8px;
-  padding: 10px 22px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    background 0.3s,
-    box-shadow 0.3s,
-    border-color 0.3s;
-}
-
-.crypto-btn:hover {
-  background: linear-gradient(90deg, #374151 0%, #4b5563 100%);
-  border-color: #eb6709;
-  box-shadow: 0 2px 12px rgba(235, 103, 9, 0.15);
 }
 
 @media (max-width: 834px) {

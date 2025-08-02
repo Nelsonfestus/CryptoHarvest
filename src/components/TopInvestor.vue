@@ -3,16 +3,13 @@
     <div class="container">
       <h2>Top Investors</h2>
       <p>Meet our most successful investors and learn from their strategies</p>
-
+      
       <div class="investors-grid">
         <!-- Top Investor 1 -->
         <div class="investor-card top-1">
           <div class="rank-badge">#1</div>
           <div class="investor-avatar">
-            <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
-              alt="Top Investor"
-            />
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face" alt="Top Investor" />
             <div class="crown-icon">👑</div>
           </div>
           <div class="investor-info">
@@ -66,10 +63,7 @@
         <div class="investor-card top-3">
           <div class="rank-badge">#3</div>
           <div class="investor-avatar">
-            <img
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
-              alt="Top Investor"
-            />
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face" alt="Top Investor" />
             <div class="medal-icon">🥉</div>
           </div>
           <div class="investor-info">
@@ -96,10 +90,7 @@
         <div class="investor-card">
           <div class="rank-badge">#4</div>
           <div class="investor-avatar">
-            <img
-              src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face"
-              alt="Top Investor"
-            />
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face" alt="Top Investor" />
           </div>
           <div class="investor-info">
             <h3>Emma Wilson</h3>
@@ -125,10 +116,7 @@
         <div class="investor-card">
           <div class="rank-badge">#5</div>
           <div class="investor-avatar">
-            <img
-              src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
-              alt="Top Investor"
-            />
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face" alt="Top Investor" />
           </div>
           <div class="investor-info">
             <h3>David Kim</h3>
@@ -154,10 +142,7 @@
         <div class="investor-card">
           <div class="rank-badge">#6</div>
           <div class="investor-avatar">
-            <img
-              src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
-              alt="Top Investor"
-            />
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face" alt="Top Investor" />
           </div>
           <div class="investor-info">
             <h3>Lisa Thompson</h3>
@@ -193,8 +178,8 @@ export default {
   methods: {
     goToAllInvestors() {
       this.$router.push('/all-investors')
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -449,4 +434,4 @@ export default {
     font-size: 1rem;
   }
 }
-</style>
+</style> 

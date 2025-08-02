@@ -1,12 +1,10 @@
 <template>
-  <div class="container">
-    <div class="questions-header animate-text-stagger">
-      <h2 class="animate-text-slide">Frequently Asked Questions</h2>
-      <p class="animate-text-slide">
-        Get answers to common questions about our investment platform
-      </p>
+  <div class="container animate-fade-slide">
+    <div class="Questions_header_section">
+      <div class="Question_title">
+        <h1>Frequently Asked Questions</h1>
+      </div>
     </div>
-
     <Accordion />
   </div>
 </template>
@@ -23,46 +21,68 @@ export default {
 </script>
 
 <style scoped>
+* {
+  padding: 0;
+  margin: 0;
+}
+
 .container {
-  background: var(--bg-dark);
-  color: var(--text-white);
-  padding: var(--spacing-xxl) var(--spacing-xl);
-  padding-top: calc(var(--spacing-xxl) + 80px); /* Add extra top padding for fixed navbar */
-  text-align: center;
+  background-color: #151515;
+  padding: 40px 60px;
 }
 
-.questions-header {
-  text-align: center;
-  margin-bottom: 30px;
+.Questions_header_section {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 30px;
 }
 
-.questions-header h2 {
-  font-size: 50px;
+.Question_title h1 {
+  width: 99%;
   font-weight: 800;
-  background: var(--primary-gradient);
+  font-size: 50px;
+  background: linear-gradient(45deg, #f83201, #ffa600);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin-bottom: 10px;
+  text-align: center;
 }
 
-.questions-header p {
-  font-size: 18px;
-  color: var(--text-muted);
-  line-height: 1.6;
+.animate-fade-slide {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+}
+@keyframes fadeSlideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media screen and (max-width: 1200px) {
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
   .container {
-    padding: var(--spacing-xl) var(--spacing-lg);
+    padding: 20px 16px;
   }
 
-  .questions-header h2 {
+  .Question_title h1 {
     font-size: clamp(20px, 4vh, 25px);
+    line-height: 31.2px;
+    font-weight: 600;
+    width: 100%;
   }
 
-  .questions-header p {
-    font-size: clamp(14px, 3vh, 16px);
+  .Questions_header_section {
+    display: flex;
+    justify-content: center;
+    padding-top: 2cm;
+    padding-bottom: 1cm;
   }
 }
 </style>

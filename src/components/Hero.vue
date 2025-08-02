@@ -7,7 +7,7 @@
         <source src="@/assets/bg1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-
+      
       <!-- black overlay -->
       <div class="hero-overlay"></div>
 
@@ -20,11 +20,11 @@
         </p>
       </div>
 
-      <!-- hero-btn -->
-      <div class="hero-btn animated-fade-slide" style="animation-delay: 0.3s">
-        <button class="btn" @click="goToInvestmentPlans">Get Started</button>
-        <button class="btn" @click="goToAbout">Learn More</button>
-      </div>
+          <!-- hero-btn -->
+    <div class="hero-btn animated-fade-slide" style="animation-delay: 0.3s">
+      <button class="btn" @click="goToInvestmentPlans">Get Started</button>
+      <button class="btn" @click="goToAbout">Learn More</button>
+    </div>
     </div>
     <Investment />
   </div>
@@ -40,8 +40,8 @@ export default {
     },
     goToAbout() {
       this.$router.push('/about')
-    },
-  },
+    }
+  }
 }
 </script>
 

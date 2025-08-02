@@ -21,9 +21,7 @@
           <ul>
             <li><i class="fas fa-envelope"></i> Info.CryptoHarvest@yahoo.com</li>
             <li><i class="fas fa-phone"></i> +1 369 218 0966</li>
-            <li>
-              <i class="fas fa-map-marker-alt"></i> 85 Madison Avenue, A, Chula Vista, CA 91910
-            </li>
+            <li><i class="fas fa-map-marker-alt"></i> 85 Madison Avenue, A, Chula Vista, CA 91910</li>
           </ul>
         </div>
       </div>
