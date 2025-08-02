@@ -73,7 +73,7 @@
                 @click="togglePasswordVisibility"
                 class="password-toggle-btn"
               >
-                <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+                <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
               </button>
             </div>
           </div>
