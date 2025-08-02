@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- hero-section -->
-    <div class="hero-section">
+    <div class="hero-section animate-fade-slide">
       <!-- background video -->
       <video class="hero-bg-video" autoplay loop muted playsinline>
         <source src="@/assets/bg1.mp4" type="video/mp4" />
@@ -12,16 +12,16 @@
       <div class="hero-overlay"></div>
 
       <!-- hero-text -->
-      <div class="hero-text animate-text-stagger">
-        <h1 class="animate-text-slide">Go to the next level investing</h1>
-        <p class="animate-text-slide">
+      <div class="hero-text animated-fade-slide">
+        <h1>Go to the next level investing</h1>
+        <p>
           We are dedicated to providing investment management and strategic wealth planning that is
           right for you. simply put, we strive to be our client's trusted advisor.
         </p>
       </div>
 
       <!-- hero-btn -->
-      <div class="hero-btn animate-text-fade">
+      <div class="hero-btn animated-fade-slide" style="animation-delay: 0.3s">
         <button class="btn" @click="goToInvestmentPlans">Get Started</button>
         <button class="btn" @click="goToAbout">Learn More</button>
       </div>
@@ -58,7 +58,6 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 40px 60px;
-  padding-top: calc(40px + 80px); /* Add navbar padding */
 }
 
 .hero-bg-video {

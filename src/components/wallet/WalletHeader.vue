@@ -12,7 +12,7 @@
       </div>
       <button
         v-if="!isWalletConnected"
-        @click="showConnectionModal"
+        @click="$emit('connect')"
         class="connect-btn"
         :disabled="connecting"
       >
@@ -56,25 +56,12 @@
         </p>
       </div>
     </div>
-
-    <!-- Wallet Connection Modal -->
-    <WalletConnectionModal
-      :show="showModal"
-      :connecting="connecting"
-      @close="hideConnectionModal"
-      @connect="handleWalletConnection"
-    />
   </div>
 </template>
 
 <script>
-import WalletConnectionModal from './WalletConnectionModal.vue'
-
 export default {
   name: 'WalletHeader',
-  components: {
-    WalletConnectionModal,
-  },
   props: {
     isWalletConnected: {
       type: Boolean,
@@ -97,26 +84,7 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      showModal: false,
-    }
-  },
   methods: {
-    showConnectionModal() {
-      this.showModal = true
-    },
-    
-    hideConnectionModal() {
-      this.showModal = false
-    },
-    
-    handleWalletConnection(walletData) {
-      // Emit the connection event with wallet details
-      this.$emit('connect', walletData)
-      this.hideConnectionModal()
-    },
-    
     formatAddress(address) {
       if (!address) return ''
       return `${address.slice(0, 6)}...${address.slice(-4)}`
@@ -161,7 +129,7 @@ export default {
 
 <style scoped>
 .wallet-section {
-  background: #000000;
+  background: var(--bg-dark);
   border-radius: var(--radius-xl);
   padding: var(--spacing-xxl);
   margin-bottom: var(--spacing-xl);

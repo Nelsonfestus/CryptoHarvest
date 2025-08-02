@@ -1,27 +1,25 @@
 <template>
-  <section class="news-section">
-    <div class="news-content animate-text-stagger">
-      <h1 class="animate-text-slide">Don't miss out on the chance to maximize your returns and secure your financial future.</h1>
-      <p class="animate-text-slide">
-        Sign up for our newsletter to receive exclusive updates and investment tips from CryptoHarvest
-        Investment Trading.
-      </p>
-      <form class="email-input-wrapper animate-text-fade" @submit.prevent="handleSubscribe">
-        <input
-          type="email"
-          v-model="email"
-          placeholder="Enter your email"
-          required
-          aria-label="Email address"
-        />
-        <button type="submit" :disabled="loading">
-          <span v-if="!loading">Subscribe <i class="bi bi-send-fill"></i></span>
-          <span v-else><i class="bi bi-arrow-repeat send-spin"></i> Sending...</span>
-        </button>
-      </form>
-      <p v-if="success" class="newsletter-success">Thank you for subscribing!</p>
-      <p v-if="error" class="newsletter-error">{{ error }}</p>
-    </div>
+  <section class="news-section animate-fade-slide">
+    <h1>Don’t miss out on the chance to maximize your returns and secure your financial future.</h1>
+    <p>
+      Sign up for our newsletter to receive exclusive updates and investment tips from CryptoHarvest
+      Investment Trading.
+    </p>
+    <form class="email-input-wrapper" @submit.prevent="handleSubscribe">
+      <input
+        type="email"
+        v-model="email"
+        placeholder="Enter your email"
+        required
+        aria-label="Email address"
+      />
+      <button type="submit" :disabled="loading">
+        <span v-if="!loading">Subscribe <i class="bi bi-send-fill"></i></span>
+        <span v-else><i class="bi bi-arrow-repeat send-spin"></i> Sending...</span>
+      </button>
+    </form>
+    <p v-if="success" class="newsletter-success">Thank you for subscribing!</p>
+    <p v-if="error" class="newsletter-error">{{ error }}</p>
   </section>
 </template>
 
@@ -60,31 +58,23 @@ export default {
 
 <style scoped>
 .news-section {
-  background: var(--bg-dark);
-  color: var(--text-white);
+  background: #202020;
+  color: white;
   text-align: center;
   padding: 60px 20px;
-  padding-top: calc(60px + 80px); /* Add navbar padding */
 }
-
-.news-content {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
 .news-section h1 {
   text-transform: uppercase;
   font-size: 20px;
-  background: var(--primary-gradient);
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 10px;
 }
-
 .news-section p {
   text-transform: capitalize;
   margin-bottom: 30px;
-  color: var(--text-muted);
+  color: #ccc;
   font-size: 1rem;
 }
 .email-input-wrapper {

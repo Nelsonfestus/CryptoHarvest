@@ -3,69 +3,61 @@
   /* Colors */
   --primary-orange: #eb6709;
   --primary-red: #f63d43;
-  --primary-gold: #ffd700;
-  --text-white: #ffffff;
-  --text-muted: #888888;
-  --text-gold: #ffd700;
-  --bg-dark: #0a0a0a;
-  --bg-darker: #050505;
-  
-  /* Gradients */
   --primary-gradient: linear-gradient(90deg, var(--primary-orange) 0%, var(--primary-red) 100%);
-  
+  --secondary-gradient: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+
+  /* Background Colors */
+  --bg-dark: #202020;
+  --bg-darker: #181818;
+  --bg-card: #2a2a2a;
+
+  /* Text Colors */
+  --text-white: #fff;
+  --text-gold: #ffa600;
+  --text-muted: #888;
+
   /* Spacing */
-  --spacing-xs: 0.5rem;
-  --spacing-sm: 1rem;
-  --spacing-md: 1.5rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 3rem;
-  --spacing-xxl: 4rem;
-  
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-xxl: 32px;
+  --spacing-xxxl: 48px;
+
   /* Border Radius */
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  --radius-2xl: 2rem;
-  
-  /* Shadows */
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
-  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
-  --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.25);
-  
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 18px;
+
   /* Typography */
-  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-size-xs: 0.75rem;
+  --font-family: 'Inter', sans-serif;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;
   --font-size-lg: 1.125rem;
   --font-size-xl: 1.25rem;
   --font-size-2xl: 1.5rem;
-  --font-size-3xl: 1.875rem;
-  --font-size-4xl: 2.25rem;
-  --font-size-5xl: 3rem;
-  
+  --font-size-3xl: 2rem;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.18);
+
   /* Transitions */
-  --transition-fast: 0.15s ease-out;
-  --transition-normal: 0.3s ease-out;
-  --transition-slow: 0.5s ease-out;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
 }
 
+/* Global Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-html, body {
+  scroll-behavior: smooth;
   font-family: var(--font-family);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-#app {
-  min-height: 100vh;
 }
 
 /* Common Utility Classes */
@@ -140,7 +132,6 @@ html, body {
   justify-content: center;
   background: linear-gradient(120deg, var(--primary-orange) 0%, var(--primary-red) 100%);
   padding-top: 80px; /* Add top padding for fixed navbar */
-  padding-bottom: 60px; /* Add bottom padding to prevent sticking to footer */
 }
 
 .auth-card {
@@ -218,26 +209,26 @@ html, body {
 
 /* Animation Classes */
 .animate-fade-slide {
-  opacity: 1;
-  transform: translateY(0);
-  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+  opacity: 0;
+  transform: translateY(40px);
+  animation: fadeSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
 }
 
 /* New text-only animation classes */
 .animate-text-fade {
-  opacity: 1;
-  animation: textFadeIn 0.6s ease-out 0.2s;
+  opacity: 0;
+  animation: textFadeIn 0.6s ease-out 0.2s forwards;
 }
 
 .animate-text-slide {
-  opacity: 1;
-  transform: translateY(0);
-  animation: textSlideUp 0.7s ease-out 0.3s;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: textSlideUp 0.7s ease-out 0.3s forwards;
 }
 
 .animate-text-stagger > * {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 0;
+  transform: translateY(15px);
   animation: textStaggerIn 0.5s ease-out forwards;
 }
 
@@ -258,42 +249,27 @@ html, body {
 }
 
 @keyframes fadeSlideUp {
-  0% {
-    opacity: 0.8;
-    transform: translateY(10px);
-  }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 @keyframes textFadeIn {
-  0% {
-    opacity: 0.7;
-  }
-  100% {
+  to {
     opacity: 1;
   }
 }
 
 @keyframes textSlideUp {
-  0% {
-    opacity: 0.8;
-    transform: translateY(10px);
-  }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 @keyframes textStaggerIn {
-  0% {
-    opacity: 0.7;
-    transform: translateY(8px);
-  }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }

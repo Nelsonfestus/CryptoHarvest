@@ -71,73 +71,75 @@ export default {
     return {
       isWalletConnected: false,
       connecting: false,
+      processing: false,
       walletAddress: '',
       walletBalance: 0,
-      walletDetails: null, // Store wallet connection details
       selectedNetwork: {
         id: 'ethereum',
         name: 'Ethereum',
         symbol: 'ETH',
-        icon: '🔷',
+        icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+        description: 'Smart contract platform',
       },
       supportedNetworks: [
         {
           id: 'ethereum',
           name: 'Ethereum',
           symbol: 'ETH',
-          icon: '🔷',
+          icon: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+          description: 'Smart contract platform',
         },
         {
           id: 'bitcoin',
           name: 'Bitcoin',
           symbol: 'BTC',
-          icon: '₿',
+          icon: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
+          description: 'Digital gold',
         },
         {
           id: 'polygon',
           name: 'Polygon',
           symbol: 'MATIC',
-          icon: '🔷',
+          icon: 'https://cryptologos.cc/logos/polygon-matic-logo.png',
+          description: 'Layer 2 scaling solution',
         },
         {
           id: 'binance',
           name: 'Binance Smart Chain',
           symbol: 'BNB',
-          icon: '🟡',
+          icon: 'https://cryptologos.cc/logos/bnb-bnb-logo.png',
+          description: 'High-performance blockchain',
         },
       ],
       investmentPlans: [
         {
           id: 1,
-          name: 'Silver Plan',
-          minAmount: 5000,
-          maxAmount: 20000,
-          duration: 60,
-          roi: 10,
+          name: 'Starter Plan',
+          minAmount: 100,
+          maxAmount: 1000,
+          roi: 15,
+          duration: '30 days',
         },
         {
           id: 2,
-          name: 'Gold Plan',
-          minAmount: 10000,
-          maxAmount: 50000,
-          duration: 75,
-          roi: 15,
+          name: 'Growth Plan',
+          minAmount: 1000,
+          maxAmount: 10000,
+          roi: 25,
+          duration: '60 days',
         },
         {
           id: 3,
-          name: 'Platinum Plan',
-          minAmount: 20000,
+          name: 'Premium Plan',
+          minAmount: 10000,
           maxAmount: 100000,
-          duration: 90,
-          roi: 20,
+          roi: 35,
+          duration: '90 days',
         },
       ],
       selectedPlan: null,
       investmentAmount: '',
       networkFee: 0.001,
-      totalToPay: 0,
-      canProcessPayment: false,
-      processing: false,
       showPaymentModal: false,
       transactions: [],
     }
@@ -158,51 +160,19 @@ export default {
     },
   },
   methods: {
-    connectWallet(walletData) {
+    async connectWallet() {
       this.connecting = true
-      
-      // Simulate wallet connection with provided details
-      setTimeout(() => {
-        // Store wallet details
-        this.walletDetails = {
-          type: walletData.walletType,
-          address: walletData.details.address,
-          name: walletData.details.name,
-          network: walletData.details.network,
-        }
-        
-        // Update connection state
-        this.isWalletConnected = true
-        this.walletAddress = walletData.details.address
-        
-        // Set wallet balance based on network
-        const balances = {
-          ethereum: 2.5,
-          bitcoin: 0.15,
-          polygon: 150,
-          binance: 5.2,
-        }
-        this.walletBalance = balances[walletData.details.network] || 2.5
-        
-        // Update selected network if different
-        if (walletData.details.network !== this.selectedNetwork.id) {
-          const networkMap = {
-            ethereum: this.supportedNetworks.find(n => n.id === 'ethereum'),
-            bitcoin: this.supportedNetworks.find(n => n.id === 'bitcoin'),
-            polygon: this.supportedNetworks.find(n => n.id === 'polygon'),
-            binance: this.supportedNetworks.find(n => n.id === 'binance'),
-          }
-          this.selectedNetwork = networkMap[walletData.details.network] || this.selectedNetwork
-        }
-        
-        this.connecting = false
 
-        // Load transaction history
-        this.loadTransactionHistory()
-        
-        // Show success message
-        console.log('Wallet connected successfully!', walletData)
-      }, 2000)
+      // Simulate wallet connection
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      this.isWalletConnected = true
+      this.walletAddress = '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6'
+      this.walletBalance = 2.5
+      this.connecting = false
+
+      // Load transaction history
+      this.loadTransactionHistory()
     },
 
     disconnectWallet() {
@@ -289,7 +259,7 @@ export default {
 
 <style scoped>
 .crypto-wallet {
-  /* max-width: 1200px; */
+  max-width: 1200px;
   margin: 0 auto;
   padding: var(--spacing-xl);
 }

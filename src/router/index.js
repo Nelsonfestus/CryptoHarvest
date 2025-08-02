@@ -96,34 +96,25 @@ const router = createRouter({
 
 // Navigation guard to check authentication
 router.beforeEach((to, from, next) => {
-  console.log('Router navigation:', { to: to.name, from: from.name })
-  
   const isAuthenticated = localStorage.getItem('cryptoharvest_isAuthenticated') === 'true'
   const isAdmin = localStorage.getItem('cryptoharvest_admin') === 'true'
-  
-  console.log('Authentication status:', { isAuthenticated, isAdmin })
 
   // If route requires authentication and user is not authenticated
   if (to.meta.requiresAuth && !isAuthenticated) {
-    console.log('Route requires auth but user not authenticated, redirecting to login')
     next('/login')
   }
   // If route requires admin and user is not admin
   else if (to.meta.requiresAdmin && !isAdmin) {
-    console.log('Route requires admin but user not admin, redirecting to admin login')
     next('/admin-login')
   }
   // If user is authenticated and trying to access login/signup, redirect to dashboard
   else if (isAuthenticated && (to.name === 'Login' || to.name === 'Signup')) {
-    console.log('User authenticated, redirecting from login/signup to dashboard')
     next('/dashboard')
   }
   // If admin is authenticated and trying to access admin login, redirect to admin dashboard
   else if (isAdmin && to.name === 'AdminLogin') {
-    console.log('Admin authenticated, redirecting to admin dashboard')
     next('/admin')
   } else {
-    console.log('Navigation allowed')
     next()
   }
 })
