@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    handleLogin() {
+    async handleLogin() {
       this.error = ''
       if (!this.validateEmail(this.email)) {
         this.error = 'Please enter a valid email address.'
@@ -46,28 +46,37 @@ export default {
       }
       this.loading = true
       
-      setTimeout(() => {
-        this.loading = false
+      try {
+        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password
+          })
+        })
+
+        const data = await response.json()
         
-        // Check if user exists in localStorage
-        const storedUser = localStorage.getItem('cryptoharvest_user')
-        if (storedUser) {
-          const user = JSON.parse(storedUser)
+        if (response.ok && data.success) {
+          // Store token and user data
+          localStorage.setItem('cryptoharvest_token', data.token)
+          localStorage.setItem('cryptoharvest_user', JSON.stringify(data.user))
+          localStorage.setItem('cryptoharvest_isAuthenticated', 'true')
           
-          // Check if email and password match
-          if (user.email === this.email && user.password === this.password) {
-            // Set authentication status
-            localStorage.setItem('cryptoharvest_isAuthenticated', 'true')
-            
-            // Redirect to dashboard
-            this.$router.push('/dashboard')
-            return
-          }
+          // Redirect to dashboard
+          this.$router.push('/dashboard')
+        } else {
+          this.error = data.message || 'Invalid email or password. Please check your credentials or sign up.'
         }
-        
-        // If no user found or credentials don't match
-        this.error = 'Invalid email or password. Please check your credentials or sign up.'
-      }, 1200)
+      } catch (error) {
+        console.error('Login error:', error)
+        this.error = 'Network error. Please check your connection and try again.'
+      } finally {
+        this.loading = false
+      }
     },
     validateEmail(email) {
       return /^\S+@\S+\.\S+$/.test(email)

@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     // Handle signup form submission and validation
-    handleSignup() {
+    async handleSignup() {
       this.error = ''
       if (!this.name) {
         this.error = 'Name is required.'
@@ -79,26 +79,38 @@ export default {
       }
       this.loading = true
       
-      // Simulate signup process
-      setTimeout(() => {
-        this.loading = false
+      try {
+        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: this.name,
+            email: this.email,
+            password: this.password
+          })
+        })
+
+        const data = await response.json()
         
-        // Create user object
-        const user = {
-          id: Date.now(),
-          name: this.name,
-          email: this.email,
-          password: this.password, // In real app, this would be hashed
-          createdAt: new Date().toISOString()
+        if (response.ok && data.success) {
+          // Store token and user data
+          localStorage.setItem('cryptoharvest_token', data.token)
+          localStorage.setItem('cryptoharvest_user', JSON.stringify(data.user))
+          localStorage.setItem('cryptoharvest_isAuthenticated', 'true')
+          
+          // Redirect to dashboard
+          this.$router.push('/dashboard')
+        } else {
+          this.error = data.message || 'Registration failed. Please try again.'
         }
-        
-        // Store user data in localStorage (simulating backend)
-        localStorage.setItem('cryptoharvest_user', JSON.stringify(user))
-        localStorage.setItem('cryptoharvest_isAuthenticated', 'true')
-        
-        // Redirect to dashboard
-        this.$router.push('/dashboard')
-      }, 1200)
+      } catch (error) {
+        console.error('Signup error:', error)
+        this.error = 'Network error. Please check your connection and try again.'
+      } finally {
+        this.loading = false
+      }
     },
     // Validate email format
     validateEmail(email) {

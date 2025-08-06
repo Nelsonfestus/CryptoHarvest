@@ -4,8 +4,8 @@
       <h2 class="auth-title">Admin Login</h2>
       <form @submit.prevent="handleLogin" class="auth-form">
         <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" v-model="username" required placeholder="Enter admin username" />
+          <label for="username">Email</label>
+          <input type="email" id="username" v-model="username" required placeholder="Enter admin email" />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -33,7 +33,7 @@ export default {
     }
   },
   methods: {
-    handleLogin() {
+    async handleLogin() {
       this.error = ''
       if (!this.username || !this.password) {
         this.error = 'Please enter both username and password.'
@@ -42,18 +42,40 @@ export default {
       
       this.loading = true
       
-      // Simple admin authentication (in real app, this would be server-side)
-      setTimeout(() => {
-        this.loading = false
+      try {
+        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: this.username,
+            password: this.password
+          })
+        })
         
-        // Check admin credentials (demo: admin/admin123)
-        if (this.username === 'admin' && this.password === 'admin123') {
-          localStorage.setItem('cryptoharvest_admin', 'true')
-          this.$router.push('/admin')
+        const data = await response.json()
+        
+        if (response.ok && data.success) {
+          // Check if user is admin
+          if (data.user.role === 'admin') {
+            localStorage.setItem('cryptoharvest_token', data.token)
+            localStorage.setItem('cryptoharvest_user', JSON.stringify(data.user))
+            localStorage.setItem('cryptoharvest_admin', 'true')
+            localStorage.setItem('cryptoharvest_isAuthenticated', 'true')
+            this.$router.push('/admin')
+          } else {
+            this.error = 'Access denied. Admin privileges required.'
+          }
         } else {
-          this.error = 'Invalid admin credentials.'
+          this.error = data.message || 'Login failed. Please check your credentials.'
         }
-      }, 1000)
+      } catch (error) {
+        console.error('Login error:', error)
+        this.error = 'Network error. Please try again.'
+      } finally {
+        this.loading = false
+      }
     },
   },
 }

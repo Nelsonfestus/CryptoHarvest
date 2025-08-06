@@ -66,8 +66,11 @@
           <router-link to="/dashboard" class="btn1">
             <button>Dashboard</button>
           </router-link>
+          <router-link v-if="isAdmin" to="/admin" class="btn3">
+            <button>Admin Panel</button>
+          </router-link>
           <button @click="logout" class="btn2">
-            <button>Logout</button>
+            Logout
           </button>
         </template>
       </div>
@@ -95,6 +98,9 @@ export default {
   computed: {
     isOnDashboard() {
       return this.$route.path === '/dashboard'
+    },
+    isAdmin() {
+      return localStorage.getItem('cryptoharvest_admin') === 'true'
     }
   },
   mounted() {
@@ -111,6 +117,8 @@ export default {
       logout() {
         localStorage.removeItem('cryptoharvest_isAuthenticated')
         localStorage.removeItem('cryptoharvest_user')
+        localStorage.removeItem('cryptoharvest_admin')
+        localStorage.removeItem('cryptoharvest_token')
         this.isAuthenticated = false
         this.$router.push('/login')
       },
@@ -368,6 +376,26 @@ body {
 .btn2 button:hover {
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   color: #fff;
+}
+
+.btn3 button {
+  background: #333;
+  color: #fff;
+  border: 2px solid #eb6709;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  transition:
+    background 0.3s,
+    color 0.3s,
+    box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.btn3 button:hover {
+  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+  color: #fff;
+  border-color: transparent;
 }
 
 .dropdown-menu select {

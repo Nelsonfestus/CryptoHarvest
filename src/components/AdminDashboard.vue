@@ -1,85 +1,142 @@
 <template>
   <div class="admin-dashboard">
-    <div class="admin-header">
+    <div class="dashboard-header">
       <h1>Admin Dashboard</h1>
-      <button @click="logout" class="logout-btn">Logout</button>
+      <div class="header-stats">
+        <div class="stat-card">
+          <h3>{{ stats.totalUsers }}</h3>
+          <p>Total Users</p>
     </div>
-
-    <div class="stats-grid">
       <div class="stat-card">
-        <h3>Total Users</h3>
-        <p>{{ stats.totalUsers }}</p>
+          <h3>{{ stats.totalInvestments }}</h3>
+          <p>Total Investments</p>
       </div>
       <div class="stat-card">
-        <h3>Total Investments</h3>
-        <p>${{ formatNumber(stats.totalInvestments) }}</p>
+          <h3>{{ stats.totalBalance }}</h3>
+          <p>Total Balance</p>
       </div>
       <div class="stat-card">
-        <h3>Revenue</h3>
-        <p>${{ formatNumber(stats.totalRevenue) }}</p>
-      </div>
-    </div>
-
-    <div class="admin-content">
-      <div class="tab-nav">
-        <button @click="activeTab = 'users'" :class="{ active: activeTab === 'users' }">Users</button>
-        <button @click="activeTab = 'investments'" :class="{ active: activeTab === 'investments' }">Investments</button>
-        <button @click="activeTab = 'settings'" :class="{ active: activeTab === 'settings' }">Settings</button>
-      </div>
-
-      <div v-if="activeTab === 'users'" class="tab-content">
-        <h2>User Management</h2>
-        <div v-if="users.length === 0" class="empty-state">
-          <div class="empty-icon">👥</div>
-          <h3>No Users Yet</h3>
-          <p>User data will appear here once users start registering on the platform.</p>
+          <h3>{{ stats.activeChats }}</h3>
+          <p>Active Chats</p>
         </div>
-        <table v-else class="users-table">
+      </div>
+    </div>
+
+    <div class="dashboard-content">
+      <!-- Investors Management Section -->
+      <div class="section">
+        <div class="section-header">
+          <h2>Investors Management</h2>
+          <button @click="refreshInvestors" class="refresh-btn">Refresh</button>
+        </div>
+        
+        <div class="investors-table">
+          <table>
           <thead>
             <tr>
               <th>Name</th>
               <th>Email</th>
+                <th>Balance</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in users" :key="user.id">
-              <td>{{ user.name }}</td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.status }}</td>
-              <td>
-                <button @click="toggleUserStatus(user)">{{ user.status === 'active' ? 'Suspend' : 'Activate' }}</button>
+              <tr v-for="investor in investors" :key="investor._id">
+                <td>{{ investor.name }}</td>
+                <td>{{ investor.email }}</td>
+                <td>
+                  <span class="balance">${{ investor.walletBalance || 0 }}</span>
+                  <button @click="editBalance(investor)" class="edit-btn">Edit</button>
+                </td>
+                <td>
+                  <span :class="['status', investor.isVerified ? 'verified' : 'pending']">
+                    {{ investor.isVerified ? 'Verified' : 'Pending' }}
+                  </span>
+                </td>
+                <td>
+                  <button @click="viewInvestorDetails(investor)" class="view-btn">View</button>
+                  <button @click="toggleVerification(investor)" class="verify-btn">
+                    {{ investor.isVerified ? 'Unverify' : 'Verify' }}
+                  </button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+      </div>
 
-      <div v-if="activeTab === 'investments'" class="tab-content">
-        <h2>Investment Plans</h2>
-        <div class="investment-cards">
-          <div v-for="plan in investments" :key="plan.id" class="investment-card">
-            <h3>{{ plan.name }}</h3>
-            <p>ROI: {{ plan.roi }}%</p>
-            <p>Duration: {{ plan.duration }} days</p>
-            <button @click="editPlan(plan)">Edit</button>
+      <!-- Chat Support Section -->
+      <div class="section">
+        <div class="section-header">
+          <h2>Chat Support</h2>
+          <button @click="refreshChats" class="refresh-btn">Refresh</button>
+        </div>
+        
+        <div class="chat-list">
+          <div v-for="chat in chats" :key="chat._id" class="chat-item">
+            <div class="chat-header">
+              <span class="user-name">{{ chat.user?.name || 'Unknown User' }}</span>
+              <span :class="['chat-status', chat.status]">{{ chat.status }}</span>
+            </div>
+            <div class="chat-preview">
+              <p>{{ chat.lastMessage || 'No messages yet' }}</p>
+            </div>
+            <div class="chat-actions">
+              <button @click="openChat(chat)" class="chat-btn">Open Chat</button>
+              <button @click="assignAgent(chat)" class="assign-btn">Assign Agent</button>
+            </div>
+          </div>
           </div>
         </div>
       </div>
 
-      <div v-if="activeTab === 'settings'" class="tab-content">
-        <h2>System Settings</h2>
-        <div class="settings">
-          <div class="setting">
-            <label>Maintenance Mode</label>
-            <input type="checkbox" v-model="settings.maintenanceMode" />
+    <!-- Balance Edit Modal -->
+    <div v-if="showBalanceModal" class="modal-overlay" @click="closeBalanceModal">
+      <div class="modal" @click.stop>
+        <h3>Edit Balance</h3>
+        <div class="modal-content">
+          <p><strong>User:</strong> {{ selectedInvestor?.name }}</p>
+          <p><strong>Current Balance:</strong> ${{ selectedInvestor?.walletBalance || 0 }}</p>
+          <div class="form-group">
+            <label>New Balance:</label>
+            <input 
+              type="number" 
+              v-model="newBalance" 
+              placeholder="Enter new balance"
+              step="0.01"
+            />
           </div>
-          <div class="setting">
-            <label>Registration Enabled</label>
-            <input type="checkbox" v-model="settings.registrationEnabled" />
+          <div class="modal-actions">
+            <button @click="saveBalance" class="save-btn">Save</button>
+            <button @click="closeBalanceModal" class="cancel-btn">Cancel</button>
           </div>
-          <button @click="saveSettings">Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Modal -->
+    <div v-if="showChatModal" class="modal-overlay" @click="closeChatModal">
+      <div class="chat-modal" @click.stop>
+        <div class="chat-header">
+          <h3>Chat with {{ selectedChat?.user?.name }}</h3>
+          <button @click="closeChatModal" class="close-btn">×</button>
+        </div>
+        <div class="chat-messages" ref="chatMessages">
+          <div v-for="message in chatMessages" :key="message._id" class="message">
+            <div :class="['message-content', message.sender === 'admin' ? 'admin' : 'user']">
+              <p>{{ message.content }}</p>
+              <span class="message-time">{{ formatTime(message.createdAt) }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input">
+          <input 
+            v-model="newMessage" 
+            @keyup.enter="sendMessage"
+            placeholder="Type your message..."
+          />
+          <button @click="sendMessage" class="send-btn">Send</button>
         </div>
       </div>
     </div>
@@ -91,40 +148,264 @@ export default {
   name: 'AdminDashboard',
   data() {
     return {
-      activeTab: 'users',
       stats: {
         totalUsers: 0,
         totalInvestments: 0,
-        totalRevenue: 0
+        totalBalance: 0,
+        activeChats: 0
       },
-      users: [],
-      investments: [
-        { id: 1, name: 'Gold Plan', roi: 5, duration: 30 },
-        { id: 2, name: 'Silver Plan', roi: 10, duration: 60 },
-        { id: 3, name: 'Platinum Plan', roi: 20, duration: 90 }
-      ],
-      settings: {
-        maintenanceMode: false,
-        registrationEnabled: true
-      }
+      investors: [],
+      chats: [],
+      showBalanceModal: false,
+      showChatModal: false,
+      selectedInvestor: null,
+      selectedChat: null,
+      newBalance: 0,
+      newMessage: '',
+      chatMessages: [],
+      loading: false
     }
   },
+  async mounted() {
+    await this.loadDashboardData()
+  },
   methods: {
-    formatNumber(num) {
-      return num.toLocaleString()
+    async loadDashboardData() {
+      try {
+        const token = localStorage.getItem('cryptoharvest_token')
+        if (!token) {
+          this.$router.push('/login')
+          return
+        }
+
+        // Load dashboard stats
+        const statsResponse = await fetch('https://web-production-8d9eb.up.railway.app/api/admin/dashboard', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        
+        if (statsResponse.ok) {
+          const statsData = await statsResponse.json()
+          this.stats = {
+            totalUsers: statsData.userStats?.totalUsers || 0,
+            totalInvestments: statsData.investmentStats?.totalInvestments || 0,
+            totalBalance: statsData.userStats?.totalWalletBalance || 0,
+            activeChats: statsData.chatStats?.open || 0
+          }
+        }
+
+        // Load investors
+        await this.loadInvestors()
+        
+        // Load chats
+        await this.loadChats()
+        
+      } catch (error) {
+        console.error('Error loading dashboard data:', error)
+      }
     },
-    logout() {
-      localStorage.removeItem('cryptoharvest_admin')
-      this.$router.push('/admin-login')
+
+    async loadInvestors() {
+      try {
+        const token = localStorage.getItem('cryptoharvest_token')
+        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/admin/users', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        
+        if (response.ok) {
+          const data = await response.json()
+          this.investors = data.users || []
+        }
+      } catch (error) {
+        console.error('Error loading investors:', error)
+      }
     },
-    toggleUserStatus(user) {
-      user.status = user.status === 'active' ? 'suspended' : 'active'
+
+    async loadChats() {
+      try {
+        const token = localStorage.getItem('cryptoharvest_token')
+        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/admin/chats', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        
+        if (response.ok) {
+          const data = await response.json()
+          this.chats = data.chats || []
+        }
+      } catch (error) {
+        console.error('Error loading chats:', error)
+      }
     },
-    editPlan(plan) {
-      console.log('Editing plan:', plan)
+
+    editBalance(investor) {
+      this.selectedInvestor = investor
+      this.newBalance = investor.walletBalance || 0
+      this.showBalanceModal = true
     },
-    saveSettings() {
-      console.log('Saving settings:', this.settings)
+
+    async saveBalance() {
+      try {
+        const token = localStorage.getItem('cryptoharvest_token')
+        const response = await fetch(`https://web-production-8d9eb.up.railway.app/api/admin/users/${this.selectedInvestor._id}/balance`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            walletBalance: parseFloat(this.newBalance)
+          })
+        })
+        
+        if (response.ok) {
+          // Update local data
+          this.selectedInvestor.walletBalance = parseFloat(this.newBalance)
+          this.closeBalanceModal()
+          await this.loadDashboardData() // Refresh stats
+        }
+      } catch (error) {
+        console.error('Error updating balance:', error)
+      }
+    },
+
+    closeBalanceModal() {
+      this.showBalanceModal = false
+      this.selectedInvestor = null
+      this.newBalance = 0
+    },
+
+    async toggleVerification(investor) {
+      try {
+        const token = localStorage.getItem('cryptoharvest_token')
+        const response = await fetch(`https://web-production-8d9eb.up.railway.app/api/admin/users/${investor._id}/status`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            isVerified: !investor.isVerified
+          })
+        })
+        
+        if (response.ok) {
+          investor.isVerified = !investor.isVerified
+        }
+      } catch (error) {
+        console.error('Error updating verification status:', error)
+      }
+    },
+
+    viewInvestorDetails(investor) {
+      // Navigate to investor details page or show modal
+      console.log('View investor details:', investor)
+    },
+
+    async openChat(chat) {
+      this.selectedChat = chat
+      this.showChatModal = true
+      await this.loadChatMessages(chat._id)
+    },
+
+    async loadChatMessages(chatId) {
+      try {
+        const token = localStorage.getItem('cryptoharvest_token')
+        const response = await fetch(`https://web-production-8d9eb.up.railway.app/api/chat/${chatId}/messages`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        
+        if (response.ok) {
+          const data = await response.json()
+          this.chatMessages = data.messages || []
+          this.$nextTick(() => {
+            this.scrollToBottom()
+          })
+        }
+      } catch (error) {
+        console.error('Error loading chat messages:', error)
+      }
+    },
+
+    async sendMessage() {
+      if (!this.newMessage.trim()) return
+      
+      try {
+        const token = localStorage.getItem('cryptoharvest_token')
+        const response = await fetch(`https://web-production-8d9eb.up.railway.app/api/chat/${this.selectedChat._id}/messages`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            content: this.newMessage,
+            sender: 'admin'
+          })
+        })
+        
+        if (response.ok) {
+          this.newMessage = ''
+          await this.loadChatMessages(this.selectedChat._id)
+        }
+      } catch (error) {
+        console.error('Error sending message:', error)
+      }
+    },
+
+    async assignAgent(chat) {
+      try {
+        const token = localStorage.getItem('cryptoharvest_token')
+        const response = await fetch(`https://web-production-8d9eb.up.railway.app/api/admin/chats/${chat._id}/assign`, {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            agentId: 'admin' // Assign to admin for now
+          })
+        })
+        
+        if (response.ok) {
+          chat.status = 'in_progress'
+          chat.agent = { name: 'Admin' }
+        }
+      } catch (error) {
+        console.error('Error assigning agent:', error)
+      }
+    },
+
+    closeChatModal() {
+      this.showChatModal = false
+      this.selectedChat = null
+      this.chatMessages = []
+      this.newMessage = ''
+    },
+
+    scrollToBottom() {
+      const chatMessages = this.$refs.chatMessages
+      if (chatMessages) {
+        chatMessages.scrollTop = chatMessages.scrollHeight
+      }
+    },
+
+    formatTime(timestamp) {
+      return new Date(timestamp).toLocaleTimeString()
+    },
+
+    refreshInvestors() {
+      this.loadInvestors()
+    },
+
+    refreshChats() {
+      this.loadChats()
     }
   }
 }
@@ -132,196 +413,385 @@ export default {
 
 <style scoped>
 .admin-dashboard {
-  background: #0a0a0a;
-  min-height: 100vh;
-  color: #fff;
   padding: 20px;
-  padding-top: 100px; /* Add top padding to account for fixed navbar */
+  background: #f5f5f5;
+  min-height: 100vh;
 }
 
-.admin-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
+.dashboard-header {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.admin-header h1 {
-  color: #eb6709;
-  margin: 0;
+.dashboard-header h1 {
+  margin: 0 0 20px 0;
+  color: #333;
 }
 
-.logout-btn {
-  background: #f63d43;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.stats-grid {
+.header-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
-  margin-bottom: 30px;
 }
 
 .stat-card {
-  background: #1a1a1a;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
   padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #333;
+  border-radius: 10px;
   text-align: center;
 }
 
 .stat-card h3 {
+  font-size: 2rem;
   margin: 0 0 10px 0;
-  color: #ccc;
 }
 
 .stat-card p {
   margin: 0;
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #eb6709;
+  opacity: 0.9;
 }
 
-.tab-nav {
+.dashboard-content {
+  display: grid;
+  gap: 20px;
+}
+
+.section {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.section-header {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-.tab-nav button {
-  background: #333;
-  color: #fff;
+.section-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.refresh-btn {
+  background: #007bff;
+  color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 6px;
+  padding: 8px 16px;
+  border-radius: 5px;
   cursor: pointer;
 }
 
-.tab-nav button.active {
-  background: #eb6709;
+.refresh-btn:hover {
+  background: #0056b3;
 }
 
-.tab-content {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 12px;
-  border: 1px solid #333;
+/* Investors Table */
+.investors-table {
+  overflow-x: auto;
 }
 
-.tab-content h2 {
-  color: #eb6709;
-  margin-top: 0;
-}
-
-.users-table {
+table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.users-table th,
-.users-table td {
+th, td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #ddd;
 }
 
-/* Empty State Styles */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: #ccc;
+th {
+  background: #f8f9fa;
+  font-weight: 600;
 }
 
-.empty-icon {
-  font-size: 4rem;
-  margin-bottom: 20px;
-  opacity: 0.7;
+.balance {
+  font-weight: 600;
+  color: #28a745;
 }
 
-.empty-state h3 {
-  color: #ffa600;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+.edit-btn, .view-btn, .verify-btn {
+  margin: 2px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
 }
 
-.empty-state p {
-  color: #ccc;
-  font-size: 1rem;
-  max-width: 400px;
-  margin: 0 auto;
+.edit-btn {
+  background: #ffc107;
+  color: #212529;
 }
 
-.users-table th {
-  background: #0a0a0a;
-  color: #eb6709;
+.view-btn {
+  background: #17a2b8;
+  color: white;
 }
 
-.investment-cards {
+.verify-btn {
+  background: #28a745;
+  color: white;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.status.verified {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* Chat List */
+.chat-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.investment-card {
-  background: #0a0a0a;
-  padding: 20px;
-  border-radius: 8px;
-  border: 1px solid #333;
-}
-
-.investment-card h3 {
-  color: #eb6709;
-  margin-top: 0;
-}
-
-.settings {
-  display: flex;
-  flex-direction: column;
   gap: 15px;
 }
 
-.setting {
+.chat-item {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  background: #f8f9fa;
+}
+
+.chat-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #333;
+  margin-bottom: 10px;
 }
 
-.setting label {
-  color: #ccc;
+.user-name {
+  font-weight: 600;
+  color: #333;
 }
 
-button {
-  background: #eb6709;
-  color: #fff;
+.chat-status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chat-status.open {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.chat-status.in_progress {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.chat-status.resolved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.chat-preview {
+  margin-bottom: 10px;
+}
+
+.chat-preview p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.chat-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-btn, .assign-btn {
+  padding: 6px 12px;
   border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.chat-btn {
+  background: #007bff;
+  color: white;
+}
+
+.assign-btn {
+  background: #6c757d;
+  color: white;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal, .chat-modal {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.chat-modal {
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.modal-content {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin: 15px 0;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.save-btn, .cancel-btn {
   padding: 8px 16px;
-  border-radius: 6px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
-  .admin-header {
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .tab-nav {
-    flex-direction: column;
-  }
-  
-  .investment-cards {
-    grid-template-columns: 1fr;
-  }
+.save-btn {
+  background: #28a745;
+  color: white;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+}
+
+/* Chat Messages */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.message-content {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.message-content.admin {
+  background: #007bff;
+  color: white;
+  margin-left: auto;
+}
+
+.message-content.user {
+  background: #e9ecef;
+  color: #333;
+}
+
+.message-time {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 5px;
+  display: block;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.send-btn {
+  padding: 10px 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.send-btn:hover {
+  background: #218838;
 }
 </style> 

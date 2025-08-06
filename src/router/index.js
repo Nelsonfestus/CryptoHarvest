@@ -107,13 +107,13 @@ router.beforeEach((to, from, next) => {
   else if (to.meta.requiresAdmin && !isAdmin) {
     next('/admin-login')
   }
+  // If admin is authenticated and trying to access login/signup, redirect to admin dashboard
+  else if (isAdmin && (to.name === 'Login' || to.name === 'Signup' || to.name === 'AdminLogin')) {
+    next('/admin')
+  }
   // If user is authenticated and trying to access login/signup, redirect to dashboard
   else if (isAuthenticated && (to.name === 'Login' || to.name === 'Signup')) {
     next('/dashboard')
-  }
-  // If admin is authenticated and trying to access admin login, redirect to admin dashboard
-  else if (isAdmin && to.name === 'AdminLogin') {
-    next('/admin')
   }
   else {
     next()
