@@ -1109,9 +1109,12 @@ export default {
   background: #1a1a1a;
   border-radius: 15px;
   padding: 30px;
-  max-width: 500px;
+  max-width: 90vw;
+  max-height: 90vh;
   width: 90%;
   border: 1px solid #333;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .modal h3 {
@@ -1495,9 +1498,44 @@ export default {
 
  .crypto-options {
    display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
    gap: 10px;
    margin-bottom: 20px;
+ }
+
+ @media (max-width: 768px) {
+   .crypto-options {
+     grid-template-columns: repeat(2, 1fr);
+   }
+   
+   .modal {
+     padding: 20px;
+     max-width: 95vw;
+     max-height: 95vh;
+   }
+   
+   .investment-step {
+     margin-bottom: 15px;
+   }
+   
+   .wallet-address {
+     flex-direction: column;
+     gap: 10px;
+   }
+   
+   .copy-btn {
+     width: 100%;
+   }
+   
+   .modal-actions {
+     flex-direction: column;
+     gap: 10px;
+   }
+   
+   .modal-actions button {
+     width: 100%;
+     padding: 12px 20px;
+   }
  }
 
  .crypto-option {
