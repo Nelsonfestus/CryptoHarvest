@@ -38,14 +38,13 @@
         </div>
       </div>
 
-      <div class="overview-card wallet-balance">
-        <div class="card-icon">💳</div>
-        <div class="card-content">
-          <h3>Wallet Balance</h3>
-          <p class="amount">${{ formatNumber(userStats.walletBalance) }}</p>
-          <button class="add-funds-btn" @click="showAddFunds = true">Add Funds</button>
+              <div class="overview-card wallet-balance">
+          <div class="card-icon">💳</div>
+          <div class="card-content">
+            <h3>Wallet Balance</h3>
+            <p class="amount">${{ formatNumber(userStats.walletBalance) }}</p>
+          </div>
         </div>
-      </div>
     </div>
 
     <!-- Quick Actions -->
@@ -59,10 +58,6 @@
         <button class="action-btn withdraw-btn" @click="showWithdrawModal = true">
           <span class="btn-icon">💸</span>
           Withdraw Funds
-        </button>
-        <button class="action-btn wallet-btn" @click="goToCryptoWallet">
-          <span class="btn-icon">🔗</span>
-          Crypto Wallet
         </button>
         <button class="action-btn support-btn" @click="openChat">
           <span class="btn-icon">💬</span>
@@ -190,42 +185,23 @@
            
            <div v-if="selectedPlan" class="investment-details">
              <h4>Investment Details</h4>
-             <div class="investment-form">
-               <div class="input-group">
-                 <label>Investment Amount:</label>
-                 <input 
-                   v-model="investmentAmount" 
-                   type="number" 
-                   :placeholder="`Min: $${formatNumber(selectedPlan.minAmount)}`"
-                   :min="selectedPlan.minAmount"
-                   :max="selectedPlan.maxAmount || 999999"
-                 />
-                 <p class="amount-info">
-                   Available Balance: ${{ formatNumber(userStats.walletBalance) }}
-                 </p>
+             <div class="investment-summary">
+               <h5>Investment Summary:</h5>
+               <div class="summary-item">
+                 <span>Plan:</span>
+                 <span>{{ selectedPlan.name }}</span>
                </div>
-               <div class="investment-summary">
-                 <h5>Investment Summary:</h5>
-                 <div class="summary-item">
-                   <span>Plan:</span>
-                   <span>{{ selectedPlan.name }}</span>
-                 </div>
-                 <div class="summary-item">
-                   <span>Amount:</span>
-                   <span>${{ formatNumber(investmentAmount || 0) }}</span>
-                 </div>
-                 <div class="summary-item">
-                   <span>Expected ROI:</span>
-                   <span>{{ selectedPlan.roi }}%</span>
-                 </div>
-                 <div class="summary-item">
-                   <span>Duration:</span>
-                   <span>{{ selectedPlan.duration }} days</span>
-                 </div>
-                 <div class="summary-item total">
-                   <span>Expected Return:</span>
-                   <span>${{ formatNumber((investmentAmount || 0) * (1 + selectedPlan.roi / 100)) }}</span>
-                 </div>
+               <div class="summary-item">
+                 <span>Min Investment:</span>
+                 <span>${{ formatNumber(selectedPlan.minAmount) }}</span>
+               </div>
+               <div class="summary-item">
+                 <span>Expected ROI:</span>
+                 <span>{{ selectedPlan.roi }}%</span>
+               </div>
+               <div class="summary-item">
+                 <span>Duration:</span>
+                 <span>{{ selectedPlan.duration }} days</span>
                </div>
              </div>
            </div>
@@ -234,9 +210,9 @@
              <button @click="showInvestmentModal = false">Cancel</button>
              <button 
                @click="proceedToPayment" 
-               :disabled="!selectedPlan || !investmentAmount || investmentAmount < selectedPlan.minAmount"
+               :disabled="!selectedPlan"
              >
-               Continue to Payment
+               Pay Now
              </button>
            </div>
          </div>
@@ -272,8 +248,8 @@
                  <span>{{ selectedPlan.name }}</span>
                </div>
                <div class="summary-item">
-                 <span>Amount:</span>
-                 <span>${{ formatNumber(investmentAmount || 0) }}</span>
+                 <span>Min Investment:</span>
+                 <span>${{ formatNumber(selectedPlan.minAmount) }}</span>
                </div>
                <div class="summary-item">
                  <span>Expected ROI:</span>
@@ -314,14 +290,15 @@
                      <p>QR Code for {{ getSelectedCryptoName() }}</p>
                    </div>
                  </div>
-                 <div class="payment-instructions">
-                   <h6>Payment Instructions:</h6>
-                   <ol>
-                     <li>Copy the wallet address above</li>
-                     <li>Send exactly ${{ formatNumber(investmentAmount || 0) }} worth of {{ getSelectedCryptoName() }}</li>
-                     <li>Wait for blockchain confirmation (usually 1-3 confirmations)</li>
-                     <li>Your investment will be activated automatically</li>
-                   </ol>
+                                            <div class="payment-instructions">
+                             <h6>Payment Instructions:</h6>
+                             <ol>
+                               <li>Copy the wallet address above</li>
+                               <li>Send your desired investment amount in {{ getSelectedCryptoName() }}</li>
+                               <li>Minimum investment: ${{ formatNumber(selectedPlan.minAmount) }}</li>
+                               <li>Wait for blockchain confirmation (usually 1-3 confirmations)</li>
+                               <li>Your investment will be activated automatically</li>
+                             </ol>
                    <div class="important-note">
                      <strong>⚠️ Important:</strong> Only send {{ getSelectedCryptoName() }} to this address. Sending other cryptocurrencies may result in permanent loss.
                    </div>
@@ -701,18 +678,14 @@ export default {
      
      // New investment flow methods
      proceedToPayment() {
-       if (!this.selectedPlan || !this.investmentAmount || this.investmentAmount < this.selectedPlan.minAmount) {
-         alert('Please select a plan and enter a valid amount')
+       if (!this.selectedPlan) {
+         alert('Please select a plan')
          return
        }
        this.investmentStep = 2
      },
      
      proceedToWallet() {
-       if (!this.selectedPaymentMethod) {
-         alert('Please select a payment method')
-         return
-       }
        this.investmentStep = 3
      },
      
@@ -753,10 +726,8 @@ export default {
        this.showInvestmentModal = false
        this.investmentStep = 1
        this.selectedPlan = null
-       this.investmentAmount = ''
-       this.selectedPaymentMethod = ''
+       this.selectedPaymentMethod = 'crypto'
        this.selectedCrypto = 'BTC'
-       this.cardDetails = { number: '', expiry: '', cvv: '', name: '', address: '' }
      }
   }
 }
