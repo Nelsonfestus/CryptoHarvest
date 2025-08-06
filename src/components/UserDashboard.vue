@@ -168,40 +168,105 @@
          <div v-if="showInvestmentModal" class="modal-overlay" @click="showInvestmentModal = false">
        <div class="modal" @click.stop>
          <h3>New Investment</h3>
-         <div class="investment-plans">
-           <div 
-             v-for="plan in investmentPlans" 
-             :key="plan.id"
-             class="plan-option"
-             :class="{ selected: selectedPlan && selectedPlan.id === plan.id }"
-             @click="selectPlan(plan)"
-           >
-             <h4>{{ plan.name }}</h4>
-             <p>Min: ${{ formatNumber(plan.minAmount) }}</p>
-             <p>Max: ${{ formatNumber(plan.maxAmount || 'Unlimited') }}</p>
-             <p>ROI: {{ plan.roi }}%</p>
-             <p>Duration: {{ plan.duration }} days</p>
+         
+         <!-- Step 1: Select Investment Plan -->
+         <div v-if="investmentStep === 1" class="investment-step">
+           <h4>Step 1: Choose Your Investment Plan</h4>
+           <div class="investment-plans">
+             <div 
+               v-for="plan in investmentPlans" 
+               :key="plan.id"
+               class="plan-option"
+               :class="{ selected: selectedPlan && selectedPlan.id === plan.id }"
+               @click="selectPlan(plan)"
+             >
+               <h4>{{ plan.name }}</h4>
+               <p>Min: ${{ formatNumber(plan.minAmount) }}</p>
+               <p>Max: ${{ formatNumber(plan.maxAmount || 'Unlimited') }}</p>
+               <p>ROI: {{ plan.roi }}%</p>
+               <p>Duration: {{ plan.duration }} days</p>
+             </div>
+           </div>
+           
+           <div v-if="selectedPlan" class="investment-details">
+             <h4>Investment Details</h4>
+             <div class="investment-form">
+               <div class="input-group">
+                 <label>Investment Amount:</label>
+                 <input 
+                   v-model="investmentAmount" 
+                   type="number" 
+                   :placeholder="`Min: $${formatNumber(selectedPlan.minAmount)}`"
+                   :min="selectedPlan.minAmount"
+                   :max="selectedPlan.maxAmount || 999999"
+                 />
+                 <p class="amount-info">
+                   Available Balance: ${{ formatNumber(userStats.walletBalance) }}
+                 </p>
+               </div>
+               <div class="investment-summary">
+                 <h5>Investment Summary:</h5>
+                 <div class="summary-item">
+                   <span>Plan:</span>
+                   <span>{{ selectedPlan.name }}</span>
+                 </div>
+                 <div class="summary-item">
+                   <span>Amount:</span>
+                   <span>${{ formatNumber(investmentAmount || 0) }}</span>
+                 </div>
+                 <div class="summary-item">
+                   <span>Expected ROI:</span>
+                   <span>{{ selectedPlan.roi }}%</span>
+                 </div>
+                 <div class="summary-item">
+                   <span>Duration:</span>
+                   <span>{{ selectedPlan.duration }} days</span>
+                 </div>
+                 <div class="summary-item total">
+                   <span>Expected Return:</span>
+                   <span>${{ formatNumber((investmentAmount || 0) * (1 + selectedPlan.roi / 100)) }}</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+           
+           <div class="modal-actions">
+             <button @click="showInvestmentModal = false">Cancel</button>
+             <button 
+               @click="proceedToPayment" 
+               :disabled="!selectedPlan || !investmentAmount || investmentAmount < selectedPlan.minAmount"
+             >
+               Continue to Payment
+             </button>
            </div>
          </div>
-         
-         <div v-if="selectedPlan" class="investment-details">
-           <h4>Investment Details</h4>
-           <div class="investment-form">
-             <div class="input-group">
-               <label>Investment Amount:</label>
-               <input 
-                 v-model="investmentAmount" 
-                 type="number" 
-                 :placeholder="`Min: $${formatNumber(selectedPlan.minAmount)}`"
-                 :min="selectedPlan.minAmount"
-                 :max="selectedPlan.maxAmount || 999999"
-               />
-               <p class="amount-info">
-                 Available Balance: ${{ formatNumber(userStats.walletBalance) }}
-               </p>
-             </div>
-             <div class="investment-summary">
-               <h5>Investment Summary:</h5>
+
+                   <!-- Step 2: Cryptocurrency Payment -->
+         <div v-if="investmentStep === 2" class="investment-step">
+           <h4>Step 2: Cryptocurrency Payment</h4>
+           <div class="crypto-payment-intro">
+             <div class="crypto-icon-large">🔗</div>
+             <h5>Pay with Cryptocurrency</h5>
+             <p>Choose your preferred cryptocurrency to complete your investment. All payments are processed securely on the blockchain.</p>
+           </div>
+           
+           <div class="modal-actions">
+             <button @click="investmentStep = 1">Back</button>
+             <button 
+               @click="proceedToWallet" 
+               class="continue-btn"
+             >
+               Continue to Wallet Selection
+             </button>
+           </div>
+         </div>
+
+         <!-- Step 3: Wallet Address Display -->
+         <div v-if="investmentStep === 3" class="investment-step">
+           <h4>Step 3: Send Payment to Wallet</h4>
+           <div class="wallet-payment-section">
+             <div class="payment-info">
+               <h5>Investment Details:</h5>
                <div class="summary-item">
                  <span>Plan:</span>
                  <span>{{ selectedPlan.name }}</span>
@@ -214,27 +279,66 @@
                  <span>Expected ROI:</span>
                  <span>{{ selectedPlan.roi }}%</span>
                </div>
-               <div class="summary-item">
-                 <span>Duration:</span>
-                 <span>{{ selectedPlan.duration }} days</span>
+             </div>
+
+             <div class="crypto-wallets">
+               <h5>Select Cryptocurrency:</h5>
+               <div class="crypto-options">
+                 <button 
+                   v-for="crypto in cryptoWallets" 
+                   :key="crypto.symbol"
+                   class="crypto-option"
+                   :class="{ active: selectedCrypto === crypto.symbol }"
+                   @click="selectedCrypto = crypto.symbol"
+                 >
+                   <span class="crypto-icon">{{ crypto.icon }}</span>
+                   <span class="crypto-name">{{ crypto.name }}</span>
+                 </button>
                </div>
-               <div class="summary-item total">
-                 <span>Expected Return:</span>
-                 <span>${{ formatNumber((investmentAmount || 0) * (1 + selectedPlan.roi / 100)) }}</span>
+
+               <div v-if="selectedCrypto" class="wallet-address-section">
+                 <h5>Send {{ getSelectedCryptoName() }} to this address:</h5>
+                 <div class="wallet-address">
+                   <input 
+                     :value="getSelectedWalletAddress()" 
+                     readonly 
+                     class="address-input"
+                   />
+                   <button @click="copyWalletAddress" class="copy-btn">
+                     📋 Copy
+                   </button>
+                 </div>
+                 <div class="wallet-qr">
+                   <div class="qr-placeholder">
+                     <span>📱</span>
+                     <p>QR Code for {{ getSelectedCryptoName() }}</p>
+                   </div>
+                 </div>
+                 <div class="payment-instructions">
+                   <h6>Payment Instructions:</h6>
+                   <ol>
+                     <li>Copy the wallet address above</li>
+                     <li>Send exactly ${{ formatNumber(investmentAmount || 0) }} worth of {{ getSelectedCryptoName() }}</li>
+                     <li>Wait for blockchain confirmation (usually 1-3 confirmations)</li>
+                     <li>Your investment will be activated automatically</li>
+                   </ol>
+                   <div class="important-note">
+                     <strong>⚠️ Important:</strong> Only send {{ getSelectedCryptoName() }} to this address. Sending other cryptocurrencies may result in permanent loss.
+                   </div>
+                 </div>
                </div>
              </div>
            </div>
+           
+           <div class="modal-actions">
+             <button @click="investmentStep = 2">Back</button>
+             <button @click="confirmPayment" class="confirm-btn">
+               I've Sent the Payment
+             </button>
+           </div>
          </div>
-         
-         <div class="modal-actions">
-           <button @click="showInvestmentModal = false">Cancel</button>
-           <button 
-             @click="createInvestment" 
-             :disabled="!selectedPlan || !investmentAmount || investmentAmount < selectedPlan.minAmount"
-           >
-             Invest Now
-           </button>
-         </div>
+
+
        </div>
      </div>
 
@@ -256,63 +360,15 @@
            
            <div class="withdrawal-methods">
              <h4>Withdrawal Method:</h4>
-             <button 
-               class="withdrawal-btn bank" 
-               :class="{ active: selectedWithdrawalMethod === 'bank' }"
-               @click="selectedWithdrawalMethod = 'bank'"
-             >
-               <span>🏦</span> Bank Transfer
-             </button>
-             <button 
-               class="withdrawal-btn crypto" 
-               :class="{ active: selectedWithdrawalMethod === 'crypto' }"
-               @click="selectedWithdrawalMethod = 'crypto'"
-             >
-               <span>🔗</span> Crypto Wallet
-             </button>
-           </div>
-           
-           <!-- Bank Transfer Form -->
-           <div v-if="selectedWithdrawalMethod === 'bank'" class="bank-form">
-             <h4>Bank Account Details</h4>
-             <div class="bank-inputs">
-               <div class="input-group">
-                 <label>Account Holder Name:</label>
-                 <input 
-                   v-model="bankDetails.name" 
-                   type="text" 
-                   placeholder="John Doe"
-                 />
-               </div>
-               <div class="input-group">
-                 <label>Bank Name:</label>
-                 <input 
-                   v-model="bankDetails.bankName" 
-                   type="text" 
-                   placeholder="Bank of America"
-                 />
-               </div>
-               <div class="input-group">
-                 <label>Account Number:</label>
-                 <input 
-                   v-model="bankDetails.accountNumber" 
-                   type="text" 
-                   placeholder="1234567890"
-                 />
-               </div>
-               <div class="input-group">
-                 <label>Routing Number:</label>
-                 <input 
-                   v-model="bankDetails.routingNumber" 
-                   type="text" 
-                   placeholder="021000021"
-                 />
-               </div>
+             <div class="crypto-withdrawal-intro">
+               <div class="crypto-icon-large">🔗</div>
+               <h5>Crypto Wallet Withdrawal</h5>
+               <p>Withdraw your funds directly to your cryptocurrency wallet. Fast, secure, and decentralized.</p>
              </div>
            </div>
            
            <!-- Crypto Withdrawal Form -->
-           <div v-if="selectedWithdrawalMethod === 'crypto'" class="crypto-withdrawal-form">
+           <div class="crypto-withdrawal-form">
              <h4>Crypto Wallet Address</h4>
              <div class="input-group">
                <label>Wallet Address:</label>
@@ -358,84 +414,21 @@
            />
            <div class="payment-methods">
              <h4>Payment Method:</h4>
-             <button 
-               class="payment-btn crypto" 
-               :class="{ active: selectedPaymentMethod === 'crypto' }"
-               @click="selectedPaymentMethod = 'crypto'"
-             >
-               <span>🔗</span> Crypto Wallet
-             </button>
-             <button 
-               class="payment-btn card" 
-               :class="{ active: selectedPaymentMethod === 'card' }"
-               @click="selectedPaymentMethod = 'card'"
-             >
-               <span>💳</span> Credit/Debit Card
-             </button>
+             <div class="crypto-payment-intro">
+               <div class="crypto-icon-large">🔗</div>
+               <h5>Add Funds with Cryptocurrency</h5>
+               <p>Connect your crypto wallet to add funds to your account. Fast, secure, and decentralized.</p>
+             </div>
            </div>
            
            <!-- Crypto Payment Form -->
-           <div v-if="selectedPaymentMethod === 'crypto'" class="crypto-form">
+           <div class="crypto-form">
              <h4>Crypto Wallet Payment</h4>
              <div class="wallet-info">
                <p>Connect your crypto wallet to proceed with payment</p>
                <button class="connect-wallet-btn" @click="connectCryptoWallet">
                  Connect Wallet
                </button>
-             </div>
-           </div>
-           
-           <!-- Card Payment Form -->
-           <div v-if="selectedPaymentMethod === 'card'" class="card-form">
-             <h4>Card Details</h4>
-             <div class="card-inputs">
-               <div class="input-group">
-                 <label>Card Number:</label>
-                 <input 
-                   v-model="cardDetails.number" 
-                   type="text" 
-                   placeholder="1234 5678 9012 3456"
-                   maxlength="19"
-                   @input="formatCardNumber"
-                 />
-               </div>
-               <div class="input-row">
-                 <div class="input-group">
-                   <label>Expiry Date:</label>
-                   <input 
-                     v-model="cardDetails.expiry" 
-                     type="text" 
-                     placeholder="MM/YY"
-                     maxlength="5"
-                     @input="formatExpiry"
-                   />
-                 </div>
-                 <div class="input-group">
-                   <label>CVV:</label>
-                   <input 
-                     v-model="cardDetails.cvv" 
-                     type="text" 
-                     placeholder="123"
-                     maxlength="4"
-                   />
-                 </div>
-               </div>
-               <div class="input-group">
-                 <label>Cardholder Name:</label>
-                 <input 
-                   v-model="cardDetails.name" 
-                   type="text" 
-                   placeholder="John Doe"
-                 />
-               </div>
-               <div class="input-group">
-                 <label>Billing Address:</label>
-                 <input 
-                   v-model="cardDetails.address" 
-                   type="text" 
-                   placeholder="123 Main St, City, State"
-                 />
-               </div>
              </div>
            </div>
          </div>
@@ -502,43 +495,44 @@ export default {
        withdrawAmount: '',
        addFundsAmount: '',
        investmentAmount: '',
-       selectedPaymentMethod: '',
-       selectedWithdrawalMethod: '',
-       cardDetails: {
-         number: '',
-         expiry: '',
-         cvv: '',
-         name: '',
-         address: ''
-       },
-       bankDetails: {
-         name: '',
-         bankName: '',
-         accountNumber: '',
-         routingNumber: ''
-       },
+       selectedPaymentMethod: 'crypto',
+       selectedWithdrawalMethod: 'crypto',
        cryptoWithdrawalAddress: '',
-       selectedCrypto: 'BTC'
+       selectedCrypto: 'BTC',
+       investmentStep: 1,
+       cryptoWallets: [
+         {
+           symbol: 'BTC',
+           name: 'Bitcoin',
+           icon: '₿',
+           address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'
+         },
+         {
+           symbol: 'ETH',
+           name: 'Ethereum',
+           icon: 'Ξ',
+           address: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6'
+         },
+         {
+           symbol: 'USDT',
+           name: 'Tether',
+           icon: '₮',
+           address: 'TQn9Y2khDD95J42FQtQTdwVVRKjqEQJqXz'
+         },
+         {
+           symbol: 'USDC',
+           name: 'USD Coin',
+           icon: '💲',
+           address: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6'
+         }
+       ]
     }
   },
      computed: {
      isPaymentFormValid() {
-       if (this.selectedPaymentMethod === 'card') {
-         return this.cardDetails.number && 
-                this.cardDetails.expiry && 
-                this.cardDetails.cvv && 
-                this.cardDetails.name && 
-                this.cardDetails.address
-       }
        return this.selectedPaymentMethod === 'crypto'
      },
      isWithdrawalFormValid() {
-       if (this.selectedWithdrawalMethod === 'bank') {
-         return this.bankDetails.name && 
-                this.bankDetails.bankName && 
-                this.bankDetails.accountNumber && 
-                this.bankDetails.routingNumber
-       }
        return this.selectedWithdrawalMethod === 'crypto' && this.cryptoWithdrawalAddress
      }
    },
@@ -655,8 +649,7 @@ export default {
        // Reset form
        this.showWithdrawModal = false
        this.withdrawAmount = ''
-       this.selectedWithdrawalMethod = ''
-       this.bankDetails = { name: '', bankName: '', accountNumber: '', routingNumber: '' }
+       this.selectedWithdrawalMethod = 'crypto'
        this.cryptoWithdrawalAddress = ''
        
        alert('Withdrawal request submitted successfully! It will be processed within 24-48 hours.')
@@ -668,18 +661,7 @@ export default {
          alert('Crypto wallet connected successfully!')
        }, 1000)
      },
-     formatCardNumber(event) {
-       let value = event.target.value.replace(/\D/g, '')
-       value = value.replace(/(\d{4})(?=\d)/g, '$1 ')
-       this.cardDetails.number = value
-     },
-     formatExpiry(event) {
-       let value = event.target.value.replace(/\D/g, '')
-       if (value.length >= 2) {
-         value = value.slice(0, 2) + '/' + value.slice(2)
-       }
-       this.cardDetails.expiry = value
-     },
+
      processAddFunds() {
        if (!this.addFundsAmount || !this.selectedPaymentMethod) return
        
@@ -690,20 +672,11 @@ export default {
          return
        }
        
-       // Simulate payment processing
-       if (this.selectedPaymentMethod === 'card') {
-         // Simulate card payment
-         alert('Processing card payment...')
-         setTimeout(() => {
-           this.addFundsToWallet(amount)
-         }, 2000)
-       } else if (this.selectedPaymentMethod === 'crypto') {
-         // Simulate crypto payment
-         alert('Processing crypto payment...')
-         setTimeout(() => {
-           this.addFundsToWallet(amount)
-         }, 3000)
-       }
+       // Simulate crypto payment processing
+       alert('Processing crypto payment...')
+       setTimeout(() => {
+         this.addFundsToWallet(amount)
+       }, 3000)
      },
      addFundsToWallet(amount) {
        // Add funds to wallet
@@ -721,10 +694,69 @@ export default {
        // Reset form
        this.showAddFunds = false
        this.addFundsAmount = ''
-       this.selectedPaymentMethod = ''
-       this.cardDetails = { number: '', expiry: '', cvv: '', name: '', address: '' }
+       this.selectedPaymentMethod = 'crypto'
        
        alert(`Successfully added $${this.formatNumber(amount)} to your wallet!`)
+     },
+     
+     // New investment flow methods
+     proceedToPayment() {
+       if (!this.selectedPlan || !this.investmentAmount || this.investmentAmount < this.selectedPlan.minAmount) {
+         alert('Please select a plan and enter a valid amount')
+         return
+       }
+       this.investmentStep = 2
+     },
+     
+     proceedToWallet() {
+       if (!this.selectedPaymentMethod) {
+         alert('Please select a payment method')
+         return
+       }
+       this.investmentStep = 3
+     },
+     
+     getSelectedCryptoName() {
+       const crypto = this.cryptoWallets.find(w => w.symbol === this.selectedCrypto)
+       return crypto ? crypto.name : 'Cryptocurrency'
+     },
+     
+     getSelectedWalletAddress() {
+       const crypto = this.cryptoWallets.find(w => w.symbol === this.selectedCrypto)
+       return crypto ? crypto.address : ''
+     },
+     
+     copyWalletAddress() {
+       const address = this.getSelectedWalletAddress()
+       navigator.clipboard.writeText(address).then(() => {
+         alert('Wallet address copied to clipboard!')
+       }).catch(() => {
+         // Fallback for older browsers
+         const textArea = document.createElement('textarea')
+         textArea.value = address
+         document.body.appendChild(textArea)
+         textArea.select()
+         document.execCommand('copy')
+         document.body.removeChild(textArea)
+         alert('Wallet address copied to clipboard!')
+       })
+     },
+     
+     confirmPayment() {
+       alert('Thank you! We will verify your payment and activate your investment within 1-3 confirmations.')
+       this.resetInvestmentModal()
+     },
+     
+
+     
+     resetInvestmentModal() {
+       this.showInvestmentModal = false
+       this.investmentStep = 1
+       this.selectedPlan = null
+       this.investmentAmount = ''
+       this.selectedPaymentMethod = ''
+       this.selectedCrypto = 'BTC'
+       this.cardDetails = { number: '', expiry: '', cvv: '', name: '', address: '' }
      }
   }
 }
@@ -1444,6 +1476,170 @@ export default {
  .start-investing-btn:hover {
    transform: translateY(-2px);
    box-shadow: 0 8px 16px rgba(235, 103, 9, 0.3);
+ }
+
+ /* Investment Modal Styles */
+ .investment-step {
+   margin-bottom: 20px;
+ }
+
+ .investment-step h4 {
+   color: #ffa600;
+   margin-bottom: 20px;
+   text-align: center;
+ }
+
+ .crypto-wallets {
+   margin-top: 20px;
+ }
+
+ .crypto-options {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+   gap: 10px;
+   margin-bottom: 20px;
+ }
+
+ .crypto-option {
+   background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+   border: 2px solid #333;
+   border-radius: 10px;
+   padding: 15px;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 8px;
+ }
+
+ .crypto-option:hover {
+   border-color: #ffa600;
+   transform: translateY(-2px);
+ }
+
+ .crypto-option.active {
+   border-color: #ffa600;
+   background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
+ }
+
+ .crypto-icon {
+   font-size: 1.5rem;
+ }
+
+ .crypto-name {
+   font-size: 0.9rem;
+   color: #ccc;
+ }
+
+ .wallet-address-section {
+   background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+   border-radius: 10px;
+   padding: 20px;
+   margin-top: 20px;
+   border: 1px solid #333;
+ }
+
+ .wallet-address {
+   display: flex;
+   gap: 10px;
+   margin-bottom: 20px;
+ }
+
+ .address-input {
+   flex: 1;
+   background: #333;
+   border: 1px solid #555;
+   border-radius: 8px;
+   padding: 12px;
+   color: #fff;
+   font-family: monospace;
+   font-size: 0.9rem;
+ }
+
+ .copy-btn {
+   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
+   color: #fff;
+   border: none;
+   padding: 12px 16px;
+   border-radius: 8px;
+   cursor: pointer;
+   font-weight: 600;
+   white-space: nowrap;
+ }
+
+ .wallet-qr {
+   text-align: center;
+   margin-bottom: 20px;
+ }
+
+ .qr-placeholder {
+   background: #333;
+   border: 2px dashed #555;
+   border-radius: 10px;
+   padding: 40px;
+   color: #ccc;
+ }
+
+ .qr-placeholder span {
+   font-size: 3rem;
+   display: block;
+   margin-bottom: 10px;
+ }
+
+ .payment-instructions {
+   background: #333;
+   border-radius: 8px;
+   padding: 15px;
+   margin-top: 15px;
+ }
+
+ .payment-instructions h6 {
+   color: #ffa600;
+   margin-bottom: 10px;
+ }
+
+ .payment-instructions ol {
+   color: #ccc;
+   margin-bottom: 15px;
+   padding-left: 20px;
+ }
+
+ .payment-instructions li {
+   margin-bottom: 5px;
+ }
+
+ .important-note {
+   background: rgba(255, 166, 0, 0.1);
+   border: 1px solid #ffa600;
+   border-radius: 8px;
+   padding: 10px;
+   color: #ffa600;
+   font-size: 0.9rem;
+ }
+
+ .confirm-btn {
+   background: linear-gradient(90deg, #28a745 0%, #20c997 100%) !important;
+   color: #fff !important;
+ }
+
+ .payment-info {
+   background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+   border-radius: 10px;
+   padding: 15px;
+   margin-bottom: 20px;
+   border: 1px solid #333;
+ }
+
+ .payment-info h5 {
+   color: #ffa600;
+   margin-bottom: 10px;
+ }
+
+ .input-row {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 15px;
  }
 
  /* Responsive Design */
