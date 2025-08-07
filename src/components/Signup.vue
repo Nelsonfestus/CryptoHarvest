@@ -1,255 +1,229 @@
 <template>
-  <!-- Signup Section: Main wrapper for the signup form -->
-  <section class="auth-section animate-fade-slide">
-    <div class="auth-card">
-      <!-- Title -->
-      <h2 class="auth-title">Create Your Account</h2>
-      <!-- Signup Form -->
-      <form @submit.prevent="handleSignup" class="auth-form">
-        <!-- Name Field -->
+  <div class="signup-container">
+    <div class="signup-box">
+      <h2>Create Your Account</h2>
+      <form @submit.prevent="handleSignup" class="signup-form">
         <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" v-model="name" required placeholder="Enter your name" />
+          <label for="name">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            v-model="name"
+            required
+            placeholder="Enter your full name"
+          />
         </div>
-        <!-- Email Field -->
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" required placeholder="Enter your email" />
+          <input
+            type="email"
+            id="email"
+            v-model="email"
+            required
+            placeholder="Enter your email"
+          />
         </div>
-        <!-- Password Field -->
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" v-model="password" required placeholder="Create a password" />
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            required
+            placeholder="Enter your password"
+            minlength="6"
+          />
         </div>
-        <!-- Confirm Password Field -->
-        <div class="form-group">
-          <label for="confirm">Confirm Password</label>
-          <input type="password" id="confirm" v-model="confirm" required placeholder="Confirm your password" />
-        </div>
-        <!-- Error Message -->
-        <div v-if="error" class="auth-error">{{ error }}</div>
-        <!-- Submit Button -->
-        <button type="submit" class="auth-btn" :disabled="loading">
-          <span v-if="!loading">Sign Up</span>
-          <span v-else>Signing up...</span>
+        <button type="submit" :disabled="loading" class="signup-btn">
+          {{ loading ? 'Creating Account...' : 'Create Account' }}
         </button>
       </form>
-      <!-- Link to Login Page -->
-      <p class="auth-link">Already have an account? <router-link to="/login">Login</router-link></p>
+      <div v-if="error" class="error-message">
+        {{ error }}
+      </div>
+      <div v-if="success" class="success-message">
+        Account created successfully! Redirecting to dashboard...
+      </div>
+      <div class="login-link">
+        Already have an account? <router-link to="/login">Login here</router-link>
+      </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
+import { auth } from '../lib/supabase'
+
 export default {
   name: 'Signup',
   data() {
     return {
-      name: '', // User's name
-      email: '', // User's email
-      password: '', // User's password
-      confirm: '', // Confirm password
-      error: '', // Error message for validation
-      loading: false, // Loading state for submit button
+      name: '',
+      email: '',
+      password: '',
+      loading: false,
+      error: '',
+      success: ''
     }
   },
   methods: {
-    // Handle signup form submission and validation
     async handleSignup() {
-      this.error = ''
-      if (!this.name) {
-        this.error = 'Name is required.'
-        return
-      }
-      if (!this.validateEmail(this.email)) {
-        this.error = 'Please enter a valid email address.'
-        return
-      }
-      if (!this.password) {
-        this.error = 'Password is required.'
-        return
-      }
-      if (this.password.length < 6) {
-        this.error = 'Password must be at least 6 characters.'
-        return
-      }
-      if (this.password !== this.confirm) {
-        this.error = 'Passwords do not match.'
-        return
-      }
       this.loading = true
-      
-      try {
-        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/auth/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: this.name,
-            email: this.email,
-            password: this.password
-          })
-        })
+      this.error = ''
+      this.success = ''
 
-        const data = await response.json()
+      try {
+        const { data, error } = await auth.signUp(this.email, this.password, {
+          name: this.name
+        })
         
-        if (response.ok && data.success) {
-          // Store token and user data
-          localStorage.setItem('cryptoharvest_token', data.token)
-          localStorage.setItem('cryptoharvest_user', JSON.stringify(data.user))
-          localStorage.setItem('cryptoharvest_isAuthenticated', 'true')
-          
-          // Redirect to dashboard
-          this.$router.push('/dashboard')
-        } else {
-          this.error = data.message || 'Registration failed. Please try again.'
+        if (error) {
+          this.error = error.message || 'Signup failed'
+          return
         }
-      } catch (error) {
-        console.error('Signup error:', error)
-        this.error = 'Network error. Please check your connection and try again.'
+
+        if (data.user) {
+          // Automatically log in the user after successful signup
+          const { data: loginData, error: loginError } = await auth.signIn(this.email, this.password)
+          
+          if (loginError) {
+            this.error = 'Account created but login failed. Please try logging in manually.'
+            return
+          }
+
+          if (loginData.user) {
+            // Store user info in localStorage
+            localStorage.setItem('user', JSON.stringify(loginData.user))
+            localStorage.setItem('session', JSON.stringify(loginData.session))
+            localStorage.setItem('isAdmin', 'false')
+            
+            // Redirect to dashboard
+            this.$router.push('/dashboard')
+          }
+        }
+      } catch (err) {
+        this.error = 'An unexpected error occurred'
+        console.error('Signup error:', err)
       } finally {
         this.loading = false
       }
-    },
-    // Validate email format
-    validateEmail(email) {
-      return /^\S+@\S+\.\S+$/.test(email)
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style scoped>
-/* Signup Section Styles */
-.auth-section {
+.signup-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(120deg, #eb6709 0%, #f63d43 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
 }
 
-.auth-card {
-  margin-top: 10%;
-  margin-bottom: 10%;
-  background: #202020;
-  padding: 48px 32px 32px 32px;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+.signup-box {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.auth-title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
+.signup-box h2 {
   text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 28px;
 }
 
-.auth-form {
-  width: 100%;
+.signup-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 8px;
 }
 
-label {
-  margin-bottom: 6px;
-  font-size: 1rem;
-  color: #ffa600;
+.form-group label {
   font-weight: 600;
+  color: #555;
+  font-size: 14px;
 }
 
-input {
-  width: 100%;
-  padding: 12px 14px;
+.form-group input {
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
   border-radius: 8px;
-  border: none;
-  background: #181818;
-  color: #fff;
-  font-size: 1rem;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
   outline: none;
-  margin-bottom: 2px;
+  border-color: #667eea;
 }
 
-input:focus {
-  border: 1.5px solid #eb6709;
-}
-
-.auth-btn {
-  width: 100%;
-  padding: 12px 0;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 700;
+.signup-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 14px;
   border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 8px;
-  transition:
-    background 0.3s,
-    color 0.3s;
+  transition: transform 0.2s ease;
 }
 
-.auth-btn:disabled {
+.signup-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.signup-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-.auth-btn:hover:not(:disabled) {
-  background: #fff;
-  color: #eb6709;
-}
-
-.auth-link {
-  margin-top: 18px;
-  color: #e9e9e9;
-  font-size: 1rem;
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 20px;
   text-align: center;
+  font-size: 14px;
 }
 
-.auth-link a {
-  color: #eb6709;
+.success-message {
+  background: #efe;
+  color: #363;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #667eea;
+  text-decoration: none;
   font-weight: 600;
+}
+
+.login-link a:hover {
   text-decoration: underline;
-}
-
-.auth-error {
-  color: #f63d43;
-  font-size: 0.98rem;
-  margin-bottom: 2px;
-  text-align: left;
-}
-
-@media (max-width: 600px) {
-  .auth-section {
-    padding: 30px 20px;
-  }
-
-  .auth-card {
-    padding: 24px 8px 18px 8px;
-    border-radius: 10px;
-  }
-
-  .auth-title {
-    font-size: 1.2rem;
-  }
 }
 </style>

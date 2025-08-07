@@ -542,8 +542,14 @@ export default {
       this.$router.push('/crypto-wallet')
     },
     openChat() {
-      // Open chat support
-      console.log('Opening chat...')
+      // Open Tawk.to chat widget
+      if (window.Tawk_API) {
+        window.Tawk_API.showWidget()
+        window.Tawk_API.maximize()
+      } else {
+        // Fallback if Tawk.to is not loaded
+        alert('Chat support is loading. Please try again in a moment.')
+      }
     },
     viewInvestmentDetails(investment) {
       // Navigate to investment details

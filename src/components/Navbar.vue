@@ -100,7 +100,7 @@ export default {
       return this.$route.path === '/dashboard'
     },
     isAdmin() {
-      return localStorage.getItem('cryptoharvest_admin') === 'true'
+      return localStorage.getItem('isAdmin') === 'true'
     }
   },
   mounted() {
@@ -112,13 +112,13 @@ export default {
   },
       methods: {
       checkAuthStatus() {
-        this.isAuthenticated = localStorage.getItem('cryptoharvest_isAuthenticated') === 'true'
+        const user = JSON.parse(localStorage.getItem('user') || 'null')
+        this.isAuthenticated = !!user
       },
       logout() {
-        localStorage.removeItem('cryptoharvest_isAuthenticated')
-        localStorage.removeItem('cryptoharvest_user')
-        localStorage.removeItem('cryptoharvest_admin')
-        localStorage.removeItem('cryptoharvest_token')
+        localStorage.removeItem('user')
+        localStorage.removeItem('session')
+        localStorage.removeItem('isAdmin')
         this.isAuthenticated = false
         this.$router.push('/login')
       },

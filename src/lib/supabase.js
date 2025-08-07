@@ -1,7 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+// Temporary hardcoded values to fix the immediate issue
+const supabaseUrl = 'https://ivjbrnhgrlgmqvtygkkl.supabase.co'
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml2amJybmhncmxnbXF2dHlna2tsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ1MTk0MDUsImV4cCI6MjA3MDA5NTQwNX0.xYDVAwkBxpwOFk93O0VNhDc-bsykn9co_groVmkhVCU'
+
+console.log('🔧 Supabase Configuration:')
+console.log('URL:', supabaseUrl)
+console.log('Key:', '***' + supabaseAnonKey.slice(-4))
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
@@ -13,7 +18,8 @@ export const auth = {
       email,
       password,
       options: {
-        data: userData
+        data: userData,
+        emailRedirectTo: window.location.origin + '/dashboard'
       }
     })
     return { data, error }
@@ -44,6 +50,15 @@ export const auth = {
   async getSession() {
     const { data: { session }, error } = await supabase.auth.getSession()
     return { session, error }
+  },
+
+  // Resend confirmation email
+  async resendConfirmation(email) {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: email
+    })
+    return { error }
   }
 }
 

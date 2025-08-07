@@ -1,13 +1,13 @@
 <script>
 import Navbar from './components/Navbar.vue'
 import Footer from './components/Footer.vue'
-import ChatBox from './components/ChatBox.vue'
+import TawkToChat from './components/TawkToChat.vue'
 export default {
   name: 'App',
   components: {
     Navbar,
     Footer,
-    ChatBox,
+    TawkToChat,
   },
 }
 </script>
@@ -16,7 +16,7 @@ export default {
   <Navbar />
   <router-view></router-view>
   <Footer />
-  <ChatBox />
+  <TawkToChat />
 </template>
 
 <style src="./assets/main.css"></style>

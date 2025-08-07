@@ -14,6 +14,8 @@ import AdminDashboard from '@/components/AdminDashboard.vue'
 import AdminLogin from '@/components/AdminLogin.vue'
 import CryptoWallet from '@/components/CryptoWallet.vue'
 
+import TestView from '@/views/TestView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -68,6 +70,7 @@ const router = createRouter({
     { path: '/login', name: 'Login', component: Login },
     { path: '/signup', name: 'Signup', component: Signup },
     { path: '/admin-login', name: 'AdminLogin', component: AdminLogin },
+    { path: '/test', name: 'TestView', component: TestView },
     { 
       path: '/dashboard', 
       name: 'Dashboard', 
@@ -96,8 +99,9 @@ const router = createRouter({
 
 // Navigation guard to check authentication
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = localStorage.getItem('cryptoharvest_isAuthenticated') === 'true'
-  const isAdmin = localStorage.getItem('cryptoharvest_admin') === 'true'
+  const user = JSON.parse(localStorage.getItem('user') || 'null')
+  const isAdmin = localStorage.getItem('isAdmin') === 'true'
+  const isAuthenticated = !!user
   
   // If route requires authentication and user is not authenticated
   if (to.meta.requiresAuth && !isAuthenticated) {

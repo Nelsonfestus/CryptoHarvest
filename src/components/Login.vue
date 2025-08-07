@@ -1,200 +1,201 @@
 <template>
-  <section class="auth-section animate-fade-slide">
-    <div class="auth-card">
-      <h2 class="auth-title">Login to Your Account</h2>
-      <form @submit.prevent="handleLogin" class="auth-form">
+  <div class="login-container">
+    <div class="login-box">
+      <h2>Login to Your Account</h2>
+      <form @submit.prevent="handleLogin" class="login-form">
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" v-model="email" required placeholder="Enter your email" />
+          <input
+            type="email"
+            id="email"
+            v-model="email"
+            required
+            placeholder="Enter your email"
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" v-model="password" required placeholder="Enter your password" />
+          <input
+            type="password"
+            id="password"
+            v-model="password"
+            required
+            placeholder="Enter your password"
+          />
         </div>
-        <div v-if="error" class="auth-error">{{ error }}</div>
-        <button type="submit" class="auth-btn" :disabled="loading">
-          <span v-if="!loading">Login</span>
-          <span v-else>Logging in...</span>
+        <button type="submit" :disabled="loading" class="login-btn">
+          {{ loading ? 'Logging in...' : 'Login' }}
         </button>
       </form>
-      <p class="auth-link">Don't have an account? <router-link to="/signup">Sign Up</router-link></p>
+      <div v-if="error" class="error-message">
+        {{ error }}
+      </div>
+      <div class="signup-link">
+        Don't have an account? <router-link to="/signup">Sign up here</router-link>
+      </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
+import { auth, supabase } from '../lib/supabase'
+
 export default {
   name: 'Login',
   data() {
     return {
       email: '',
       password: '',
-      error: '',
       loading: false,
+      error: ''
     }
   },
   methods: {
     async handleLogin() {
-      this.error = ''
-      if (!this.validateEmail(this.email)) {
-        this.error = 'Please enter a valid email address.'
-        return
-      }
-      if (!this.password) {
-        this.error = 'Password is required.'
-        return
-      }
       this.loading = true
-      
-      try {
-        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/auth/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.email,
-            password: this.password
-          })
-        })
+      this.error = ''
 
-        const data = await response.json()
+      try {
+        const { data, error } = await auth.signIn(this.email, this.password)
         
-        if (response.ok && data.success) {
-          // Store token and user data
-          localStorage.setItem('cryptoharvest_token', data.token)
-          localStorage.setItem('cryptoharvest_user', JSON.stringify(data.user))
-          localStorage.setItem('cryptoharvest_isAuthenticated', 'true')
-          
-          // Redirect to dashboard
-          this.$router.push('/dashboard')
-        } else {
-          this.error = data.message || 'Invalid email or password. Please check your credentials or sign up.'
+        if (error) {
+          this.error = error.message || 'Login failed'
+          return
         }
-      } catch (error) {
-        console.error('Login error:', error)
-        this.error = 'Network error. Please check your connection and try again.'
+
+        if (data.user) {
+          // Store user info in localStorage
+          localStorage.setItem('user', JSON.stringify(data.user))
+          localStorage.setItem('session', JSON.stringify(data.session))
+          
+          // Check if user is admin
+          const { data: userData, error: userError } = await supabase
+            .from('users')
+            .select('role')
+            .eq('id', data.user.id)
+            .single()
+
+          if (!userError && userData?.role === 'admin') {
+            localStorage.setItem('isAdmin', 'true')
+            this.$router.push('/admin')
+          } else {
+            localStorage.setItem('isAdmin', 'false')
+            this.$router.push('/dashboard')
+          }
+        }
+      } catch (err) {
+        this.error = 'An unexpected error occurred'
+        console.error('Login error:', err)
       } finally {
         this.loading = false
       }
-    },
-    validateEmail(email) {
-      return /^\S+@\S+\.\S+$/.test(email)
-    },
-  },
+    }
+  }
 }
 </script>
 
 <style scoped>
-.auth-section {
+.login-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(120deg, #eb6709 0%, #f63d43 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
 }
-.auth-card {
-  margin-top: 10%;
-  background: #202020;
-  padding: 48px 32px 32px 32px;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+
+.login-box {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
-.auth-title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  -webkit-background-clip: text;
+
+.login-box h2 {
   text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 28px;
 }
-.auth-form {
-  width: 100%;
+
+.login-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 20px;
 }
+
 .form-group {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 8px;
 }
-label {
-  margin-bottom: 6px;
-  font-size: 1rem;
-  color: #ffa600;
+
+.form-group label {
   font-weight: 600;
+  color: #555;
+  font-size: 14px;
 }
-input {
-  width: 100%;
-  padding: 12px 14px;
+
+.form-group input {
+  padding: 12px 16px;
+  border: 2px solid #e1e5e9;
   border-radius: 8px;
-  border: none;
-  background: #181818;
-  color: #fff;
-  font-size: 1rem;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus {
   outline: none;
-  margin-bottom: 2px;
+  border-color: #667eea;
 }
-input:focus {
-  border: 1.5px solid #eb6709;
-}
-.auth-btn {
-  width: 100%;
-  padding: 12px 0;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
-  color: #fff;
-  font-size: 1.1rem;
-  font-weight: 700;
+
+.login-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 14px;
   border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 8px;
-  transition: background 0.3s, color 0.3s;
+  transition: transform 0.2s ease;
 }
-.auth-btn:disabled {
+
+.login-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.login-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
-.auth-btn:hover:not(:disabled) {
-  background: #fff;
-  color: #eb6709;
-}
-.auth-link {
-  margin-top: 18px;
-  color: #e9e9e9;
-  font-size: 1rem;
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 20px;
   text-align: center;
+  font-size: 14px;
 }
-.auth-link a {
-  color: #eb6709;
+
+.signup-link {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 14px;
+}
+
+.signup-link a {
+  color: #667eea;
+  text-decoration: none;
   font-weight: 600;
+}
+
+.signup-link a:hover {
   text-decoration: underline;
-}
-.auth-error {
-  color: #f63d43;
-  font-size: 0.98rem;
-  margin-bottom: 2px;
-  text-align: left;
-}
-@media (max-width: 600px) {
-  .auth-section {
-    padding: 20px 30px;
-  }
-  .auth-card {
-    padding: 24px 8px 18px 8px;
-    border-radius: 10px;
-  }
-  .auth-title {
-    font-size: 1.2rem;
-  }
 }
 </style> 
