@@ -96,9 +96,9 @@ export default {
             localStorage.setItem('user', JSON.stringify(loginData.user))
             localStorage.setItem('session', JSON.stringify(loginData.session))
             localStorage.setItem('isAdmin', 'false')
-            
-            // Redirect to dashboard
-            this.$router.push('/dashboard')
+        
+        // Redirect to dashboard
+        this.$router.push('/dashboard')
           }
         }
       } catch (err) {

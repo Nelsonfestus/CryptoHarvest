@@ -103,31 +103,24 @@ export default {
       return localStorage.getItem('isAdmin') === 'true'
     }
   },
-  mounted() {
-    this.checkAuthStatus()
-    window.addEventListener('storage', this.checkAuthStatus)
-  },
-  unmounted() {
-    window.removeEventListener('storage', this.checkAuthStatus)
-  },
-      methods: {
-      checkAuthStatus() {
-        const user = JSON.parse(localStorage.getItem('user') || 'null')
-        this.isAuthenticated = !!user
-      },
-      logout() {
-        localStorage.removeItem('user')
-        localStorage.removeItem('session')
-        localStorage.removeItem('isAdmin')
-        this.isAuthenticated = false
-        this.$router.push('/login')
-      },
-      toggleMenu() {
-        this.menuOpen = !this.menuOpen
-      },
-      closeMenu() {
-        this.menuOpen = false
-      },
+  methods: {
+    checkAuthStatus() {
+      const user = JSON.parse(localStorage.getItem('user') || 'null')
+      this.isAuthenticated = !!user
+    },
+    logout() {
+      localStorage.removeItem('user')
+      localStorage.removeItem('session')
+      localStorage.removeItem('isAdmin')
+      this.isAuthenticated = false
+      this.$router.push('/login')
+    },
+    toggleMenu() {
+      this.menuOpen = !this.menuOpen
+    },
+    closeMenu() {
+      this.menuOpen = false
+    },
     handleResize() {
       this.isDesktop = window.innerWidth > 884 // updated from 884
       if (this.isDesktop) this.menuOpen = false
@@ -165,10 +158,13 @@ export default {
     },
   },
   mounted() {
+    this.checkAuthStatus()
+    window.addEventListener('storage', this.checkAuthStatus)
     window.addEventListener('resize', this.handleResize)
     window.addEventListener('scroll', this.handleScroll)
   },
-  beforeDestroy() {
+  unmounted() {
+    window.removeEventListener('storage', this.checkAuthStatus)
     window.removeEventListener('resize', this.handleResize)
     window.removeEventListener('scroll', this.handleScroll)
     if (this.scrollTimeout) clearTimeout(this.scrollTimeout)

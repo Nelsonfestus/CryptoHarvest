@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.cryptoharvest.info/sitemap.xml
+
+# Disallow admin and private areas
+Disallow: /admin
+Disallow: /admin-login
+Disallow: /dashboard
+Disallow: /crypto-wallet
+
+# Allow important pages
+Allow: /investment-plans
+Allow: /about
+Allow: /contact
+Allow: /blog
+Allow: /community
+Allow: /login
+Allow: /signup
+Allow: /all-investors
+
+# Crawl delay (optional)
+Crawl-delay: 1 

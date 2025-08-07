@@ -38,13 +38,13 @@
         </div>
       </div>
 
-              <div class="overview-card wallet-balance">
-          <div class="card-icon">💳</div>
-          <div class="card-content">
-            <h3>Wallet Balance</h3>
-            <p class="amount">${{ formatNumber(userStats.walletBalance) }}</p>
-          </div>
+      <div class="overview-card wallet-balance">
+        <div class="card-icon">💳</div>
+        <div class="card-content">
+          <h3>Wallet Balance</h3>
+          <p class="amount">${{ formatNumber(userStats.walletBalance) }}</p>
         </div>
+      </div>
     </div>
 
     <!-- Quick Actions -->
@@ -167,24 +167,24 @@
          <!-- Step 1: Select Investment Plan -->
          <div v-if="investmentStep === 1" class="investment-step">
            <h4>Step 1: Choose Your Investment Plan</h4>
-           <div class="investment-plans">
-             <div 
-               v-for="plan in investmentPlans" 
-               :key="plan.id"
-               class="plan-option"
-               :class="{ selected: selectedPlan && selectedPlan.id === plan.id }"
-               @click="selectPlan(plan)"
-             >
-               <h4>{{ plan.name }}</h4>
-               <p>Min: ${{ formatNumber(plan.minAmount) }}</p>
-               <p>Max: ${{ formatNumber(plan.maxAmount || 'Unlimited') }}</p>
-               <p>ROI: {{ plan.roi }}%</p>
-               <p>Duration: {{ plan.duration }} days</p>
-             </div>
+         <div class="investment-plans">
+           <div 
+             v-for="plan in investmentPlans" 
+             :key="plan.id"
+             class="plan-option"
+             :class="{ selected: selectedPlan && selectedPlan.id === plan.id }"
+             @click="selectPlan(plan)"
+           >
+             <h4>{{ plan.name }}</h4>
+             <p>Min: ${{ formatNumber(plan.minAmount) }}</p>
+             <p>Max: ${{ formatNumber(plan.maxAmount || 'Unlimited') }}</p>
+             <p>ROI: {{ plan.roi }}%</p>
+             <p>Duration: {{ plan.duration }} days</p>
            </div>
-           
-           <div v-if="selectedPlan" class="investment-details">
-             <h4>Investment Details</h4>
+         </div>
+         
+         <div v-if="selectedPlan" class="investment-details">
+           <h4>Investment Details</h4>
              <div class="investment-summary">
                <h5>Investment Summary:</h5>
                <div class="summary-item">
@@ -203,8 +203,8 @@
                  <span>Duration:</span>
                  <span>{{ selectedPlan.duration }} days</span>
                </div>
+               </div>
              </div>
-           </div>
            
            <div class="modal-actions">
              <button @click="showInvestmentModal = false">Cancel</button>
@@ -224,17 +224,17 @@
              <div class="crypto-icon-large">🔗</div>
              <h5>Pay with Cryptocurrency</h5>
              <p>Choose your preferred cryptocurrency to complete your investment. All payments are processed securely on the blockchain.</p>
-           </div>
-           
-           <div class="modal-actions">
+         </div>
+         
+         <div class="modal-actions">
              <button @click="investmentStep = 1">Back</button>
-             <button 
+           <button 
                @click="proceedToWallet" 
                class="continue-btn"
-             >
+           >
                Continue to Wallet Selection
-             </button>
-           </div>
+           </button>
+         </div>
          </div>
 
          <!-- Step 3: Wallet Address Display -->
@@ -517,13 +517,13 @@ export default {
    },
      async mounted() {
     await this.loadUserData()
-  },
+   },
   methods: {
     async loadUserData() {
       try {
         // Load user data from Supabase authentication
         const storedUser = localStorage.getItem('user')
-        if (storedUser) {
+      if (storedUser) {
           const userData = JSON.parse(storedUser)
           
           // Get additional user data from Supabase database
@@ -707,10 +707,10 @@ export default {
        }
        
        // Simulate crypto payment processing
-       alert('Processing crypto payment...')
-       setTimeout(() => {
-         this.addFundsToWallet(amount)
-       }, 3000)
+         alert('Processing crypto payment...')
+         setTimeout(() => {
+           this.addFundsToWallet(amount)
+         }, 3000)
      },
      addFundsToWallet(amount) {
        // Add funds to wallet

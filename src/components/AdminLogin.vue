@@ -60,9 +60,9 @@ export default {
         
         if (error) {
           this.error = error.message || 'Login failed'
-          return
-        }
-
+        return
+      }
+      
         if (data.user) {
           // Check if user is admin
           const { data: userData, error: userError } = await supabase

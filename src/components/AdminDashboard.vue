@@ -71,8 +71,8 @@
         <div class="section-header">
           <h2>Chat Support</h2>
           <button @click="refreshChats" class="refresh-btn">Refresh</button>
-        </div>
-        
+      </div>
+
         <div class="chat-list">
           <div v-for="chat in chats" :key="chat._id" class="chat-item">
             <div class="chat-header">
