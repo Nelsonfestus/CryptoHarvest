@@ -1,7 +1,10 @@
 <template>
   <div class="admin-dashboard">
     <div class="dashboard-header">
-      <h1>Admin Dashboard</h1>
+      <div class="header-top">
+        <h1>Admin Dashboard</h1>
+        <button @click="logout" class="logout-btn">Logout</button>
+      </div>
       <div class="header-stats">
         <div class="stat-card">
           <h3>{{ stats.totalUsers }}</h3>
@@ -42,22 +45,22 @@
             </tr>
           </thead>
           <tbody>
-              <tr v-for="investor in investors" :key="investor._id">
+              <tr v-for="investor in investors" :key="investor.id">
                 <td>{{ investor.name }}</td>
                 <td>{{ investor.email }}</td>
                 <td>
-                  <span class="balance">${{ investor.walletBalance || 0 }}</span>
+                  <span class="balance">${{ investor.wallet_balance || 0 }}</span>
                   <button @click="editBalance(investor)" class="edit-btn">Edit</button>
                 </td>
                 <td>
-                  <span :class="['status', investor.isVerified ? 'verified' : 'pending']">
-                    {{ investor.isVerified ? 'Verified' : 'Pending' }}
+                  <span :class="['status', investor.is_verified ? 'verified' : 'pending']">
+                    {{ investor.is_verified ? 'Verified' : 'Pending' }}
                   </span>
                 </td>
                 <td>
                   <button @click="viewInvestorDetails(investor)" class="view-btn">View</button>
                   <button @click="toggleVerification(investor)" class="verify-btn">
-                    {{ investor.isVerified ? 'Unverify' : 'Verify' }}
+                    {{ investor.is_verified ? 'Unverify' : 'Verify' }}
                   </button>
               </td>
             </tr>
@@ -97,7 +100,7 @@
         <h3>Edit Balance</h3>
         <div class="modal-content">
           <p><strong>User:</strong> {{ selectedInvestor?.name }}</p>
-          <p><strong>Current Balance:</strong> ${{ selectedInvestor?.walletBalance || 0 }}</p>
+          <p><strong>Current Balance:</strong> ${{ selectedInvestor?.wallet_balance || 0 }}</p>
           <div class="form-group">
             <label>New Balance:</label>
             <input 
@@ -144,6 +147,8 @@
 </template>
 
 <script>
+import { supabase } from '../lib/supabase'
+
 export default {
   name: 'AdminDashboard',
   data() {
@@ -167,39 +172,26 @@ export default {
     }
   },
   async mounted() {
+    // Check if user is admin
+    const isAdmin = localStorage.getItem('isAdmin')
+    if (!isAdmin) {
+      this.$router.push('/admin-login')
+      return
+    }
+
     await this.loadDashboardData()
   },
   methods: {
     async loadDashboardData() {
       try {
-        const token = localStorage.getItem('cryptoharvest_token')
-        if (!token) {
-          this.$router.push('/login')
-          return
-        }
-
-        // Load dashboard stats
-        const statsResponse = await fetch('https://web-production-8d9eb.up.railway.app/api/admin/dashboard', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        
-        if (statsResponse.ok) {
-          const statsData = await statsResponse.json()
-          this.stats = {
-            totalUsers: statsData.userStats?.totalUsers || 0,
-            totalInvestments: statsData.investmentStats?.totalInvestments || 0,
-            totalBalance: statsData.userStats?.totalWalletBalance || 0,
-            activeChats: statsData.chatStats?.open || 0
-          }
-        }
-
         // Load investors
         await this.loadInvestors()
         
         // Load chats
         await this.loadChats()
+        
+        // Calculate stats
+        await this.calculateStats()
         
       } catch (error) {
         console.error('Error loading dashboard data:', error)
@@ -208,17 +200,17 @@ export default {
 
     async loadInvestors() {
       try {
-        const token = localStorage.getItem('cryptoharvest_token')
-        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/admin/users', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
+        const { data: users, error } = await supabase
+          .from('users')
+          .select('*')
+          .order('created_at', { ascending: false })
         
-        if (response.ok) {
-          const data = await response.json()
-          this.investors = data.users || []
+        if (error) {
+          console.error('Error loading users:', error)
+          return
         }
+        
+        this.investors = users || []
       } catch (error) {
         console.error('Error loading investors:', error)
       }
@@ -226,48 +218,75 @@ export default {
 
     async loadChats() {
       try {
-        const token = localStorage.getItem('cryptoharvest_token')
-        const response = await fetch('https://web-production-8d9eb.up.railway.app/api/admin/chats', {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
+        const { data: chats, error } = await supabase
+          .from('chat_messages')
+          .select('*')
+          .order('created_at', { ascending: false })
         
-        if (response.ok) {
-          const data = await response.json()
-          this.chats = data.chats || []
+        if (error) {
+          console.error('Error loading chats:', error)
+          return
         }
+        
+        this.chats = chats || []
       } catch (error) {
         console.error('Error loading chats:', error)
       }
     },
 
+    async calculateStats() {
+      try {
+        // Get total users
+        const { count: totalUsers } = await supabase
+          .from('users')
+          .select('*', { count: 'exact', head: true })
+        
+        // Get total balance
+        const { data: users } = await supabase
+          .from('users')
+          .select('wallet_balance')
+        
+        const totalBalance = users?.reduce((sum, user) => sum + (user.wallet_balance || 0), 0) || 0
+        
+        // Get active chats (messages from last 24 hours)
+        const { count: activeChats } = await supabase
+          .from('chat_messages')
+          .select('*', { count: 'exact', head: true })
+          .gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
+        
+        this.stats = {
+          totalUsers: totalUsers || 0,
+          totalInvestments: 0, // Will be implemented when investments table is ready
+          totalBalance: totalBalance,
+          activeChats: activeChats || 0
+        }
+      } catch (error) {
+        console.error('Error calculating stats:', error)
+      }
+    },
+
     editBalance(investor) {
       this.selectedInvestor = investor
-      this.newBalance = investor.walletBalance || 0
+      this.newBalance = investor.wallet_balance || 0
       this.showBalanceModal = true
     },
 
     async saveBalance() {
       try {
-        const token = localStorage.getItem('cryptoharvest_token')
-        const response = await fetch(`https://web-production-8d9eb.up.railway.app/api/admin/users/${this.selectedInvestor._id}/balance`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            walletBalance: parseFloat(this.newBalance)
-          })
-        })
+        const { error } = await supabase
+          .from('users')
+          .update({ wallet_balance: parseFloat(this.newBalance) })
+          .eq('id', this.selectedInvestor.id)
         
-        if (response.ok) {
-          // Update local data
-          this.selectedInvestor.walletBalance = parseFloat(this.newBalance)
-          this.closeBalanceModal()
-          await this.loadDashboardData() // Refresh stats
+        if (error) {
+          console.error('Error updating balance:', error)
+          return
         }
+        
+        // Update local data
+        this.selectedInvestor.wallet_balance = parseFloat(this.newBalance)
+        this.closeBalanceModal()
+        await this.calculateStats() // Refresh stats
       } catch (error) {
         console.error('Error updating balance:', error)
       }
@@ -281,21 +300,17 @@ export default {
 
     async toggleVerification(investor) {
       try {
-        const token = localStorage.getItem('cryptoharvest_token')
-        const response = await fetch(`https://web-production-8d9eb.up.railway.app/api/admin/users/${investor._id}/status`, {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            isVerified: !investor.isVerified
-          })
-        })
+        const { error } = await supabase
+          .from('users')
+          .update({ is_verified: !investor.is_verified })
+          .eq('id', investor.id)
         
-        if (response.ok) {
-          investor.isVerified = !investor.isVerified
+        if (error) {
+          console.error('Error updating verification status:', error)
+          return
         }
+        
+        investor.is_verified = !investor.is_verified
       } catch (error) {
         console.error('Error updating verification status:', error)
       }
@@ -304,6 +319,18 @@ export default {
     viewInvestorDetails(investor) {
       // Navigate to investor details page or show modal
       console.log('View investor details:', investor)
+    },
+
+    async logout() {
+      try {
+        await supabase.auth.signOut()
+        localStorage.removeItem('user')
+        localStorage.removeItem('session')
+        localStorage.removeItem('isAdmin')
+        this.$router.push('/admin-login')
+      } catch (error) {
+        console.error('Error logging out:', error)
+      }
     },
 
     async openChat(chat) {
@@ -416,6 +443,28 @@ export default {
   padding: 20px;
   background: #f5f5f5;
   min-height: 100vh;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logout-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #c82333;
 }
 
 .dashboard-header {

@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { auth, supabase } from '../lib/supabase'
+import { supabase } from '../lib/supabase'
 
 export default {
   name: 'AdminLogin',
@@ -56,12 +56,16 @@ export default {
       this.error = ''
 
       try {
-        const { data, error } = await auth.signIn(this.email, this.password)
+        // Use the correct Supabase auth method
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: this.email,
+          password: this.password
+        })
         
         if (error) {
           this.error = error.message || 'Login failed'
-        return
-      }
+          return
+        }
       
         if (data.user) {
           // Check if user is admin
@@ -74,7 +78,7 @@ export default {
           if (userError || userData?.role !== 'admin') {
             this.error = 'Access denied. Admin privileges required.'
             // Sign out the user since they're not admin
-            await auth.signOut()
+            await supabase.auth.signOut()
             return
           }
 
