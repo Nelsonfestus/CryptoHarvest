@@ -20,6 +20,7 @@
     "@vue/test-utils": "^2.4.6",
     "jsdom": "^26.1.0",
     "prettier": "3.5.3",
+    "terser": "^5.43.1",
     "vite": "^5.4.19",
     "vite-plugin-vue-devtools": "^7.7.7",
     "vitest": "^3.2.4"
