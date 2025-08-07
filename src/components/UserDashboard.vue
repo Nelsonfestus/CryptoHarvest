@@ -484,7 +484,7 @@ export default {
            symbol: 'BTC',
            name: 'Bitcoin',
            icon: '₿',
-           address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh'
+           address: 'bc1qeks6hcj24zjf57u3a4sdvzep3h7ne5dcvp7vy4'
          },
          {
            symbol: 'ETH',
@@ -499,10 +499,10 @@ export default {
            address: 'TQn9Y2khDD95J42FQtQTdwVVRKjqEQJqXz'
          },
          {
-           symbol: 'USDC',
-           name: 'USD Coin',
-           icon: '💲',
-           address: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6'
+                     symbol: 'SOL',
+          name: 'Solana',
+          icon: '◎',
+          address: 'HXFKFzY54JpeL3waBQffeH5K3pMpFoARgk9E7pHFVCXX'
          }
        ]
     }
