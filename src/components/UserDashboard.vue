@@ -424,6 +424,8 @@
 </template>
 
 <script>
+import { supabase } from '../lib/supabase'
+
 export default {
   name: 'UserDashboard',
   data() {
@@ -513,15 +515,63 @@ export default {
        return this.selectedWithdrawalMethod === 'crypto' && this.cryptoWithdrawalAddress
      }
    },
-   mounted() {
-     this.loadUserData()
-   },
+     async mounted() {
+    await this.loadUserData()
+  },
   methods: {
-    loadUserData() {
-      // Load user data from localStorage
-      const storedUser = localStorage.getItem('cryptoharvest_user')
-      if (storedUser) {
-        this.user = JSON.parse(storedUser)
+    async loadUserData() {
+      try {
+        // Load user data from Supabase authentication
+        const storedUser = localStorage.getItem('user')
+        if (storedUser) {
+          const userData = JSON.parse(storedUser)
+          
+          // Get additional user data from Supabase database
+          const { data: userProfile, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', userData.id)
+            .single()
+          
+          if (error) {
+            console.error('Error loading user profile:', error)
+            // Fallback to basic user data
+            this.user = {
+              name: userData.user_metadata?.name || 'User',
+              email: userData.email
+            }
+          } else {
+            // Use data from database
+            this.user = {
+              name: userProfile.name || userData.user_metadata?.name || 'User',
+              email: userProfile.email || userData.email
+            }
+            
+            // Update user stats from database
+            this.userStats = {
+              totalInvested: userProfile.total_invested || 0,
+              currentValue: userProfile.total_invested || 0,
+              totalGrowth: 0,
+              totalProfit: userProfile.total_profit || 0,
+              activeInvestments: 0,
+              walletBalance: userProfile.wallet_balance || 0
+            }
+          }
+        } else {
+          // No user data found, redirect to login
+          this.$router.push('/login')
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error)
+        // Fallback to basic user data from localStorage
+        const storedUser = localStorage.getItem('user')
+        if (storedUser) {
+          const userData = JSON.parse(storedUser)
+          this.user = {
+            name: userData.user_metadata?.name || 'User',
+            email: userData.email
+          }
+        }
       }
     },
     formatNumber(num) {
@@ -532,8 +582,9 @@ export default {
     },
     logout() {
       // Clear authentication data
-      localStorage.removeItem('cryptoharvest_isAuthenticated')
-      localStorage.removeItem('cryptoharvest_user')
+      localStorage.removeItem('user')
+      localStorage.removeItem('session')
+      localStorage.removeItem('isAdmin')
       
       // Redirect to login page
       this.$router.push('/login')
