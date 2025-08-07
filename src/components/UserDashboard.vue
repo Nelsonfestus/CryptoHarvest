@@ -284,12 +284,13 @@
                      📋 Copy
                    </button>
                  </div>
-                 <div class="wallet-qr">
-                   <div class="qr-placeholder">
-                     <span>📱</span>
-                     <p>QR Code for {{ getSelectedCryptoName() }}</p>
-                   </div>
-                 </div>
+                                 <div class="wallet-qr">
+                  <img 
+                    :src="getSelectedWalletQR()" 
+                    :alt="getSelectedCryptoName() + ' QR Code'"
+                    class="qr-code-image"
+                  />
+                </div>
                                             <div class="payment-instructions">
                              <h6>Payment Instructions:</h6>
                              <ol>
@@ -357,12 +358,10 @@
              </div>
              <div class="input-group">
                <label>Cryptocurrency:</label>
-               <select v-model="selectedCrypto">
-                 <option value="BTC">Bitcoin (BTC)</option>
-                 <option value="ETH">Ethereum (ETH)</option>
-                 <option value="USDT">Tether (USDT)</option>
-                 <option value="USDC">USD Coin (USDC)</option>
-               </select>
+                             <select v-model="selectedCrypto">
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="SOL">Solana (SOL)</option>
+              </select>
              </div>
            </div>
          </div>
@@ -479,31 +478,21 @@ export default {
        cryptoWithdrawalAddress: '',
        selectedCrypto: 'BTC',
        investmentStep: 1,
-       cryptoWallets: [
-         {
-           symbol: 'BTC',
-           name: 'Bitcoin',
-           icon: '₿',
-           address: 'bc1qeks6hcj24zjf57u3a4sdvzep3h7ne5dcvp7vy4'
-         },
-         {
-           symbol: 'ETH',
-           name: 'Ethereum',
-           icon: 'Ξ',
-           address: '0x742d35Cc6634C0532925a3b8D4C9db96C4b4d8b6'
-         },
-         {
-           symbol: 'USDT',
-           name: 'Tether',
-           icon: '₮',
-           address: 'TQn9Y2khDD95J42FQtQTdwVVRKjqEQJqXz'
-         },
-         {
-                     symbol: 'SOL',
+             cryptoWallets: [
+        {
+          symbol: 'BTC',
+          name: 'Bitcoin',
+          icon: '₿',
+          address: 'bc1qeks6hcj24zjf57u3a4sdvzep3h7ne5dcvp7vy4',
+          qrCode: '/src/assets/bitcoin wallet.jpeg'
+        },
+        {
+          symbol: 'SOL',
           name: 'Solana',
           icon: '◎',
-          address: 'HXFKFzY54JpeL3waBQffeH5K3pMpFoARgk9E7pHFVCXX'
-         }
+          address: 'HXFKFzY54JpeL3waBQffeH5K3pMpFoARgk9E7pHFVCXX',
+          qrCode: '/src/assets/solana wallet.jpeg'
+        }
        ]
     }
   },
@@ -751,10 +740,15 @@ export default {
        return crypto ? crypto.name : 'Cryptocurrency'
      },
      
-     getSelectedWalletAddress() {
-       const crypto = this.cryptoWallets.find(w => w.symbol === this.selectedCrypto)
-       return crypto ? crypto.address : ''
-     },
+         getSelectedWalletAddress() {
+      const crypto = this.cryptoWallets.find(w => w.symbol === this.selectedCrypto)
+      return crypto ? crypto.address : ''
+    },
+    
+    getSelectedWalletQR() {
+      const crypto = this.cryptoWallets.find(w => w.symbol === this.selectedCrypto)
+      return crypto ? crypto.qrCode : ''
+    },
      
      copyWalletAddress() {
        const address = this.getSelectedWalletAddress()
@@ -1635,23 +1629,20 @@ export default {
  }
 
  .wallet-qr {
-   text-align: center;
-   margin-bottom: 20px;
- }
+  text-align: center;
+  margin-bottom: 20px;
+  background: #333;
+  border-radius: 10px;
+  padding: 20px;
+}
 
- .qr-placeholder {
-   background: #333;
-   border: 2px dashed #555;
-   border-radius: 10px;
-   padding: 40px;
-   color: #ccc;
- }
-
- .qr-placeholder span {
-   font-size: 3rem;
-   display: block;
-   margin-bottom: 10px;
- }
+.qr-code-image {
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid #555;
+}
 
  .payment-instructions {
    background: #333;
