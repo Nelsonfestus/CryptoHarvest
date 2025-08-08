@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { auth } from '../lib/supabase'
+import { auth, supabase } from '../lib/supabase'
 
 export default {
   name: 'Signup',
@@ -83,6 +83,25 @@ export default {
         }
 
         if (data.user) {
+          // Create user profile with initial balance
+          const { error: profileError } = await supabase
+            .from('users')
+            .upsert({
+              id: data.user.id,
+              email: this.email,
+              name: this.name,
+              role: 'user',
+              wallet_balance: 1000, // Initial balance of $1000
+              is_verified: false,
+              created_at: new Date().toISOString()
+            })
+
+          if (profileError) {
+            console.error('Profile creation error:', profileError)
+            this.error = 'Account created but profile setup failed. Please contact support.'
+            return
+          }
+
           // Automatically log in the user after successful signup
           const { data: loginData, error: loginError } = await auth.signIn(this.email, this.password)
           
@@ -97,8 +116,8 @@ export default {
             localStorage.setItem('session', JSON.stringify(loginData.session))
             localStorage.setItem('isAdmin', 'false')
         
-        // Redirect to dashboard
-        this.$router.push('/dashboard')
+            // Redirect to dashboard
+            this.$router.push('/dashboard')
           }
         }
       } catch (err) {

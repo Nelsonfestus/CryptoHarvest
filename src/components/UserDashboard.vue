@@ -176,10 +176,11 @@
              @click="selectPlan(plan)"
            >
              <h4>{{ plan.name }}</h4>
-             <p>Min: ${{ formatNumber(plan.minAmount) }}</p>
-             <p>Max: ${{ formatNumber(plan.maxAmount || 'Unlimited') }}</p>
-             <p>ROI: {{ plan.roi }}%</p>
-             <p>Duration: {{ plan.duration }} days</p>
+            <p>${{ formatNumber(plan.minAmount) }} - ${{ plan.maxAmount ? formatNumber(plan.maxAmount) : 'Unlimited' }}</p>
+            <p>Daily</p>
+            <p>Profit – {{ plan.roi }}%</p>
+            <p>DAILY / {{ plan.duration }} DAYS ⛏️⛏️</p>
+            <p>Instant Payout - {{ plan.instantPayout ? 'Yes' : 'No' }}</p>
            </div>
          </div>
          
@@ -358,10 +359,10 @@
              </div>
              <div class="input-group">
                <label>Cryptocurrency:</label>
-                             <select v-model="selectedCrypto">
-                <option value="BTC">Bitcoin (BTC)</option>
+               <select v-model="selectedCrypto">
+                 <option value="BTC">Bitcoin (BTC)</option>
                 <option value="SOL">Solana (SOL)</option>
-              </select>
+               </select>
              </div>
            </div>
          </div>
@@ -446,24 +447,23 @@ export default {
       investmentPlans: [
         {
           id: 1,
-          name: 'Gold Plan',
-          minAmount: 1500,
-          roi: 5,
-          duration: 30
+          name: 'Basic Plan',
+          minAmount: 1000,
+          maxAmount: 4999,
+          roi: 10,
+          duration: 2,
+          dailyProfit: true,
+          instantPayout: true
         },
         {
           id: 2,
-          name: 'Silver Plan',
+          name: 'Premium Plan',
           minAmount: 5000,
-          roi: 10,
-          duration: 60
-        },
-        {
-          id: 3,
-          name: 'Platinum Plan',
-          minAmount: 20000,
+          maxAmount: null, // Unlimited
           roi: 20,
-          duration: 90
+          duration: 5,
+          dailyProfit: true,
+          instantPayout: true
         }
       ],
              showInvestmentModal: false,

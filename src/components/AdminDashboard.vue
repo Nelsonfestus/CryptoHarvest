@@ -2,8 +2,8 @@
   <div class="admin-dashboard">
     <div class="dashboard-header">
       <div class="header-top">
-        <h1>Admin Dashboard</h1>
-        <button @click="logout" class="logout-btn">Logout</button>
+      <h1>Admin Dashboard</h1>
+      <button @click="logout" class="logout-btn">Logout</button>
       </div>
       <div class="header-stats">
         <div class="stat-card">
@@ -168,7 +168,9 @@ export default {
       newBalance: 0,
       newMessage: '',
       chatMessages: [],
-      loading: false
+      loading: false,
+      usersSubscription: null,
+      userUpdatesSubscription: null
     }
   },
   async mounted() {
@@ -180,8 +182,58 @@ export default {
     }
 
     await this.loadDashboardData()
+    
+    // Set up real-time subscriptions for new users
+    this.setupRealtimeSubscriptions()
   },
   methods: {
+    setupRealtimeSubscriptions() {
+      // Subscribe to new users
+      const usersSubscription = supabase
+        .channel('users_changes')
+        .on('postgres_changes', 
+          { 
+            event: 'INSERT', 
+            schema: 'public', 
+            table: 'users' 
+          }, 
+          (payload) => {
+            console.log('New user detected:', payload.new)
+            // Add new user to the beginning of the list
+            this.investors.unshift(payload.new)
+            // Update stats
+            this.calculateStats()
+          }
+        )
+        .subscribe()
+
+      // Subscribe to user updates
+      const userUpdatesSubscription = supabase
+        .channel('user_updates')
+        .on('postgres_changes', 
+          { 
+            event: 'UPDATE', 
+            schema: 'public', 
+            table: 'users' 
+          }, 
+          (payload) => {
+            console.log('User updated:', payload.new)
+            // Update the user in the list
+            const index = this.investors.findIndex(user => user.id === payload.new.id)
+            if (index !== -1) {
+              this.investors[index] = payload.new
+            }
+            // Update stats
+            this.calculateStats()
+          }
+        )
+        .subscribe()
+
+      // Store subscriptions for cleanup
+      this.usersSubscription = usersSubscription
+      this.userUpdatesSubscription = userUpdatesSubscription
+    },
+
     async loadDashboardData() {
       try {
         // Load investors
@@ -327,7 +379,7 @@ export default {
         localStorage.removeItem('user')
         localStorage.removeItem('session')
         localStorage.removeItem('isAdmin')
-        this.$router.push('/admin-login')
+      this.$router.push('/admin-login')
       } catch (error) {
         console.error('Error logging out:', error)
       }
