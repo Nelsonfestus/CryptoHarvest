@@ -447,21 +447,31 @@ export default {
       investmentPlans: [
         {
           id: 1,
-          name: 'Basic Plan',
+          name: 'Gold Plan',
           minAmount: 1000,
           maxAmount: 4999,
-          roi: 10,
-          duration: 2,
+          roi: 30,
+          duration: 1,
           dailyProfit: true,
           instantPayout: true
         },
         {
           id: 2,
-          name: 'Premium Plan',
+          name: 'Silver Plan',
           minAmount: 5000,
+          maxAmount: 20000,
+          roi: 40,
+          duration: 2,
+          dailyProfit: true,
+          instantPayout: true
+        },
+        {
+          id: 3,
+          name: 'Platinum Plan',
+          minAmount: 20000,
           maxAmount: null, // Unlimited
-          roi: 20,
-          duration: 5,
+          roi: 50,
+          duration: 7,
           dailyProfit: true,
           instantPayout: true
         }
