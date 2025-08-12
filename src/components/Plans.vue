@@ -33,7 +33,7 @@ export default {
           features: [
             { label: 'Minimum', value: '$1,500' },
             { label: 'Maximum', value: '$5,000' },
-            { label: 'Duration', value: '30 Days' },
+            { label: 'Duration', value: '24 Hours' },
             { label: 'ROI', value: '5%' },
             { label: 'Capital Back', value: 'Yes' },
           ],
@@ -44,7 +44,7 @@ export default {
           features: [
             { label: 'Minimum', value: '$5,000' },
             { label: 'Maximum', value: '$20,000' },
-            { label: 'Duration', value: '60 Days' },
+            { label: 'Duration', value: '48 Hours' },
             { label: 'ROI', value: '10%' },
             { label: 'Capital Back', value: 'Yes' },
           ],
@@ -55,7 +55,7 @@ export default {
           features: [
             { label: 'Minimum', value: '$20,000' },
             { label: 'Maximum', value: 'Unlimited' },
-            { label: 'Duration', value: '90 Days' },
+            { label: 'Duration', value: '7 Days' },
             { label: 'ROI', value: '20%' },
             { label: 'Capital Back', value: 'Yes' },
           ],

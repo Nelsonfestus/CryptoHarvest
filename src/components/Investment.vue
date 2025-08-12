@@ -13,25 +13,25 @@
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>Minimum</div>
-              <div class="feature price-value">1,500.00 USD</div>
+              <div class="feature price-value">1,000.00 USD</div>
             </div>
 
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>Maximum</div>
-              <div class="feature price-value">5,000.00 USD</div>
+              <div class="feature price-value">4,999.00 USD</div>
             </div>
 
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-              <div class="feature price-value">30 Days</div>
+              <div class="feature price-value">24 Hours</div>
             </div>
 
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-              <div class="feature price-value">5%</div>
+              <div class="feature price-value">10%</div>
             </div>
 
             <!-- price -->
@@ -68,7 +68,7 @@
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-              <div class="feature price-value">60 Days</div>
+              <div class="feature price-value">48 Hours</div>
             </div>
 
             <!-- price -->
@@ -111,7 +111,7 @@
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>For</div>
-              <div class="feature price-value">90 Days</div>
+              <div class="feature price-value">7 Days</div>
             </div>
 
             <!-- price -->

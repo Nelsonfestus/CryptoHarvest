@@ -492,6 +492,13 @@ export default {
           icon: '◎',
           address: 'HXFKFzY54JpeL3waBQffeH5K3pMpFoARgk9E7pHFVCXX',
           qrCode: '/src/assets/solana wallet.jpeg'
+        },
+        {
+          symbol: 'USDC',
+          name: 'USDC',
+          icon: '💲',
+          address: '0xb6B31Cb5C37d060F912d8481D64FE0a792a93a5d',
+          qrCode: '/src/assets/usdc wallet.jpeg'
         }
        ]
     }
