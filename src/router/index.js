@@ -9,6 +9,8 @@ import Questions from '@/components/Questions.vue'
 import Accordion from '@/components/Accordion.vue'
 import Login from '@/components/Login.vue'
 import Signup from '@/components/Signup.vue'
+import PasswordReset from '@/components/PasswordReset.vue'
+import EmailConfirmation from '@/components/EmailConfirmation.vue'
 import UserDashboard from '@/components/UserDashboard.vue'
 import AdminDashboard from '@/components/AdminDashboard.vue'
 import AdminLogin from '@/components/AdminLogin.vue'
@@ -69,6 +71,8 @@ const router = createRouter({
     },
     { path: '/login', name: 'Login', component: Login },
     { path: '/signup', name: 'Signup', component: Signup },
+    { path: '/reset-password', name: 'PasswordReset', component: PasswordReset },
+    { path: '/email-confirmation', name: 'EmailConfirmation', component: EmailConfirmation },
     { path: '/admin-login', name: 'AdminLogin', component: AdminLogin },
     { path: '/test', name: 'TestView', component: TestView },
     { 

@@ -1,87 +1,155 @@
 <template>
   <div class="email-confirmation-container">
     <div class="email-confirmation-box">
-      <div class="confirmation-icon">📧</div>
-      <h2>Verify Your Email</h2>
-      <p class="confirmation-message">
-        We've sent a verification link to <strong>{{ email }}</strong>
-      </p>
-      <p class="instructions">
-        Please check your email and click the verification link to activate your account.
-      </p>
-      
-      <div class="action-buttons">
-        <button @click="resendEmail" :disabled="resendLoading" class="resend-btn">
-          {{ resendLoading ? 'Sending...' : 'Resend Email' }}
-        </button>
+      <div v-if="!isConfirmed" class="confirmation-pending">
+        <div class="icon">📧</div>
+        <h2>Confirm Your Email</h2>
+        <p class="description">
+          We've sent a confirmation email to <strong>{{ email }}</strong>
+        </p>
+        <p class="instructions">
+          Please check your email and click the confirmation link to activate your account.
+        </p>
+        
+        <div class="email-actions">
+          <button @click="resendConfirmation" :disabled="resendLoading" class="resend-btn">
+            {{ resendLoading ? 'Sending...' : 'Resend Confirmation Email' }}
+          </button>
+          <button @click="checkConfirmation" :disabled="checking" class="check-btn">
+            {{ checking ? 'Checking...' : "I've Confirmed My Email" }}
+          </button>
+        </div>
+
+        <div class="help-section">
+          <h4>Didn't receive the email?</h4>
+          <ul>
+            <li>Check your spam or junk folder</li>
+            <li>Make sure you entered the correct email address</li>
+            <li>Wait a few minutes for the email to arrive</li>
+            <li>Try clicking "Resend Confirmation Email" above</li>
+          </ul>
+        </div>
+
+        <div class="back-to-login">
+          <router-link to="/login">← Back to Login</router-link>
+        </div>
+      </div>
+
+      <div v-else class="confirmation-success">
+        <div class="icon">✅</div>
+        <h2>Email Confirmed!</h2>
+        <p class="success-message">
+          Your email has been successfully confirmed. You can now log in to your account.
+        </p>
         <button @click="goToLogin" class="login-btn">
-          Back to Login
+          Go to Login
         </button>
       </div>
-      
-      <div v-if="resendSuccess" class="success-message">
-        ✅ Verification email sent successfully!
-      </div>
-      
+
       <div v-if="error" class="error-message">
         {{ error }}
       </div>
-      
-      <div class="help-section">
-        <h4>Need Help?</h4>
-        <ul>
-          <li>Check your spam/junk folder</li>
-          <li>Make sure you entered the correct email address</li>
-          <li>Wait a few minutes for the email to arrive</li>
-          <li>Contact support if you continue having issues</li>
-        </ul>
+      <div v-if="success" class="success-message">
+        {{ success }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { auth } from '../lib/supabase'
+import { auth, supabase } from '../lib/supabase'
 
 export default {
   name: 'EmailConfirmation',
   data() {
     return {
+      email: '',
+      isConfirmed: false,
+      checking: false,
       resendLoading: false,
-      resendSuccess: false,
-      error: ''
+      error: '',
+      success: ''
     }
   },
-  computed: {
-    email() {
-      return this.$route.query.email || ''
-    }
+  async mounted() {
+    // Get email from URL parameters or localStorage
+    const urlParams = new URLSearchParams(window.location.search)
+    this.email = urlParams.get('email') || localStorage.getItem('pendingEmail') || ''
+    
+    // Check if user is already confirmed
+    await this.checkUserConfirmation()
   },
   methods: {
-    async resendEmail() {
+    async checkUserConfirmation() {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser()
+        
+        if (user && user.email_confirmed_at) {
+          this.isConfirmed = true
+          this.success = 'Your email has been confirmed successfully!'
+        }
+      } catch (err) {
+        console.error('Error checking user confirmation:', err)
+      }
+    },
+
+    async resendConfirmation() {
+      if (!this.email) {
+        this.error = 'No email address found. Please sign up again.'
+        return
+      }
+
       this.resendLoading = true
       this.error = ''
-      this.resendSuccess = false
+      this.success = ''
 
       try {
         const { error } = await auth.resendConfirmation(this.email)
         
         if (error) {
-          this.error = error.message || 'Failed to resend email'
-        } else {
-          this.resendSuccess = true
-          setTimeout(() => {
-            this.resendSuccess = false
-          }, 5000)
+          this.error = error.message || 'Failed to resend confirmation email'
+          return
         }
+
+        this.success = 'Confirmation email sent! Please check your inbox.'
       } catch (err) {
         this.error = 'An unexpected error occurred'
-        console.error('Resend error:', err)
+        console.error('Resend confirmation error:', err)
       } finally {
         this.resendLoading = false
       }
     },
-    
+
+    async checkConfirmation() {
+      this.checking = true
+      this.error = ''
+      this.success = ''
+
+      try {
+        // Try to sign in to check if email is confirmed
+        const { data, error } = await auth.signIn(this.email, '')
+        
+        if (error) {
+          if (error.message.includes('Email not confirmed')) {
+            this.error = 'Email not yet confirmed. Please check your email and click the confirmation link.'
+          } else {
+            this.error = 'Please check your email and confirm your account before trying to log in.'
+          }
+          return
+        }
+
+        if (data.user && data.user.email_confirmed_at) {
+          this.isConfirmed = true
+          this.success = 'Email confirmed successfully! You can now log in.'
+        }
+      } catch (err) {
+        this.error = 'An unexpected error occurred while checking confirmation'
+        console.error('Check confirmation error:', err)
+      } finally {
+        this.checking = false
+      }
+    },
+
     goToLogin() {
       this.$router.push('/login')
     }
@@ -109,8 +177,8 @@ export default {
   text-align: center;
 }
 
-.confirmation-icon {
-  font-size: 48px;
+.icon {
+  font-size: 4rem;
   margin-bottom: 20px;
 }
 
@@ -120,125 +188,156 @@ export default {
   font-size: 28px;
 }
 
-.confirmation-message {
-  font-size: 16px;
-  color: #555;
+.description {
+  color: #666;
   margin-bottom: 15px;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .instructions {
+  color: #888;
+  margin-bottom: 30px;
   font-size: 14px;
-  color: #666;
-  margin-bottom: 30px;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-.action-buttons {
+.email-actions {
   display: flex;
+  flex-direction: column;
   gap: 15px;
-  justify-content: center;
   margin-bottom: 30px;
 }
 
-.resend-btn, .login-btn {
+.resend-btn, .check-btn, .login-btn {
   padding: 12px 24px;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .resend-btn {
+  background: #f8f9fa;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.resend-btn:hover:not(:disabled) {
+  background: #667eea;
+  color: white;
+}
+
+.check-btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
 
-.resend-btn:hover:not(:disabled) {
+.check-btn:hover:not(:disabled) {
   transform: translateY(-2px);
 }
 
-.resend-btn:disabled {
+.login-btn {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  margin-top: 20px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+}
+
+.resend-btn:disabled, .check-btn:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
 
-.login-btn {
-  background: #f8f9fa;
-  color: #333;
-  border: 2px solid #e1e5e9;
-}
-
-.login-btn:hover {
-  background: #e9ecef;
-}
-
-.success-message {
-  background: #d4edda;
-  color: #155724;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
-
-.error-message {
-  background: #f8d7da;
-  color: #721c24;
-  padding: 12px;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  font-size: 14px;
-}
-
 .help-section {
-  text-align: left;
   background: #f8f9fa;
-  padding: 20px;
   border-radius: 8px;
-  margin-top: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 .help-section h4 {
   color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-size: 16px;
 }
 
 .help-section ul {
-  list-style: none;
-  padding: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
   margin: 0;
+  padding-left: 20px;
 }
 
 .help-section li {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 8px;
-  padding-left: 20px;
-  position: relative;
+  margin-bottom: 5px;
 }
 
-.help-section li:before {
-  content: "•";
+.back-to-login {
+  margin-top: 20px;
+}
+
+.back-to-login a {
   color: #667eea;
-  font-weight: bold;
-  position: absolute;
-  left: 0;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
 }
 
-@media (max-width: 600px) {
+.back-to-login a:hover {
+  text-decoration: underline;
+}
+
+.confirmation-success {
+  text-align: center;
+}
+
+.success-message {
+  color: #28a745;
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.error-message {
+  background: #fee;
+  color: #c33;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.success-message {
+  background: #efe;
+  color: #363;
+  padding: 12px;
+  border-radius: 6px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+@media (max-width: 768px) {
   .email-confirmation-box {
     padding: 30px 20px;
   }
   
-  .action-buttons {
-    flex-direction: column;
+  .email-actions {
+    gap: 10px;
   }
   
-  .resend-btn, .login-btn {
-    width: 100%;
+  .resend-btn, .check-btn, .login-btn {
+    padding: 10px 20px;
+    font-size: 14px;
   }
 }
-</style> 
+</style>

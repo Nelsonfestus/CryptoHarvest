@@ -15,13 +15,23 @@
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            placeholder="Enter password"
-          />
+          <div class="password-input-container">
+            <input
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              v-model="password"
+              required
+              placeholder="Enter password"
+            />
+            <button 
+              type="button" 
+              class="password-toggle"
+              @click="showPassword = !showPassword"
+            >
+              <span v-if="showPassword">👁️</span>
+              <span v-else>👁️‍🗨️</span>
+            </button>
+          </div>
         </div>
         <button type="submit" :disabled="loading" class="admin-login-btn">
           {{ loading ? 'Logging in...' : 'Login as Admin' }}
@@ -47,7 +57,8 @@ export default {
       email: '',
       password: '',
       loading: false,
-      error: ''
+      error: '',
+      showPassword: false
     }
   },
   methods: {
@@ -156,6 +167,44 @@ export default {
 .form-group input:focus {
   outline: none;
   border-color: #667eea;
+}
+
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container input {
+  flex: 1;
+  padding: 12px 16px;
+  padding-right: 50px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.password-input-container input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+  color: #667eea;
 }
 
 .admin-login-btn {

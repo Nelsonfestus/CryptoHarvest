@@ -25,14 +25,24 @@
         </div>
         <div class="form-group">
           <label for="password">Password</label>
+          <div class="password-input-container">
           <input
-            type="password"
+              :type="showPassword ? 'text' : 'password'"
             id="password"
             v-model="password"
             required
             placeholder="Enter your password"
             minlength="6"
           />
+            <button 
+              type="button" 
+              class="password-toggle"
+              @click="showPassword = !showPassword"
+            >
+              <span v-if="showPassword">👁️</span>
+              <span v-else>👁️‍🗨️</span>
+            </button>
+          </div>
         </div>
         <button type="submit" :disabled="loading" class="signup-btn">
           {{ loading ? 'Creating Account...' : 'Create Account' }}
@@ -63,7 +73,8 @@ export default {
       password: '',
       loading: false,
       error: '',
-      success: ''
+      success: '',
+      showPassword: false
     }
   },
   methods: {
@@ -102,23 +113,11 @@ export default {
             return
           }
 
-          // Automatically log in the user after successful signup
-          const { data: loginData, error: loginError } = await auth.signIn(this.email, this.password)
+          // Store email for confirmation page
+          localStorage.setItem('pendingEmail', this.email)
           
-          if (loginError) {
-            this.error = 'Account created but login failed. Please try logging in manually.'
-            return
-          }
-
-          if (loginData.user) {
-            // Store user info in localStorage
-            localStorage.setItem('user', JSON.stringify(loginData.user))
-            localStorage.setItem('session', JSON.stringify(loginData.session))
-            localStorage.setItem('isAdmin', 'false')
-        
-            // Redirect to dashboard
-            this.$router.push('/dashboard')
-          }
+          // Redirect to email confirmation page
+          this.$router.push(`/email-confirmation?email=${encodeURIComponent(this.email)}`)
         }
       } catch (err) {
         this.error = 'An unexpected error occurred'
@@ -186,6 +185,44 @@ export default {
 .form-group input:focus {
   outline: none;
   border-color: #667eea;
+}
+
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container input {
+  flex: 1;
+  padding: 12px 16px;
+  padding-right: 50px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.password-input-container input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+  color: #667eea;
 }
 
 .signup-btn {

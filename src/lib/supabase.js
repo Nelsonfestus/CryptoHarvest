@@ -8,7 +8,15 @@ console.log('🔧 Supabase Configuration:')
 console.log('URL:', supabaseUrl)
 console.log('Key:', '***' + supabaseAnonKey.slice(-4))
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+    flowType: 'pkce',
+    redirectTo: 'https://www.cryptoharvest.info/dashboard'
+  }
+})
 
 // Auth helpers
 export const auth = {
@@ -19,7 +27,7 @@ export const auth = {
       password,
       options: {
         data: userData,
-        emailRedirectTo: window.location.origin + '/dashboard'
+        emailRedirectTo: 'https://www.cryptoharvest.info/email-confirmation'
       }
     })
     return { data, error }
@@ -57,6 +65,28 @@ export const auth = {
     const { error } = await supabase.auth.resend({
       type: 'signup',
       email: email
+    })
+    return { error }
+  },
+
+  // Check if user is confirmed
+  async checkUserConfirmation() {
+    const { data: { user }, error } = await supabase.auth.getUser()
+    return { user, error }
+  },
+
+  // Reset password
+  async resetPassword(email) {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://www.cryptoharvest.info/reset-password'
+    })
+    return { error }
+  },
+
+  // Update password
+  async updatePassword(newPassword) {
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword
     })
     return { error }
   }

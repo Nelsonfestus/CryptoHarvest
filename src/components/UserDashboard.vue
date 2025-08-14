@@ -290,7 +290,13 @@
                     :src="getSelectedWalletQR()" 
                     :alt="getSelectedCryptoName() + ' QR Code'"
                     class="qr-code-image"
+                    @error="handleQRCodeError"
+                    @load="handleQRCodeLoad"
                   />
+                  <div v-if="qrCodeError" class="qr-error">
+                    <p>QR Code not available</p>
+                    <p>Please copy the wallet address manually</p>
+                  </div>
                 </div>
                                             <div class="payment-instructions">
                              <h6>Payment Instructions:</h6>
@@ -425,6 +431,9 @@
 
 <script>
 import { supabase } from '../lib/supabase'
+import bitcoinQR from '../assets/bitcoin wallet.jpeg'
+import solanaQR from '../assets/solana wallet.jpeg'
+import usdcQR from '../assets/usdc wallet.jpeg'
 
 export default {
   name: 'UserDashboard',
@@ -488,27 +497,28 @@ export default {
        cryptoWithdrawalAddress: '',
        selectedCrypto: 'BTC',
        investmentStep: 1,
+       qrCodeError: false,
              cryptoWallets: [
         {
           symbol: 'BTC',
           name: 'Bitcoin',
           icon: '₿',
           address: 'bc1qeks6hcj24zjf57u3a4sdvzep3h7ne5dcvp7vy4',
-          qrCode: '/src/assets/bitcoin wallet.jpeg'
+          qrCode: bitcoinQR
         },
         {
           symbol: 'SOL',
           name: 'Solana',
           icon: '◎',
           address: 'HXFKFzY54JpeL3waBQffeH5K3pMpFoARgk9E7pHFVCXX',
-          qrCode: '/src/assets/solana wallet.jpeg'
+          qrCode: solanaQR
         },
         {
           symbol: 'USDC',
           name: 'USDC',
           icon: '💲',
           address: '0xb6B31Cb5C37d060F912d8481D64FE0a792a93a5d',
-          qrCode: '/src/assets/usdc wallet.jpeg'
+          qrCode: usdcQR
         }
        ]
     }
@@ -523,6 +533,12 @@ export default {
    },
      async mounted() {
     await this.loadUserData()
+   },
+   
+   watch: {
+     selectedCrypto() {
+       this.qrCodeError = false
+     }
    },
   methods: {
     async loadUserData() {
@@ -764,7 +780,19 @@ export default {
     
     getSelectedWalletQR() {
       const crypto = this.cryptoWallets.find(w => w.symbol === this.selectedCrypto)
-      return crypto ? crypto.qrCode : ''
+      const qrCode = crypto ? crypto.qrCode : ''
+      console.log('Selected crypto:', this.selectedCrypto, 'QR Code path:', qrCode)
+      return qrCode
+    },
+    
+    handleQRCodeError() {
+      console.error('QR Code failed to load:', this.getSelectedWalletQR())
+      this.qrCodeError = true
+    },
+    
+    handleQRCodeLoad() {
+      this.qrCodeError = false
+      console.log('QR Code loaded successfully')
     },
      
      copyWalletAddress() {
@@ -1659,6 +1687,21 @@ export default {
   height: auto;
   border-radius: 10px;
   border: 2px solid #555;
+}
+
+.qr-error {
+  color: #ff6b6b;
+  text-align: center;
+  padding: 10px;
+  background: rgba(255, 107, 107, 0.1);
+  border: 1px solid #ff6b6b;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.qr-error p {
+  margin: 5px 0;
+  font-size: 0.9rem;
 }
 
  .payment-instructions {

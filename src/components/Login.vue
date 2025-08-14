@@ -15,13 +15,23 @@
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            v-model="password"
-            required
-            placeholder="Enter your password"
-          />
+          <div class="password-input-container">
+            <input
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              v-model="password"
+              required
+              placeholder="Enter your password"
+            />
+            <button 
+              type="button" 
+              class="password-toggle"
+              @click="showPassword = !showPassword"
+            >
+              <span v-if="showPassword">👁️</span>
+              <span v-else>👁️‍🗨️</span>
+            </button>
+          </div>
         </div>
         <button type="submit" :disabled="loading" class="login-btn">
           {{ loading ? 'Logging in...' : 'Login' }}
@@ -29,9 +39,15 @@
       </form>
       <div v-if="error" class="error-message">
         {{ error }}
+        <div v-if="error.includes('Email not confirmed')" class="confirmation-help">
+          <router-link to="/email-confirmation">Need help confirming your email?</router-link>
+        </div>
       </div>
       <div class="signup-link">
         Don't have an account? <router-link to="/signup">Sign up here</router-link>
+      </div>
+      <div class="forgot-password-link">
+        <router-link to="/reset-password">Forgot your password?</router-link>
       </div>
     </div>
   </div>
@@ -47,7 +63,8 @@ export default {
       email: '',
       password: '',
       loading: false,
-      error: ''
+      error: '',
+      showPassword: false
     }
   },
   methods: {
@@ -59,7 +76,13 @@ export default {
         const { data, error } = await auth.signIn(this.email, this.password)
         
         if (error) {
-          this.error = error.message || 'Login failed'
+          if (error.message.includes('Email not confirmed')) {
+            this.error = 'Please confirm your email address before logging in. Check your email for a confirmation link.'
+            // Store email for resend functionality
+            localStorage.setItem('pendingEmail', this.email)
+          } else {
+            this.error = error.message || 'Login failed'
+          }
           return
         }
 
@@ -151,6 +174,44 @@ export default {
   border-color: #667eea;
 }
 
+.password-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container input {
+  flex: 1;
+  padding: 12px 16px;
+  padding-right: 50px;
+  border: 2px solid #e1e5e9;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.password-input-container input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+  color: #667eea;
+}
+
 .login-btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
@@ -196,6 +257,37 @@ export default {
 }
 
 .signup-link a:hover {
+  text-decoration: underline;
+}
+
+.forgot-password-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.forgot-password-link a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.forgot-password-link a:hover {
+  text-decoration: underline;
+}
+
+.confirmation-help {
+  margin-top: 10px;
+}
+
+.confirmation-help a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.confirmation-help a:hover {
   text-decoration: underline;
 }
 </style> 

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #151515;
+            color: #fff;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .wallet-test {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .wallet-test h3 {
+            color: #ffa600;
+            margin-bottom: 15px;
+        }
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .qr-code img {
+            max-width: 200px;
+            border: 2px solid #555;
+            border-radius: 10px;
+        }
+        .address {
+            background: #333;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+        .copy-btn {
+            background: #eb6709;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .status.success {
+            background: rgba(74, 222, 128, 0.2);
+            border: 1px solid #4ade80;
+            color: #4ade80;
+        }
+        .status.error {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Wallet QR Code Test</h1>
+        
+        <div class="wallet-test">
+            <h3>Bitcoin (BTC)</h3>
+            <div class="address">bc1qeks6hcj24zjf57u3a4sdvzep3h7ne5dcvp7vy4</div>
+            <button class="copy-btn" onclick="copyAddress('bc1qeks6hcj24zjf57u3a4sdvzep3h7ne5dcvp7vy4')">Copy Address</button>
+            <div class="qr-code">
+                <img src="/bitcoin wallet.jpeg" alt="Bitcoin QR Code" onload="handleImageLoad(this, 'Bitcoin')" onerror="handleImageError(this, 'Bitcoin')">
+            </div>
+            <div id="btc-status"></div>
+        </div>
+
+        <div class="wallet-test">
+            <h3>Solana (SOL)</h3>
+            <div class="address">HXFKFzY54JpeL3waBQffeH5K3pMpFoARgk9E7pHFVCXX</div>
+            <button class="copy-btn" onclick="copyAddress('HXFKFzY54JpeL3waBQffeH5K3pMpFoARgk9E7pHFVCXX')">Copy Address</button>
+            <div class="qr-code">
+                <img src="/solana wallet.jpeg" alt="Solana QR Code" onload="handleImageLoad(this, 'Solana')" onerror="handleImageError(this, 'Solana')">
+            </div>
+            <div id="sol-status"></div>
+    </div>
+    
+        <div class="wallet-test">
+            <h3>USDC (Ethereum)</h3>
+            <div class="address">0xb6B31Cb5C37d060F912d8481D64FE0a792a93a5d</div>
+            <button class="copy-btn" onclick="copyAddress('0xb6B31Cb5C37d060F912d8481D64FE0a792a93a5d')">Copy Address</button>
+            <div class="qr-code">
+                <img src="/usdc wallet.jpeg" alt="USDC QR Code" onload="handleImageLoad(this, 'USDC')" onerror="handleImageError(this, 'USDC')">
+            </div>
+            <div id="usdc-status"></div>
+    </div>
+    
+        <div class="wallet-test">
+            <h3>Address Validation</h3>
+            <div id="validation-results"></div>
+        </div>
+    </div>
+
+    <script>
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address).then(() => {
+                alert('Address copied to clipboard!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = address;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Address copied to clipboard!');
+            });
+        }
+
+        function handleImageLoad(img, crypto) {
+            const statusDiv = document.getElementById(`${crypto.toLowerCase()}-status`);
+            statusDiv.innerHTML = `<div class="status success">✅ ${crypto} QR Code loaded successfully</div>`;
+            console.log(`${crypto} QR Code loaded successfully`);
+        }
+
+        function handleImageError(img, crypto) {
+            const statusDiv = document.getElementById(`${crypto.toLowerCase()}-status`);
+            statusDiv.innerHTML = `<div class="status error">❌ ${crypto} QR Code failed to load</div>`;
+            console.error(`${crypto} QR Code failed to load`);
+        }
+
+        function validateAddress(address, type) {
+            const patterns = {
+                bitcoin: /^bc1[a-z0-9]{25,62}$/,
+                solana: /^[1-9A-HJ-NP-Za-km-z]{32,44}$/,
+                ethereum: /^0x[a-fA-F0-9]{40}$/
+            };
+            
+            return patterns[type].test(address);
+        }
+
+        // Validate addresses when page loads
+        window.addEventListener('load', () => {
+            const validationDiv = document.getElementById('validation-results');
+            const addresses = [
+                { address: 'bc1qeks6hcj24zjf57u3a4sdvzep3h7ne5dcvp7vy4', type: 'bitcoin', name: 'Bitcoin' },
+                { address: 'HXFKFzY54JpeL3waBQffeH5K3pMpFoARgk9E7pHFVCXX', type: 'solana', name: 'Solana' },
+                { address: '0xb6B31Cb5C37d060F912d8481D64FE0a792a93a5d', type: 'ethereum', name: 'USDC' }
+            ];
+
+            let validationHTML = '<h4>Address Validation Results:</h4>';
+            
+            addresses.forEach(({ address, type, name }) => {
+                const isValid = validateAddress(address, type);
+                const statusClass = isValid ? 'success' : 'error';
+                const statusIcon = isValid ? '✅' : '❌';
+                
+                validationHTML += `
+                    <div class="status ${statusClass}">
+                        ${statusIcon} ${name}: ${isValid ? 'Valid' : 'Invalid'} address format
+                    </div>
+                `;
+            });
+
+            validationDiv.innerHTML = validationHTML;
+        });
+    </script>
+</body>
+</html>
+
+
+    
+
+    <div class="qr-test">
+
+        <h3>Bitcoin QR Code</h3>
+
+        <img src="/bitcoin wallet.jpeg" alt="Bitcoin QR Code" class="qr-image" id="btc-qr">
+
+        <div id="btc-status" class="status">Loading...</div>
+
+    </div>
+
+    
+
+    <div class="qr-test">
+
+        <h3>Solana QR Code</h3>
+
+        <img src="/solana wallet.jpeg" alt="Solana QR Code" class="qr-image" id="sol-qr">
+
+        <div id="sol-status" class="status">Loading...</div>
+
+    </div>
+
+    
+
+    <div class="qr-test">
+
+        <h3>USDC QR Code</h3>
+
+        <img src="/usdc wallet.jpeg" alt="USDC QR Code" class="qr-image" id="usdc-qr">
+
+        <div id="usdc-status" class="status">Loading...</div>
+
+    </div>
+
+
+
+    <script>
+
+        function testImage(imageId, statusId) {
+
+            const img = document.getElementById(imageId);
+
+            const status = document.getElementById(statusId);
+
+            
+
+            img.onload = function() {
+
+                status.textContent = '✅ Image loaded successfully';
+
+                status.className = 'status success';
+
+            };
+
+            
+
+            img.onerror = function() {
+
+                status.textContent = '❌ Failed to load image';
+
+                status.className = 'status error';
+
+            };
+
+        }
+
+        
+
+        // Test all QR codes
+
+        testImage('btc-qr', 'btc-status');
+
+        testImage('sol-qr', 'sol-status');
+
+        testImage('usdc-qr', 'usdc-status');
+
+    </script>
+
+</body>
+
+</html>
+
+
+
+
