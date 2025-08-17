@@ -24,20 +24,6 @@
           </div>
           
           <div class="contact-card">
-            <div class="card-icon">📞</div>
-            <h3>Phone</h3>
-            <p>+1 369 218 0966</p>
-            <a href="tel:+13692180966" class="contact-link">Call Now</a>
-          </div>
-          
-          <div class="contact-card">
-            <div class="card-icon">📍</div>
-            <h3>Address</h3>
-            <p>85 Madison Avenue, A, Chula Vista, CA 91910</p>
-            <a href="https://maps.google.com" target="_blank" class="contact-link">View on Map</a>
-          </div>
-          
-          <div class="contact-card">
             <div class="card-icon">⏰</div>
             <h3>Business Hours</h3>
             <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
@@ -170,28 +156,24 @@
             <div class="support-icon">💬</div>
             <h3>Live Chat Support</h3>
             <p>Get instant help from our expert support team available 24/7</p>
-            <button class="support-btn" @click="openLiveChat">Start Chat</button>
           </div>
           
           <div class="support-card">
             <div class="support-icon">📚</div>
             <h3>Investment Guide</h3>
             <p>Learn about crypto investments, strategies, and best practices</p>
-            <button class="support-btn" @click="openInvestmentGuide">Read Guide</button>
           </div>
           
           <div class="support-card">
             <div class="support-icon">🔒</div>
             <h3>Security Center</h3>
             <p>Learn about our security measures and how to protect your account</p>
-            <button class="support-btn" @click="openSecurityCenter">Learn More</button>
           </div>
           
           <div class="support-card">
             <div class="support-icon">📞</div>
             <h3>Priority Support</h3>
             <p>Premium members get dedicated support line and faster response times</p>
-            <button class="support-btn" @click="upgradeToPremium">Upgrade Now</button>
           </div>
         </div>
       </div>

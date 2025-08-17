@@ -78,6 +78,35 @@ export default {
     }
   },
   methods: {
+    async sendAdminNotification(userId) {
+      try {
+        const response = await fetch('https://ivjbrnhgrlgmqvtygkkl.supabase.co/functions/v1/send-admin-notification', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`
+          },
+          body: JSON.stringify({
+            to_email: 'support@cryptoharvest.info',
+            subject: 'New User Signup - CryptoHarvest',
+            user_name: this.name,
+            user_email: this.email,
+            signup_date: new Date().toLocaleString(),
+            user_id: userId
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to send admin notification')
+        }
+
+        console.log('Admin notification sent successfully')
+      } catch (error) {
+        console.error('Error sending admin notification:', error)
+        throw error
+      }
+    },
+
     async handleSignup() {
       this.loading = true
       this.error = ''
@@ -111,6 +140,14 @@ export default {
             console.error('Profile creation error:', profileError)
             this.error = 'Account created but profile setup failed. Please contact support.'
             return
+          }
+
+          // Send admin notification
+          try {
+            await this.sendAdminNotification(data.user.id)
+          } catch (notificationError) {
+            console.error('Admin notification error:', notificationError)
+            // Don't block signup if notification fails
           }
 
           // Store email for confirmation page

@@ -4,6 +4,8 @@
       <source src="@/assets/bg1.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
+    <!-- Fallback background in case video doesn't load -->
+    <div class="plans-bg-fallback"></div>
     <h2 class="plans-title">Our Investment Plans</h2>
     <p class="plans-desc">Choose from a variety of plans tailored to your needs and goals.</p>
     <div class="plans-cards">
@@ -90,6 +92,17 @@ export default {
   z-index: 0;
   pointer-events: none;
 }
+
+.plans-bg-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+  z-index: 0;
+  pointer-events: none;
+}
 .plans-title,
 .plans-desc,
 .plans-cards {
@@ -103,7 +116,11 @@ export default {
   margin-bottom: 10px;
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  color: #eb6709; /* Fallback for browsers that don't support background-clip */
 }
 .plans-desc {
   color: #ccc;

@@ -20,7 +20,6 @@
           <h4>Contact Us</h4>
           <ul>
             <li><i class="fas fa-envelope"></i> Info.CryptoHarvest@yahoo.com</li>
-            <li><i class="fas fa-phone"></i> +1 369 218 0966</li>
           </ul>
         </div>
       </div>

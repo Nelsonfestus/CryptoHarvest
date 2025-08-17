@@ -68,8 +68,12 @@ export default {
   font-size: 20px;
   background: linear-gradient(90deg, #eb6709 0%, #f63d43 100%);
   background-clip: text;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  color: #eb6709; /* Fallback for browsers that don't support background-clip */
 }
 .news-section p {
   text-transform: capitalize;
