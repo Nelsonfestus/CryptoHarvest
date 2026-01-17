@@ -31,7 +31,7 @@
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-              <div class="feature price-value">30%</div>
+              <div class="feature price-value">100%</div>
             </div>
 
             <!-- price -->
@@ -74,7 +74,7 @@
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-              <div class="feature price-value">40%</div>
+              <div class="feature price-value">100%</div>
             </div>
 
             <!-- price -->
@@ -117,7 +117,7 @@
             <!-- price -->
             <div class="price">
               <div class="feature"><i class="fas fa-check-circle check-icon"></i>ROI Back</div>
-              <div class="feature price-value">50%</div>
+              <div class="feature price-value">100%</div>
             </div>
 
             <!-- price -->

@@ -459,7 +459,7 @@ export default {
           name: 'Gold Plan',
           minAmount: 1000,
           maxAmount: 4999,
-          roi: 30,
+          roi: 100,
           duration: 1,
           dailyProfit: true,
           instantPayout: true
@@ -469,7 +469,7 @@ export default {
           name: 'Silver Plan',
           minAmount: 5000,
           maxAmount: 20000,
-          roi: 40,
+          roi: 100,
           duration: 2,
           dailyProfit: true,
           instantPayout: true
@@ -479,7 +479,7 @@ export default {
           name: 'Platinum Plan',
           minAmount: 20000,
           maxAmount: null, // Unlimited
-          roi: 50,
+          roi: 100,
           duration: 7,
           dailyProfit: true,
           instantPayout: true
